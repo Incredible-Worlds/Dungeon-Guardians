@@ -22,9 +22,6 @@
     <ClCompile Include="code\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameWorldModule.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Headers\GameWorldModule.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
