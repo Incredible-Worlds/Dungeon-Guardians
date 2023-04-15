@@ -18,8 +18,10 @@
     <ClCompile Include="code\main.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="code\TRPO_RPG.cpp">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameWorldModule.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
