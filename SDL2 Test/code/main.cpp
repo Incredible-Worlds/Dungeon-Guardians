@@ -1,28 +1,35 @@
-#include <iostream>
-#include <SDL.h>
-#include "../Headers/GameWorldModule.h"
+#include <GameModule.h>
+#include <vector>
+// include WorldInit
+// include Fight
+// include MainMenu
 
 const int WIDTH = 800, HEIGHT = 600;
 
-int Init_world()
-{
-    
-
-    return 0;
-}
-
-
-
 int main(int argc, char* argv[])
 {
-    Area* line = new Area[10];
+    int size = 10;
 
-
+    AreaSize(size);
 
     tileType a{ tileType::EMPTY };
+    bool b = true;
 
-    std::cout << line[1].DefineTileStatus(a);
+    Area world[10][10];
 
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            world[i][j] = Area(a, b);
+            cout << world[i][j].tileStatus << " ";
+        }
+        cout << endl;
+    }
+    
+
+
+    
 
     SDL_Init(SDL_INIT_EVERYTHING);
 

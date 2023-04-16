@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameWorldModule.h">
+    <ClInclude Include="Headers\GameModule.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

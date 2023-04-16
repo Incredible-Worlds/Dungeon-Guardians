@@ -1,21 +1,63 @@
 #pragma once
+#include <SDL.h>
 #include <iostream>
 #include <list>    
 #include <iterator>
 using namespace std;
 
+// Нумерация объектов
 enum characterType { PLAYER, OGRE, GOBLIN, SLIME, SKELETON };
 enum tileType { BOUND, EMPTY, ENEMY, EXIT, CHEST };
 
-bool Player()
+// Описание структуры игрока
+struct Player
 {
-    bool status = true;
+    bool status;
+    int health;
+    int gold;
+    int lv;
+    int str; // (int)(lv / 2 + 2);
+};
 
+int AreaSize(int size) { return size; }
 
+// Описание структуры карты
+struct Area
+{
+    int tileName;
+    bool tileStatus;
 
-    return status;
+    Area()
+    {
+        tileName = -1;
+        tileStatus = false;
+    }
+
+    Area(int Name_of_Tile, bool Status_of_Tile)
+    {
+        tileName = Name_of_Tile;
+        tileStatus = Status_of_Tile;
+
+    }
+};
+
+// Проверка полей поступающих данных
+int DefineTileStatus(tileType type)
+{
+    switch (type)
+    {
+    case BOUND:
+        return 0;
+    case ENEMY:
+        return 2;
+    case EXIT:
+        return 3;
+    case CHEST:
+        return 4;
+    default:
+        return 1;
+    }
 }
-
 
 //Easy4ENCE
 
@@ -32,12 +74,14 @@ bool Player()
 //    }
 //};
 
+
+// Задание случайного типа противника
 int randomEnemyType()
 {
     return rand() % 4 + 1;
 }
 
-
+// Описание класса противников
 class Enemy
 {
 public:
@@ -106,32 +150,4 @@ private:
     int health;
     int type;
     int gold;
-};
-
-class Area
-{
-public:
-    Area()
-    {
-        list<int> tile_status{};
-    }
-
-    int DefineTileStatus(tileType type)
-    {
-        switch (type)
-        {
-        case BOUND:
-            return 0;
-        case ENEMY:
-            return 2;
-        case EXIT:
-            return 3;
-        case CHEST:
-            return 4;
-        default:
-            return 1;
-        }
-    }
-private:
-    
 };
