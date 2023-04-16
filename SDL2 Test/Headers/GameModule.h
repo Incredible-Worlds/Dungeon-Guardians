@@ -35,9 +35,9 @@ public:
         }
     }
 
-    void takeDamage(int str)
+    int takeDamage(int str)
     {
-        health -= str;
+        return health -= str;
     }
 
     int getStrength()
@@ -90,7 +90,7 @@ struct Player
     int health;
     int gold;
     int lv;
-    int str; // (int)(lv / 2 + 2);
+    int str;
     int posx;
     int posy;
 

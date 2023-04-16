@@ -1,10 +1,14 @@
+#include <SDL.h>
 #include <GameModule.h>
 #include <vector>
+#include <Windows.h>
+
 // include WorldInit
 // include Fight
 // include MainMenu
+using namespace std;
 
-const int WIDTH = 800, HEIGHT = 600;
+const int WIDTH = 1000, HEIGHT = 600;
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
 SDL_Renderer* ren = NULL;
@@ -12,7 +16,7 @@ SDL_Renderer* ren = NULL;
 
 int init()
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         return 1;
     }
@@ -23,14 +27,15 @@ int init()
     if (NULL == window)
     {
         // In the case that the window could not be made...
-        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
-        return 1;
+        std::cout << "Could not create window: " << SDL_GetError() << endl;
+        return 2;
     }
 
     ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     if (ren == NULL) {
         cout << "Can't create renderer: " << SDL_GetError() << endl;
+        return 3;
     }
 
     SDL_UpdateWindowSurface(window);
@@ -40,13 +45,17 @@ int init()
 
 int draw()
 {
-    SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
+    if (SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF) == -1)
+    {
+        cout << "Could not create render: " << SDL_GetError() << endl;
+        return 4;
+    }
 
     SDL_Rect rect1 = { 10, 10, 50, 50 };
 
-    for (int i = 10; i <= 800 - 10; i += 4)
+    for (int i = 10; i <= WIDTH - 10; i += 4)
     {
-        for (int j = 10; j <= 600 - 10; j += 4)
+        for (int j = 10; j <= HEIGHT - 10; j += 4)
         {
             SDL_RenderDrawPoint(ren, i, j);
         }
@@ -67,6 +76,10 @@ void check_for_close()
                 break;
             }
         }
+        draw();
+
+        SDL_RenderPresent(ren);
+        Sleep(16);
     }
 }
 
@@ -82,11 +95,7 @@ int exit()
 
 int main(int argc, char* argv[])
 {
-     int size = 10;
-
-     AreaSize(size);
-
-     tileType a{ tileType::EMPTY };
+    tileType a{ tileType::EMPTY };
      bool b = true;
 
      Area world[10][10];
@@ -102,10 +111,6 @@ int main(int argc, char* argv[])
      }
 
     init();
-
-    draw();
-
-    SDL_RenderPresent(ren);
 
     check_for_close();
 
