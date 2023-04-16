@@ -7,20 +7,30 @@ using namespace std;
 enum characterType { PLAYER, OGRE, GOBLIN, SLIME, SKELETON };
 enum tileType { BOUND, EMPTY, ENEMY, EXIT, CHEST };
 
+bool Player()
+{
+    bool status = true;
+
+
+
+    return status;
+}
+
+
 //Easy4ENCE
 
-class Player
-{
-public:
-    Player()
-    {
-        bool alive = true;
-        int health;
-        int gold;
-        int lv = 1;
-        int str = (int)(lv / 2 + 2);
-    }
-};
+//class Player
+//{
+//public:
+//    Player()
+//    {
+//        bool alive = true;
+//        int health;
+//        int gold;
+//        int lv = 1;
+//        int str = (int)(lv / 2 + 2);
+//    }
+//};
 
 int randomEnemyType()
 {
@@ -106,7 +116,7 @@ public:
         list<int> tile_status{};
     }
 
-    int DefineTileStatus(int type)
+    int DefineTileStatus(tileType type)
     {
         switch (type)
         {
@@ -122,4 +132,6 @@ public:
             return 1;
         }
     }
+private:
+    
 };

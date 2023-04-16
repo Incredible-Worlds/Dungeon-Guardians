@@ -4,8 +4,26 @@
 
 const int WIDTH = 800, HEIGHT = 600;
 
+int Init_world()
+{
+    
+
+    return 0;
+}
+
+
+
 int main(int argc, char* argv[])
 {
+    Area* line = new Area[10];
+
+
+
+    tileType a{ tileType::EMPTY };
+
+    std::cout << line[1].DefineTileStatus(a);
+
+
     SDL_Init(SDL_INIT_EVERYTHING);
 
     SDL_Window* window = SDL_CreateWindow("Hello SDL World", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
@@ -28,6 +46,9 @@ int main(int argc, char* argv[])
             {
                 break;
             }
+
+
+
         }
 
     }
