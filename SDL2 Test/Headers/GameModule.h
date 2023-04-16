@@ -1,85 +1,11 @@
 #pragma once
-#include <SDL.h>
 #include <iostream>
 #include <list>    
 #include <iterator>
-using namespace std;
 
 // Нумерация объектов
 enum characterType { PLAYER, OGRE, GOBLIN, SLIME, SKELETON };
 enum tileType { BOUND, EMPTY, ENEMY, EXIT, CHEST };
-
-// Описание структуры игрока
-struct Player
-{
-    bool status;
-    int health;
-    int gold;
-    int lv;
-    int str; // (int)(lv / 2 + 2);
-};
-
-int AreaSize(int size) { return size; }
-
-// Описание структуры карты
-struct Area
-{
-    int tileName;
-    bool tileStatus;
-
-    Area()
-    {
-        tileName = -1;
-        tileStatus = false;
-    }
-
-    Area(int Name_of_Tile, bool Status_of_Tile)
-    {
-        tileName = Name_of_Tile;
-        tileStatus = Status_of_Tile;
-
-    }
-};
-
-// Проверка полей поступающих данных
-int DefineTileStatus(tileType type)
-{
-    switch (type)
-    {
-    case BOUND:
-        return 0;
-    case ENEMY:
-        return 2;
-    case EXIT:
-        return 3;
-    case CHEST:
-        return 4;
-    default:
-        return 1;
-    }
-}
-
-//Easy4ENCE
-
-//class Player
-//{
-//public:
-//    Player()
-//    {
-//        bool alive = true;
-//        int health;
-//        int gold;
-//        int lv = 1;
-//        int str = (int)(lv / 2 + 2);
-//    }
-//};
-
-
-// Задание случайного типа противника
-int randomEnemyType()
-{
-    return rand() % 4 + 1;
-}
 
 // Описание класса противников
 class Enemy
@@ -150,4 +76,74 @@ private:
     int health;
     int type;
     int gold;
+
+    int randomEnemyType()
+    {
+        return rand() % 4 + 1;
+    }
 };
+
+// Описание структуры игрока
+struct Player
+{
+    bool status;
+    int health;
+    int gold;
+    int lv;
+    int str; // (int)(lv / 2 + 2);
+    int posx;
+    int posy;
+
+    Player()
+    {
+        status = true;
+        health = 50;
+        gold = 0;
+        lv = 1;
+        str = (int)(lv / 2 + 2);
+        posx = -1;
+        posy = -1;
+    }
+};
+
+// Описание структуры карты
+struct Area
+{
+    int tileName;
+    bool tileStatus;
+
+    Area()
+    {
+        tileName = -1;
+        tileStatus = false;
+    }
+
+    Area(int Name_of_Tile, bool Status_of_Tile)
+    {
+        tileName = Name_of_Tile;
+        tileStatus = Status_of_Tile;
+
+    }
+};
+
+int AreaSize(int size) { return size; }
+
+// Проверка полей поступающих данных
+int DefineTileStatus(tileType type)
+{
+    switch (type)
+    {
+    case BOUND:
+        return 0;
+    case ENEMY:
+        return 2;
+    case EXIT:
+        return 3;
+    case CHEST:
+        return 4;
+    default:
+        return 1;
+    }
+}
+
+//Easy4ENCE
