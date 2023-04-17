@@ -73,7 +73,8 @@ void check_for_close()
 {
     SDL_Event windowEvent;
 
-    int fps_time, fps_count = 0;
+    bool CnStatus = false, FPSshowhide = false;
+    int fps_count = 0, fps_time = time(NULL);
 
     while (true)
     {
@@ -86,22 +87,54 @@ void check_for_close()
             if (windowEvent.type == SDL_KEYDOWN)
             {
                 cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
+                switch (windowEvent.key.keysym.sym)
+                {
+                    case 96:                        // Show or hide console
+                    {
+                        HideShowConsole(CnStatus);
+                        break;
+                    }
+                    case 9:                         // Show or hide FPS
+                    {
+                        if (!FPSshowhide)
+                        {
+                            FPSshowhide = true;
+                        }
+                        else
+                        {
+                            FPSshowhide = false;
+                            system("CLS");
+                        }
+                        
+                    }
+                    default:
+                    {
+                        break;
+                    }
+                }
+                
+
             }
         }
-        fps_time = time(NULL);
-        fps_count++;
+
+        if (FPSshowhide)
+        {
+            fps_count++;
+
+            if ((time(NULL) - fps_time) != 0)
+            {
+                system("CLS");
+                std::cout << std::endl << "Fps is: " << fps_count << std::endl;
+                fps_time = time(NULL);
+                fps_count = 0;
+            }
+        }
 
         draw();
 
         SDL_RenderPresent(ren);
 
-        if ((time(NULL) - fps_time) != 0)
-        {
-            system("CLS");
-            cout << endl << "Fps is: " << fps_count << endl;
-            fps_time = time(NULL);
-            fps_count = 0;
-        }
+        
         //Sleep(10);
     }
 }
@@ -118,20 +151,22 @@ int exit()
 
 int main(int argc, char* argv[])
 {
+    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window
+
     tileType a{ tileType::EMPTY };
-     bool b = true;
+    bool b = true;
 
-     AreaData world[10][10];
+    AreaData world[10][10];
 
-     for (int i = 0; i < 10; i++)
-     {
-         for (int j = 0; j < 10; j++)
-         {
-             world[i][j] = AreaData(a, b);
-             cout << world[i][j].tileStatus << " ";
-         }
-         cout << endl;
-     }
+    for (int i = 0; i < 10; i++)
+    {
+    for (int j = 0; j < 10; j++)
+    {
+        world[i][j] = AreaData(a, b);
+        cout << world[i][j].tileStatus << " ";
+        }
+        cout << endl;
+    }
 
     init();
 

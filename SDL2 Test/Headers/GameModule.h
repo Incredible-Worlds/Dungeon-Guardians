@@ -7,6 +7,8 @@
 #pragma once 
 #pragma warning(disable:4244)   // loss while time_t to int
 #include <iterator>
+#include <Windows.h>
+#include <iostream>
 
 // ENUM of objects
 enum characterType 
@@ -185,4 +187,26 @@ int DefineTileStatus(tileType type)
     }
 }
 
+
+
+//
+//  Developer func
+//
+
+
+
+// Show/Hide console window (~)
+void HideShowConsole(bool& ConsoleStatus)
+{
+    if (ConsoleStatus == false)
+    {
+        ConsoleStatus = true;
+    }
+    else if (ConsoleStatus = true)
+    {
+        ConsoleStatus = false;
+    }
+
+    ShowWindow(GetConsoleWindow(), ConsoleStatus);
+}
 //Easy4ENCE
