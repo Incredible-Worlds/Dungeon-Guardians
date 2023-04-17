@@ -1,17 +1,37 @@
-#pragma once
-#include <iostream>
-#include <list>    
+// Kamys, Potrox and Bell404ll developers project
+//
+//          @ All rights reserved
+//
+// Not open source version, only for course work
+
+#pragma once 
+#pragma warning(disable:4244)   // loss while time_t to int
 #include <iterator>
 
-// Нумерация объектов
-enum characterType { PLAYER, OGRE, GOBLIN, SLIME, SKELETON };
-enum tileType { BOUND, EMPTY, ENEMY, EXIT, CHEST };
+// ENUM of objects
+enum characterType 
+{ 
+    PLAYER, 
+    OGRE, 
+    GOBLIN, 
+    SLIME, 
+    SKELETON 
+};
 
-// Описание класса противников
-class Enemy
+enum tileType 
+{ 
+    BOUND, 
+    EMPTY, 
+    ENEMY, 
+    EXIT, 
+    CHEST 
+};
+
+// Description of the Enemy class
+class EnemyData
 {
 public:
-    Enemy()
+    EnemyData()
     {
         type = randomEnemyType();
         health = GatherHealth(type);
@@ -83,9 +103,10 @@ private:
     }
 };
 
-// Описание структуры игрока
-struct Player
+// Description of the Player class
+class PlayerData
 {
+public:
     bool status;
     int health;
     int gold;
@@ -94,7 +115,7 @@ struct Player
     int posx;
     int posy;
 
-    Player()
+    PlayerData()
     {
         status = true;
         health = 50;
@@ -104,21 +125,39 @@ struct Player
         posx = -1;
         posy = -1;
     }
+
+    PlayerData(bool alive, 
+                int current_health, 
+                int current_gold, 
+                int current_lv, 
+                int current_str, 
+                int x, 
+                int y)
+    {
+        status = alive;
+        health = current_health;
+        gold = current_gold;
+        lv = current_lv;
+        str = current_str;
+        posx = x;
+        posy = y;
+    }
 };
 
-// Описание структуры карты
-struct Area
+// Descriptiosn of Area class
+class AreaData
 {
+public:
     int tileName;
     bool tileStatus;
 
-    Area()
+    AreaData()
     {
         tileName = -1;
         tileStatus = false;
     }
 
-    Area(int Name_of_Tile, bool Status_of_Tile)
+    AreaData(int Name_of_Tile, bool Status_of_Tile)
     {
         tileName = Name_of_Tile;
         tileStatus = Status_of_Tile;
@@ -128,7 +167,7 @@ struct Area
 
 int AreaSize(int size) { return size; }
 
-// Проверка полей поступающих данных
+// Check for type of Area Tile
 int DefineTileStatus(tileType type)
 {
     switch (type)

@@ -1,18 +1,24 @@
+// Kamys, Potrox and Bell404ll developers project
+//
+//          @ All rights reserved
+//
+// Not open source version, only for course work
+
 #include <SDL.h>
 #include <GameModule.h>
 #include <vector>
 #include <Windows.h>
+#include <iostream>
 
 // include WorldInit
 // include Fight
 // include MainMenu
-using namespace std;
 
-const int WIDTH = 1000, HEIGHT = 600;
+using namespace std;
+const int WIDTH = 1000, HEIGHT = 800;
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
 SDL_Renderer* ren = NULL;
-
 
 int init()
 {
@@ -26,13 +32,13 @@ int init()
     // Check that the window was successfully created
     if (NULL == window)
     {
-        // In the case that the window could not be made...
         std::cout << "Could not create window: " << SDL_GetError() << endl;
         return 2;
     }
 
     ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+    // Check
     if (ren == NULL) {
         cout << "Can't create renderer: " << SDL_GetError() << endl;
         return 3;
@@ -67,6 +73,8 @@ void check_for_close()
 {
     SDL_Event windowEvent;
 
+    int fps_time, fps_count = 0;
+
     while (true)
     {
         if (SDL_PollEvent(&windowEvent))
@@ -75,11 +83,26 @@ void check_for_close()
             {
                 break;
             }
+            if (windowEvent.type == SDL_KEYDOWN)
+            {
+                cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
+            }
         }
+        fps_time = time(NULL);
+        fps_count++;
+
         draw();
 
         SDL_RenderPresent(ren);
-        Sleep(16);
+
+        if ((time(NULL) - fps_time) != 0)
+        {
+            system("CLS");
+            cout << endl << "Fps is: " << fps_count << endl;
+            fps_time = time(NULL);
+            fps_count = 0;
+        }
+        //Sleep(10);
     }
 }
 
@@ -98,13 +121,13 @@ int main(int argc, char* argv[])
     tileType a{ tileType::EMPTY };
      bool b = true;
 
-     Area world[10][10];
+     AreaData world[10][10];
 
      for (int i = 0; i < 10; i++)
      {
          for (int j = 0; j < 10; j++)
          {
-             world[i][j] = Area(a, b);
+             world[i][j] = AreaData(a, b);
              cout << world[i][j].tileStatus << " ";
          }
          cout << endl;
