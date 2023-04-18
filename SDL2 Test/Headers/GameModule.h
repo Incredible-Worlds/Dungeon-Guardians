@@ -24,9 +24,9 @@ enum tileType
 { 
     BOUND, 
     EMPTY, 
-    ENEMY, 
-    EXIT, 
-    CHEST 
+    ENEMY,
+    CHEST,
+    EXIT
 };
 
 // Description of the Enemy class
@@ -152,18 +152,26 @@ class AreaData
 public:
     int tileName;
     bool tileStatus;
+    int xpos;
+    int ypos;
 
     AreaData()
     {
-        tileName = -1;
+        tileName = 1;
         tileStatus = false;
+        xpos = 1;
+        ypos = 1;
     }
 
-    AreaData(int Name_of_Tile, bool Status_of_Tile)
+    AreaData(int Name_of_Tile, 
+        bool Status_of_Tile,
+        int pos_on_x,
+        int pos_on_y)
     {
         tileName = Name_of_Tile;
         tileStatus = Status_of_Tile;
-
+        xpos = pos_on_x;
+        ypos = pos_on_y;
     }
 };
 
@@ -202,11 +210,26 @@ void HideShowConsole(bool& ConsoleStatus)
     {
         ConsoleStatus = true;
     }
-    else if (ConsoleStatus = true)
+    else
     {
         ConsoleStatus = false;
     }
 
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
 }
+
+// Show/Hide FPS
+void FPSCounter(int& fps_count, int& fps_time)
+{
+    fps_count++;
+
+    if ((time(NULL) - fps_time) != 0)
+    {
+        system("CLS");
+        std::cout << std::endl << "Fps is: " << fps_count << std::endl;
+        fps_time = time(NULL);
+        fps_count = 0;
+    }
+}
+
 //Easy4ENCE

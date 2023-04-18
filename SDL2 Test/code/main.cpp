@@ -15,7 +15,8 @@
 // include MainMenu
 
 using namespace std;
-const int WIDTH = 1000, HEIGHT = 800;
+
+const int WIDTH = 1024, HEIGHT = 768;
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
 SDL_Renderer* ren = NULL;
@@ -59,84 +60,14 @@ int draw()
 
     SDL_Rect rect1 = { 10, 10, 50, 50 };
 
-    for (int i = 10; i <= WIDTH - 10; i += 4)
+    for (int i = 32; i <= WIDTH - 10; i += 64)
     {
-        for (int j = 10; j <= HEIGHT - 10; j += 4)
+        for (int j = 32; j <= HEIGHT - 10; j += 64)
         {
             SDL_RenderDrawPoint(ren, i, j);
         }
     }
     return 0;
-}
-
-void check_for_close()
-{
-    SDL_Event windowEvent;
-
-    bool CnStatus = false, FPSshowhide = false;
-    int fps_count = 0, fps_time = time(NULL);
-
-    while (true)
-    {
-        if (SDL_PollEvent(&windowEvent))
-        {
-            if (SDL_QUIT == windowEvent.type)
-            {
-                break;
-            }
-            if (windowEvent.type == SDL_KEYDOWN)
-            {
-                cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
-                switch (windowEvent.key.keysym.sym)
-                {
-                    case 96:                        // Show or hide console
-                    {
-                        HideShowConsole(CnStatus);
-                        break;
-                    }
-                    case 9:                         // Show or hide FPS
-                    {
-                        if (!FPSshowhide)
-                        {
-                            FPSshowhide = true;
-                        }
-                        else
-                        {
-                            FPSshowhide = false;
-                            system("CLS");
-                        }
-                        
-                    }
-                    default:
-                    {
-                        break;
-                    }
-                }
-                
-
-            }
-        }
-
-        if (FPSshowhide)
-        {
-            fps_count++;
-
-            if ((time(NULL) - fps_time) != 0)
-            {
-                system("CLS");
-                std::cout << std::endl << "Fps is: " << fps_count << std::endl;
-                fps_time = time(NULL);
-                fps_count = 0;
-            }
-        }
-
-        draw();
-
-        SDL_RenderPresent(ren);
-
-        
-        //Sleep(10);
-    }
 }
 
 int exit()
@@ -149,28 +80,67 @@ int exit()
     return 0;
 }
 
-int main(int argc, char* argv[])
+int SDL_main(int argc, char* argv[])
 {
-    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window
-
-    tileType a{ tileType::EMPTY };
-    bool b = true;
-
-    AreaData world[10][10];
-
-    for (int i = 0; i < 10; i++)
-    {
-    for (int j = 0; j < 10; j++)
-    {
-        world[i][j] = AreaData(a, b);
-        cout << world[i][j].tileStatus << " ";
-        }
-        cout << endl;
-    }
-
     init();
 
-    check_for_close();
+    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
+
+    AreaData* world = new AreaData[4096];
+
+    SDL_Event windowEvent;
+
+    bool CnStatus = false, FPSshowhide = false;
+    int fps_count = 0, fps_time = time(NULL);
+
+    while (true)
+    {
+        if (SDL_PollEvent(&windowEvent))
+        {
+            if (windowEvent.type == SDL_QUIT)
+            {
+                break;
+            }
+            if (windowEvent.type == SDL_KEYDOWN)
+            {
+                cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
+                switch (windowEvent.key.keysym.sym)
+                {
+                case 96:                        // Show or hide console
+                {
+                    HideShowConsole(CnStatus);
+                    break;
+                }
+                case 9:                         // Show or hide FPS
+                {
+                    if (!FPSshowhide)
+                    {
+                        FPSshowhide = true;
+                    }
+                    else
+                    {
+                        FPSshowhide = false;
+                        system("CLS");
+                    }
+
+                }
+                default:
+                {
+                    break;
+                }
+                }
+            }
+        }
+
+        if (FPSshowhide)
+        {
+            FPSCounter(fps_count, fps_time);
+        }
+
+        draw();
+
+        SDL_RenderPresent(ren);
+    }
 
     exit();
 
