@@ -19,7 +19,7 @@ using namespace std;
 const int WIDTH = 1024, HEIGHT = 768;
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
-SDL_Renderer* ren = NULL;
+SDL_Surface* knight = NULL;
 
 int init()
 {
@@ -31,42 +31,45 @@ int init()
     window = SDL_CreateWindow("Hello SDL World", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
-    if (NULL == window)
+    if (window == NULL)
     {
         std::cout << "Could not create window: " << SDL_GetError() << endl;
         return 2;
     }
 
-    ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-    // Check
-    if (ren == NULL) {
-        cout << "Can't create renderer: " << SDL_GetError() << endl;
-        return 3;
-    }
-
-    SDL_UpdateWindowSurface(window);
+    surface = SDL_GetWindowSurface(window);
 
     return 0;
 }
 
-int draw()
+int load()
 {
-    if (SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF) == -1)
+    knight = SDL_LoadBMP("../SDL2 Test/Materials/Texture/knight.bmp");
+    if (knight == NULL)
+    {
+        return 3;
+    }
+    return 0;
+    
+}
+
+int draw(PlayerData player)
+{
+    //function for draw in SDL
+    /*if (SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF) == -1)
     {
         cout << "Could not create render: " << SDL_GetError() << endl;
         return 4;
     }
 
-    SDL_Rect rect1 = { 10, 10, 50, 50 };
+    SDL_Rect rect1 = { 10, 10, 50, 50 };*/
 
-    for (int i = 32; i <= WIDTH - 10; i += 64)
-    {
-        for (int j = 32; j <= HEIGHT - 10; j += 64)
-        {
-            SDL_RenderDrawPoint(ren, i, j);
-        }
-    }
+    SDL_Rect coord;
+    coord.x = player.posx;
+    coord.y = player.posy;
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
+    SDL_BlitSurface(knight, NULL, surface, &coord);
+
     return 0;
 }
 
@@ -74,21 +77,30 @@ int exit()
 {
     SDL_DestroyWindow(window);
     window = NULL;
-    SDL_DestroyRenderer(ren);
-    ren = NULL;
     SDL_Quit();
     return 0;
 }
 
 int SDL_main(int argc, char* argv[])
 {
-    init();
+    if (init() != 0)
+    {
+        return -1;
+    }
+
+    if (load() == 3)
+    {
+        return -1;
+    }
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
     AreaData* world = new AreaData[4096];
 
     SDL_Event windowEvent;
+
+    PlayerData player(1, 50, 0, 1, 1, 0, 1);
+
 
     bool CnStatus = false, FPSshowhide = false;
     int fps_count = 0, fps_time = time(NULL);
@@ -124,6 +136,26 @@ int SDL_main(int argc, char* argv[])
                     }
 
                 }
+                case 100:
+                {
+                    player.posx += 32;
+                    break;
+                }
+                case 115:
+                {
+                    player.posy += 32;
+                    break;
+                }
+                case 119:
+                {
+                    player.posy -= 32;
+                    break;
+                }
+                case 97:
+                {
+                    player.posx -= 32;
+                    break;
+                }
                 default:
                 {
                     break;
@@ -137,9 +169,9 @@ int SDL_main(int argc, char* argv[])
             FPSCounter(fps_count, fps_time);
         }
 
-        draw();
+        draw(player);
 
-        SDL_RenderPresent(ren);
+        SDL_UpdateWindowSurface(window);
     }
 
     exit();
