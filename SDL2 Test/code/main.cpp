@@ -64,8 +64,8 @@ int load()
         return LOADERROR;
     }
 
-    chest = SDL_LoadBMP("../SDL2 Test/Materials/Texture/chest.bmp");
-    if (world_texture == NULL)
+    chest = SDL_LoadBMP("./Materials/Texture/chest1.bmp");
+    if (chest == NULL)
     {
         return LOADERROR;
     }
