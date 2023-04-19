@@ -7,8 +7,8 @@
 #pragma once 
 #pragma warning(disable:4244)   // loss while time_t to int
 #include <iterator>
-#include <Windows.h>
 #include <iostream>
+#include <Windows.h>
 
 // ENUM of objects
 enum characterType 
@@ -159,8 +159,8 @@ public:
     {
         tileName = 1;
         tileStatus = false;
-        xpos = 1;
-        ypos = 1;
+        xpos = 10;
+        ypos = 10;
     }
 
     AreaData(int Name_of_Tile, 

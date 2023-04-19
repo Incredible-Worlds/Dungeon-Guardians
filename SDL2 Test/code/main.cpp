@@ -4,10 +4,10 @@
 //
 // Not open source version, only for course work
 
+#define LOADERROR 3
+
 #include <SDL.h>
 #include <GameModule.h>
-#include <vector>
-#include <Windows.h>
 #include <iostream>
 
 // include WorldInit
@@ -16,19 +16,25 @@
 
 using namespace std;
 
-const int WIDTH = 1024, HEIGHT = 768;
+
+const int WIDTH = 1046, HEIGHT = 1024;
+const int worldsize = 992;
+
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
 SDL_Surface* knight = NULL;
+SDL_Surface* world_texture = NULL;
+
 
 int init()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
+        std::cout << "Could not init SDL: " << SDL_GetError() << endl;
         return 1;
     }
 
-    window = SDL_CreateWindow("Hello SDL World", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
+    window = SDL_CreateWindow("Dungeon Guardian", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
     if (window == NULL)
@@ -47,13 +53,20 @@ int load()
     knight = SDL_LoadBMP("../SDL2 Test/Materials/Texture/knight.bmp");
     if (knight == NULL)
     {
-        return 3;
+        return LOADERROR;
     }
+
+    world_texture = SDL_LoadBMP("../SDL2 Test/Materials/Texture/worldmap.bmp");
+    if (world_texture == NULL)
+    {
+        return LOADERROR;
+    }
+
     return 0;
     
 }
 
-int draw(PlayerData player)
+int draw(PlayerData player, AreaData* world)
 {
     //function for draw in SDL
     /*if (SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF) == -1)
@@ -65,9 +78,23 @@ int draw(PlayerData player)
     SDL_Rect rect1 = { 10, 10, 50, 50 };*/
 
     SDL_Rect coord;
+    
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
+
+
+    for (int i = 0; i < worldsize; i++)
+    {
+        if (world[i].tileName == tileType::EMPTY)
+        {
+            coord.x = world[i].xpos;
+            coord.y = world[i].ypos;
+            SDL_BlitSurface(world_texture, NULL, surface, &coord);
+        }
+    }
+
     coord.x = player.posx;
     coord.y = player.posy;
-    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
+
     SDL_BlitSurface(knight, NULL, surface, &coord);
 
     return 0;
@@ -83,27 +110,51 @@ int exit()
 
 int SDL_main(int argc, char* argv[])
 {
-    if (init() != 0)
-    {
-        return -1;
-    }
-
-    if (load() == 3)
-    {
-        return -1;
-    }
-
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
-    AreaData* world = new AreaData[4096];
+    int error_code;
+    if ((error_code = init()) != 0)
+    {
+        std::cout << "Could not init window: " << SDL_GetError() << endl;
+        ShowWindow(GetConsoleWindow(), SW_SHOW);
+        return error_code;
+    }
+
+    if ((error_code = load()) != 0)
+    {
+        std::cout << "Could not load files: " << SDL_GetError() << endl;
+        ShowWindow(GetConsoleWindow(), SW_SHOW);
+        return error_code;
+    }
+
+    AreaData* world = new AreaData[worldsize];
+    PlayerData player(1, 50, 0, 1, 1, 10, 10);
 
     SDL_Event windowEvent;
-
-    PlayerData player(1, 50, 0, 1, 1, 0, 1);
-
-
     bool CnStatus = false, FPSshowhide = false;
     int fps_count = 0, fps_time = time(NULL);
+
+    int count = 32;
+
+
+    for (int i = 1; i < worldsize; i++)
+    {
+        world[i].xpos = world[i - 1].xpos + 32;
+        world[i].ypos = world[i - 1].ypos;
+        world[i].tileName = tileType::EMPTY;
+
+        if (i == count)
+        {
+            world[i].xpos = 10;
+            world[i].ypos = world[i].ypos + 32;
+            count += 32;
+        }
+    }
+
+
+
+
+    
 
     while (true)
     {
@@ -136,7 +187,7 @@ int SDL_main(int argc, char* argv[])
                     }
 
                 }
-                case 100:
+                case 100:                       // Movment
                 {
                     player.posx += 32;
                     break;
@@ -151,7 +202,7 @@ int SDL_main(int argc, char* argv[])
                     player.posy -= 32;
                     break;
                 }
-                case 97:
+                case 97:                        // Endof Movmet
                 {
                     player.posx -= 32;
                     break;
@@ -169,7 +220,7 @@ int SDL_main(int argc, char* argv[])
             FPSCounter(fps_count, fps_time);
         }
 
-        draw(player);
+        draw(player, world);
 
         SDL_UpdateWindowSurface(window);
     }
