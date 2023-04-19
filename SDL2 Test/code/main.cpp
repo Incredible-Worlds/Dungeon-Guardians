@@ -22,8 +22,10 @@ const int worldsize = 992;
 
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
+
 SDL_Surface* knight = NULL;
 SDL_Surface* world_texture = NULL;
+SDL_Surface* chest = NULL;
 
 
 int init()
@@ -62,6 +64,12 @@ int load()
         return LOADERROR;
     }
 
+    chest = SDL_LoadBMP("../SDL2 Test/Materials/Texture/chest.bmp");
+    if (world_texture == NULL)
+    {
+        return LOADERROR;
+    }
+
     return 0;
     
 }
@@ -84,11 +92,16 @@ int draw(PlayerData player, AreaData* world)
 
     for (int i = 0; i < worldsize; i++)
     {
+        coord.x = world[i].xpos;
+        coord.y = world[i].ypos;
         if (world[i].tileName == tileType::EMPTY)
         {
-            coord.x = world[i].xpos;
-            coord.y = world[i].ypos;
             SDL_BlitSurface(world_texture, NULL, surface, &coord);
+        }
+        else if (world[i].tileName == tileType::CHEST)
+        {
+            SDL_BlitSurface(world_texture, NULL, surface, &coord);
+            SDL_BlitSurface(chest, NULL, surface, &coord);
         }
     }
 
@@ -136,13 +149,12 @@ int SDL_main(int argc, char* argv[])
 
     int count = 32;
 
-
+    // Two different versions of the fill world function
     for (int i = 1; i < worldsize; i++)
     {
         world[i].xpos = world[i - 1].xpos + 32;
         world[i].ypos = world[i - 1].ypos;
         world[i].tileName = tileType::EMPTY;
-
         if (i == count)
         {
             world[i].xpos = 10;
@@ -151,10 +163,22 @@ int SDL_main(int argc, char* argv[])
         }
     }
 
+    world[654].tileName = tileType::CHEST;
+    // Two different versions of the fill world function
+    //for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
+    //{
+    //    for (int j = i * 32; j < i * 32 + 32; j++)
+    //    {
+    //        if (j == i * 32)
+    //        {
+    //            world[j - 1].xpos = 10;
+    //        }
+    //        world[j].ypos = flag;
+    //        world[j].xpos = world[j - 1].xpos + 32;
+    //    }
+    //    flag += 32;
+    //}
 
-
-
-    
 
     while (true)
     {
@@ -185,7 +209,7 @@ int SDL_main(int argc, char* argv[])
                         FPSshowhide = false;
                         system("CLS");
                     }
-
+                    break;
                 }
                 case 100:                       // Movment
                 {
