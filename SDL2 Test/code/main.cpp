@@ -26,7 +26,10 @@ SDL_Surface* surface = NULL;
 SDL_Surface* knight = NULL;
 SDL_Surface* world_texture = NULL;
 SDL_Surface* chest = NULL;
-
+SDL_Surface* orge = NULL;
+SDL_Surface* goblin = NULL;
+SDL_Surface* skeleton = NULL;
+SDL_Surface* slime = NULL;
 
 int init()
 {
@@ -75,6 +78,30 @@ int load()
         return LOADERROR;
     }
 
+    orge = SDL_LoadBMP("./Materials/Texture/orge.bmp");
+    if (chest == NULL)
+    {
+        return LOADERROR;
+    }
+
+    goblin = SDL_LoadBMP("./Materials/Texture/goblin.bmp");
+    if (chest == NULL)
+    {
+        return LOADERROR;
+    }
+
+    skeleton = SDL_LoadBMP("./Materials/Texture/skeleton.bmp");
+    if (chest == NULL)
+    {
+        return LOADERROR;
+    }
+
+    slime = SDL_LoadBMP("./Materials/Texture/slime.bmp");
+    if (chest == NULL)
+    {
+        return LOADERROR;
+    }
+
     return 0;
     
 }
@@ -109,6 +136,29 @@ int draw(PlayerData player, AreaData* world)
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
                 SDL_BlitSurface(chest, NULL, surface, &coord);
+            }
+            if (world[i].tileName == tileType::ENEMY)
+            {
+                if (world[i].tileName == characterType::OGRE)
+                {
+                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                    SDL_BlitSurface(orge, NULL, surface, &coord);
+                }
+                if (world[i].tileName == characterType::GOBLIN)
+                {
+                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                    SDL_BlitSurface(goblin, NULL, surface, &coord);
+                }
+                if (world[i].tileName == characterType::SKELETON)
+                {
+                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                    SDL_BlitSurface(skeleton, NULL, surface, &coord);
+                }
+                if (world[i].tileName == characterType::SLIME)
+                {
+                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                    SDL_BlitSurface(slime, NULL, surface, &coord);
+                }
             }
         }
     }
@@ -172,8 +222,46 @@ int SDL_main(int argc, char* argv[])
             count += 32;
         }
     }
-
-    world[100].tileName = tileType::CHEST;
+    srand(time(NULL));
+    for (int i = 1; i < worldsize; i++)
+    {
+        int countchest = rand() % 100;
+        int countchest1 = rand() % 100;
+        int countmob = rand() % 100;
+        if (countchest == 33 and (countchest1 == 10
+                                or countchest1 == 20 
+                                or countchest1 == 30 
+                                or countchest1 == 40 
+                                or countchest1 == 50 
+                                or countchest1 == 60
+                                or countchest1 == 70
+                                or countchest1 == 80
+                                or countchest1 == 90))
+        {
+            world[i].tileName = tileType::CHEST;
+        }
+        if (countmob == 50)
+        {
+            world[i].tileName = tileType::ENEMY;
+            int counttype = rand() % 4 + 1;
+            if (counttype == 1)
+            {
+                world[i].tileName = characterType::SLIME;
+            }
+            if (counttype == 2)
+            {
+                world[i].tileName = characterType::SKELETON;
+            }
+            if (counttype == 3)
+            {
+                world[i].tileName = characterType::GOBLIN;
+            }
+            if (counttype == 4)
+            {
+                world[i].tileName = characterType::OGRE;
+            }
+        }
+    }
     // Two different versions of the fill world function
     /*for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
     {
@@ -253,7 +341,7 @@ int SDL_main(int argc, char* argv[])
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 10)
+            if (time(NULL) - world[i].tileStatusTimer > 5)
             {
                 world[i].tileStatus = false;
             }

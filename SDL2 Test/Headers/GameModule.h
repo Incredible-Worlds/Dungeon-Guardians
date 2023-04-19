@@ -45,13 +45,13 @@ public:
         switch (type)
         {
         case OGRE:
-            return 40;
+            return 4;
         case GOBLIN:
-            return 30;
+            return 3;
         case SKELETON:
-            return 20;
+            return 2;
         case SLIME:
-            return 10;
+            return 1;
         default:
             return 0;
         }
