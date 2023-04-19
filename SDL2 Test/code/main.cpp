@@ -78,25 +78,25 @@ int load()
         return LOADERROR;
     }
 
-    orge = SDL_LoadBMP("./Materials/Texture/orge.bmp");
+    orge = SDL_LoadBMP("./Materials/Texture/123.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
     }
 
-    goblin = SDL_LoadBMP("./Materials/Texture/goblin.bmp");
+    goblin = SDL_LoadBMP("./Materials/Texture/123.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
     }
 
-    skeleton = SDL_LoadBMP("./Materials/Texture/skeleton.bmp");
+    skeleton = SDL_LoadBMP("./Materials/Texture/123.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
     }
 
-    slime = SDL_LoadBMP("./Materials/Texture/slime.bmp");
+    slime = SDL_LoadBMP("./Materials/Texture/123.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -132,29 +132,29 @@ int draw(PlayerData player, AreaData* world)
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
             }
-            else if (world[i].tileName == tileType::CHEST)
+            if (world[i].tileName == tileType::CHEST)
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
                 SDL_BlitSurface(chest, NULL, surface, &coord);
             }
-            if (world[i].tileName == tileType::ENEMY)
+            if (world[i].enemyStatus ==true)
             {
-                if (world[i].tileName == characterType::OGRE)
+                if (world[i].enemy_type.type == characterType::OGRE)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(orge, NULL, surface, &coord);
                 }
-                if (world[i].tileName == characterType::GOBLIN)
+                if (world[i].enemy_type.type == characterType::GOBLIN)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(goblin, NULL, surface, &coord);
                 }
-                if (world[i].tileName == characterType::SKELETON)
+                if (world[i].enemy_type.type == characterType::SKELETON)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(skeleton, NULL, surface, &coord);
                 }
-                if (world[i].tileName == characterType::SLIME)
+                if (world[i].enemy_type.type == characterType::SLIME)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(slime, NULL, surface, &coord);
@@ -201,6 +201,8 @@ int SDL_main(int argc, char* argv[])
     AreaData* world = new AreaData[worldsize];
     PlayerData player(1, 50, 0, 1, 1, 10, 10);
 
+    EnemyData randenemy;
+
     SDL_Event windowEvent;
     bool CnStatus = false, FPSshowhide = false;
     int fps_count = 0, fps_time = time(NULL);
@@ -213,7 +215,7 @@ int SDL_main(int argc, char* argv[])
         world[i].posx = world[i - 1].posx + 32;
         world[i].posy = world[i - 1].posy;
         world[i].tileName = tileType::EMPTY;
-        world[i].tileStatus = false;
+        world[i].tileStatus = true;
 
         if (i == count)
         {
@@ -222,46 +224,7 @@ int SDL_main(int argc, char* argv[])
             count += 32;
         }
     }
-    srand(time(NULL));
-    for (int i = 1; i < worldsize; i++)
-    {
-        int countchest = rand() % 100;
-        int countchest1 = rand() % 100;
-        int countmob = rand() % 100;
-        if (countchest == 33 and (countchest1 == 10
-                                or countchest1 == 20 
-                                or countchest1 == 30 
-                                or countchest1 == 40 
-                                or countchest1 == 50 
-                                or countchest1 == 60
-                                or countchest1 == 70
-                                or countchest1 == 80
-                                or countchest1 == 90))
-        {
-            world[i].tileName = tileType::CHEST;
-        }
-        if (countmob == 50)
-        {
-            world[i].tileName = tileType::ENEMY;
-            int counttype = rand() % 4 + 1;
-            if (counttype == 1)
-            {
-                world[i].tileName = characterType::SLIME;
-            }
-            if (counttype == 2)
-            {
-                world[i].tileName = characterType::SKELETON;
-            }
-            if (counttype == 3)
-            {
-                world[i].tileName = characterType::GOBLIN;
-            }
-            if (counttype == 4)
-            {
-                world[i].tileName = characterType::OGRE;
-            }
-        }
-    }
+    
     // Two different versions of the fill world function
     /*for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
     {
@@ -277,6 +240,8 @@ int SDL_main(int argc, char* argv[])
         flag += 32;
     }*/
 
+    EnemyData enemy_rand_1;
+    enemy_rand_1.generateNew();
 
     while (true)
     {
@@ -341,10 +306,10 @@ int SDL_main(int argc, char* argv[])
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 5)
+            /*if (time(NULL) - world[i].tileStatusTimer > 100)
             {
                 world[i].tileStatus = false;
-            }
+            }*/
 
             if ((world[i].posy == player.posy) && (world[i].posx == player.posx))
             {

@@ -13,7 +13,6 @@
 // ENUM of objects
 enum characterType 
 { 
-    PLAYER, 
     OGRE, 
     GOBLIN, 
     SLIME, 
@@ -33,6 +32,10 @@ enum tileType
 class EnemyData
 {
 public:
+    int health;
+    int type;
+    int gold;
+
     EnemyData()
     {
         type = randomEnemyType();
@@ -95,13 +98,14 @@ public:
     }
 
 private:
-    int health;
-    int type;
-    int gold;
+
+    int randomgen;
 
     int randomEnemyType()
     {
-        return rand() % 4 + 1;
+        srand(time(NULL));
+
+        return rand() % 4;
     }
 };
 
@@ -154,14 +158,20 @@ public:
     bool tileStatus;
     int tileStatusTimer;
 
+    bool enemyStatus;
+    EnemyData enemy_type;
+
     int posx;
     int posy;
 
     AreaData()
     {
-        tileName = 1;
+        tileName = tileType::EMPTY;
         tileStatus = false;
         tileStatusTimer = 0;
+
+        enemyStatus = false;
+        enemy_type.generateNew();
 
         posx = 10;
         posy = 10;
@@ -170,12 +180,17 @@ public:
     AreaData(int Name_of_Tile, 
         bool Status_of_Tile,
         int Timer_of_Tile,
+        int name_of_entity,
+        bool is_enemy_there,
         int pos_on_x,
         int pos_on_y)
     {
         tileName = Name_of_Tile;
         tileStatus = Status_of_Tile;
         tileStatusTimer = Timer_of_Tile;
+
+        enemyStatus = is_enemy_there;
+        enemy_type.generateNew();
 
         posx = pos_on_x;
         posy = pos_on_y;
