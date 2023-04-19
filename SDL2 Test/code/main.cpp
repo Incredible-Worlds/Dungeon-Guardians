@@ -17,8 +17,8 @@
 using namespace std;
 
 
-const int WIDTH = 1046, HEIGHT = 1024;
-const int worldsize = 992;
+const int WIDTH = 1050, HEIGHT = 1050;
+const int worldsize = 1024;
 
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
@@ -36,7 +36,12 @@ int init()
         return 1;
     }
 
-    window = SDL_CreateWindow("Dungeon Guardian", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
+    window = SDL_CreateWindow("Dungeon Guardian", 
+                                SDL_WINDOWPOS_UNDEFINED, 
+                                SDL_WINDOWPOS_UNDEFINED, 
+                                WIDTH, 
+                                HEIGHT, 
+                                SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
     if (window == NULL)
@@ -52,19 +57,19 @@ int init()
 
 int load()
 {
-    knight = SDL_LoadBMP("../SDL2 Test/Materials/Texture/knight.bmp");
+    knight = SDL_LoadBMP("./Materials/Texture/knight.bmp");
     if (knight == NULL)
     {
         return LOADERROR;
     }
 
-    world_texture = SDL_LoadBMP("../SDL2 Test/Materials/Texture/worldmap.bmp");
+    world_texture = SDL_LoadBMP("./Materials/Texture/worldmap.bmp");
     if (world_texture == NULL)
     {
         return LOADERROR;
     }
 
-    chest = SDL_LoadBMP("./Materials/Texture/chest1.bmp");
+    chest = SDL_LoadBMP("./Materials/Texture/chest.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -168,7 +173,7 @@ int SDL_main(int argc, char* argv[])
         }
     }
 
-    world[654].tileName = tileType::CHEST;
+    world[100].tileName = tileType::CHEST;
     // Two different versions of the fill world function
     /*for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
     {
@@ -244,6 +249,7 @@ int SDL_main(int argc, char* argv[])
             }
         }
 
+
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
@@ -252,13 +258,19 @@ int SDL_main(int argc, char* argv[])
                 world[i].tileStatus = false;
             }
 
-            if (world[i].posy == player.posy)
+            if ((world[i].posy == player.posy) && (world[i].posx == player.posx))
             {
-                if (world[i].posx == player.posx)
+                for (int j = i - 1; j < i + 2; j++)
                 {
-                    world[i].tileStatus = true;
-                    world[i].tileStatusTimer = time(NULL);
+                    world[j].tileStatus = true;
+
+                    world[j].tileStatusTimer = time(NULL);
                 }
+                world[i - (int)sqrt(worldsize)].tileStatus = true;
+                world[i - (int)sqrt(worldsize)].tileStatusTimer = time(NULL);
+
+                world[i + (int)sqrt(worldsize)].tileStatus = true;
+                world[i + (int)sqrt(worldsize)].tileStatusTimer = time(NULL);
             }
         }
 
