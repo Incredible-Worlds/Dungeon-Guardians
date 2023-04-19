@@ -92,16 +92,19 @@ int draw(PlayerData player, AreaData* world)
 
     for (int i = 0; i < worldsize; i++)
     {
-        coord.x = world[i].xpos;
-        coord.y = world[i].ypos;
-        if (world[i].tileName == tileType::EMPTY)
+        coord.x = world[i].posx;
+        coord.y = world[i].posy;
+        if (world[i].tileStatus == true)
         {
-            SDL_BlitSurface(world_texture, NULL, surface, &coord);
-        }
-        else if (world[i].tileName == tileType::CHEST)
-        {
-            SDL_BlitSurface(world_texture, NULL, surface, &coord);
-            SDL_BlitSurface(chest, NULL, surface, &coord);
+            if (world[i].tileName == tileType::EMPTY)
+            {
+                SDL_BlitSurface(world_texture, NULL, surface, &coord);
+            }
+            else if (world[i].tileName == tileType::CHEST)
+            {
+                SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                SDL_BlitSurface(chest, NULL, surface, &coord);
+            }
         }
     }
 
@@ -152,32 +155,34 @@ int SDL_main(int argc, char* argv[])
     // Two different versions of the fill world function
     for (int i = 1; i < worldsize; i++)
     {
-        world[i].xpos = world[i - 1].xpos + 32;
-        world[i].ypos = world[i - 1].ypos;
+        world[i].posx = world[i - 1].posx + 32;
+        world[i].posy = world[i - 1].posy;
         world[i].tileName = tileType::EMPTY;
+        world[i].tileStatus = false;
+
         if (i == count)
         {
-            world[i].xpos = 10;
-            world[i].ypos = world[i].ypos + 32;
+            world[i].posx = 10;
+            world[i].posy = world[i].posy + 32;
             count += 32;
         }
     }
 
     world[654].tileName = tileType::CHEST;
     // Two different versions of the fill world function
-    //for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
-    //{
-    //    for (int j = i * 32; j < i * 32 + 32; j++)
-    //    {
-    //        if (j == i * 32)
-    //        {
-    //            world[j - 1].xpos = 10;
-    //        }
-    //        world[j].ypos = flag;
-    //        world[j].xpos = world[j - 1].xpos + 32;
-    //    }
-    //    flag += 32;
-    //}
+    /*for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
+    {
+        for (int j = i * 32; j < i * 32 + 32; j++)
+        {
+            if (j == i * 32)
+            {
+                world[j - 1].posx = 10;
+            }
+            world[j].posy = flag;
+            world[j].posx = world[j - 1].posx + 32;
+        }
+        flag += 32;
+    }*/
 
 
     while (true)
@@ -238,6 +243,25 @@ int SDL_main(int argc, char* argv[])
                 }
             }
         }
+
+        // Check all status of world
+        for (int i = 0; i < worldsize; i++)
+        {
+            if (time(NULL) - world[i].tileStatusTimer > 10)
+            {
+                world[i].tileStatus = false;
+            }
+
+            if (world[i].posy == player.posy)
+            {
+                if (world[i].posx == player.posx)
+                {
+                    world[i].tileStatus = true;
+                    world[i].tileStatusTimer = time(NULL);
+                }
+            }
+        }
+
 
         if (FPSshowhide)
         {

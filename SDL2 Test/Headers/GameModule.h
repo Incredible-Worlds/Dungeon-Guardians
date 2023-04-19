@@ -152,26 +152,33 @@ class AreaData
 public:
     int tileName;
     bool tileStatus;
-    int xpos;
-    int ypos;
+    int tileStatusTimer;
+
+    int posx;
+    int posy;
 
     AreaData()
     {
         tileName = 1;
         tileStatus = false;
-        xpos = 10;
-        ypos = 10;
+        tileStatusTimer = 0;
+
+        posx = 10;
+        posy = 10;
     }
 
     AreaData(int Name_of_Tile, 
         bool Status_of_Tile,
+        int Timer_of_Tile,
         int pos_on_x,
         int pos_on_y)
     {
         tileName = Name_of_Tile;
         tileStatus = Status_of_Tile;
-        xpos = pos_on_x;
-        ypos = pos_on_y;
+        tileStatusTimer = Timer_of_Tile;
+
+        posx = pos_on_x;
+        posy = pos_on_y;
     }
 };
 
