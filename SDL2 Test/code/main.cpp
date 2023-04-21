@@ -17,7 +17,7 @@
 using namespace std;
 
 
-const int WIDTH = 1050, HEIGHT = 1050;
+const int WIDTH = 1920, HEIGHT = 1080;
 const int worldsize = 1024;
 
 SDL_Window* window = NULL;
@@ -38,6 +38,7 @@ int init()
         std::cout << "Could not init SDL: " << SDL_GetError() << endl;
         return 1;
     }
+
 
     window = SDL_CreateWindow("Dungeon Guardian", 
                                 SDL_WINDOWPOS_UNDEFINED, 
@@ -215,7 +216,7 @@ int SDL_main(int argc, char* argv[])
         world[i].posx = world[i - 1].posx + 32;
         world[i].posy = world[i - 1].posy;
         world[i].tileName = tileType::EMPTY;
-        world[i].tileStatus = true;
+        world[i].tileStatus = false;
 
         if (i == count)
         {
@@ -240,8 +241,16 @@ int SDL_main(int argc, char* argv[])
         flag += 32;
     }*/
 
+
+    world[rand() % 500].tileName = tileType::CHEST;
+    world[rand() % 620 - 120].tileName = tileType::CHEST;
+
     EnemyData enemy_rand_1;
     enemy_rand_1.generateNew();
+
+    world[rand() % 300 + 200].enemy_type = enemy_rand_1;
+    world[rand() % 300 + 200].enemyStatus = true;
+    
 
     while (true)
     {
@@ -254,6 +263,12 @@ int SDL_main(int argc, char* argv[])
             if (windowEvent.type == SDL_KEYDOWN)
             {
                 cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
+
+                if (windowEvent.key.keysym.sym == 27)
+                {
+                    break;
+                }
+
                 switch (windowEvent.key.keysym.sym)
                 {
                 case 96:                        // Show or hide console
@@ -306,10 +321,10 @@ int SDL_main(int argc, char* argv[])
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            /*if (time(NULL) - world[i].tileStatusTimer > 100)
+            if (time(NULL) - world[i].tileStatusTimer > 15)
             {
                 world[i].tileStatus = false;
-            }*/
+            }
 
             if ((world[i].posy == player.posy) && (world[i].posx == player.posx))
             {
