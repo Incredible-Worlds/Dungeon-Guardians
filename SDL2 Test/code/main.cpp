@@ -112,10 +112,9 @@ int draw(PlayerData player, AreaData* world)
 
     SDL_Rect rect1 = { 10, 10, 50, 50 };*/
 
-    SDL_Rect coord;
-    
-    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
+    SDL_Rect coord{};
 
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 40, 40, 40));
 
     for (int i = 0; i < worldsize; i++)
     {
@@ -131,6 +130,12 @@ int draw(PlayerData player, AreaData* world)
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
                 SDL_BlitSurface(chest, NULL, surface, &coord);
+            }
+
+            // fix bound texture
+            if (world[i].tileName == tileType::BOUND)
+            {
+                SDL_BlitSurface(slime, NULL, surface, &coord);
             }
             if (world[i].enemyStatus ==true)
             {
@@ -202,10 +207,8 @@ int SDL_main(int argc, char* argv[])
     bool CnStatus = false, FPSshowhide = false;
     int fps_count = 0, fps_time = time(NULL);
 
-    int count = 32;
-
     // Two different versions of the fill world function
-    for (int i = 1; i < worldsize; i++)
+    for (int i = 1, count = 32; i < worldsize; i++)
     {
         world[i].posx = world[i - 1].posx + 32;
         world[i].posy = world[i - 1].posy;
@@ -219,22 +222,6 @@ int SDL_main(int argc, char* argv[])
             count += 32;
         }
     }
-    
-    // Two different versions of the fill world function
-    /*for (int i = 1, flag = 10; i < (int)sqrt(worldsize); i ++)
-    {
-        for (int j = i * 32; j < i * 32 + 32; j++)
-        {
-            if (j == i * 32)
-            {
-                world[j - 1].posx = 10;
-            }
-            world[j].posy = flag;
-            world[j].posx = world[j - 1].posx + 32;
-        }
-        flag += 32;
-    }*/
-
 
     world[rand() % 500].tileName = tileType::CHEST;
     world[rand() % 620 - 120].tileName = tileType::CHEST;
@@ -245,6 +232,7 @@ int SDL_main(int argc, char* argv[])
     world[rand() % 300 + 200].enemy_type = enemy_rand_1;
     world[rand() % 300 + 200].enemyStatus = true;
     
+    world[56].tileName = tileType::BOUND;
 
     while (true)
     {
@@ -265,52 +253,55 @@ int SDL_main(int argc, char* argv[])
 
                 switch (windowEvent.key.keysym.sym)
                 {
-                case 96:                        // Show or hide console
-                {
-                    HideShowConsole(CnStatus);
-                    break;
-                }
-                case 9:                         // Show or hide FPS
-                {
-                    if (!FPSshowhide)
+                    case 96:                        // Show or hide console
                     {
-                        FPSshowhide = true;
+                        HideShowConsole(CnStatus);
+                        break;
                     }
-                    else
+                    case 9:                         // Show or hide FPS
                     {
-                        FPSshowhide = false;
-                        system("CLS");
+                        if (!FPSshowhide)
+                        {
+                            FPSshowhide = true;
+                        }
+                        else
+                        {
+                            FPSshowhide = false;
+                            system("CLS");
+                        }
+                        break;
                     }
-                    break;
-                }
-                case 100:                       // Movment
-                {
-                    player.posx += 32;
-                    break;
-                }
-                case 115:
-                {
-                    player.posy += 32;
-                    break;
-                }
-                case 119:
-                {
-                    player.posy -= 32;
-                    break;
-                }
-                case 97:                        // Endof Movmet
-                {
-                    player.posx -= 32;
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
+                    case 100:                       // Movment
+                    {
+                        player.posx += 32;
+
+                        break;
+                    }
+                    case 115:
+                    {
+                        player.posy += 32;
+
+                        break;
+                    }
+                    case 119:
+                    {
+                        player.posy -= 32;
+
+                        break;
+                    }
+                    case 97:                        // Endof Movmet
+                    {
+                        player.posx -= 32;
+
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
                 }
             }
         }
-
 
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
@@ -320,7 +311,8 @@ int SDL_main(int argc, char* argv[])
                 world[i].tileStatus = false;
             }
 
-            if ((world[i].posy == player.posy) && (world[i].posx == player.posx))
+            if ((world[i].posy == player.posy)
+                && (world[i].posx == player.posx))
             {
                 for (int j = i - 1; j < i + 2; j++)
                 {
@@ -333,6 +325,13 @@ int SDL_main(int argc, char* argv[])
 
                 world[i + (int)sqrt(worldsize)].tileStatus = true;
                 world[i + (int)sqrt(worldsize)].tileStatusTimer = time(NULL);
+            }
+
+            if ((world[i].tileName == tileType::BOUND)
+                && ((world[i].posy == player.posy)
+                    && (world[i].posx == player.posx)))
+            {
+
             }
         }
 
