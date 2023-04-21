@@ -4,16 +4,38 @@
 //
 // Not open source version, only for course work
 
+
 #include <SDL.h>
 #include <GameModule.h>
 #include <iostream>
+
+
+inline int AreaSize(int size) { return size; }
+
+// Check for type of Area Tile
+inline int DefineTileStatus(tileType type)
+{
+    switch (type)
+    {
+    case BOUND:
+        return 0;
+    case ENEMY:
+        return 2;
+    case EXIT:
+        return 3;
+    case CHEST:
+        return 4;
+    default:
+        return 1;
+    }
+}
 
 //
 //  Developer func
 //
 
 // Show/Hide console window (~)
-void HideShowConsole(bool& ConsoleStatus)
+inline void HideShowConsole(bool& ConsoleStatus)
 {
     if (ConsoleStatus == false)
     {
@@ -28,7 +50,7 @@ void HideShowConsole(bool& ConsoleStatus)
 }
 
 // Show/Hide FPS
-void FPSCounter(int& fps_count, int& fps_time)
+inline void FPSCounter(int& fps_count, int& fps_time)
 {
     fps_count++;
 

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="Headers\GameModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\GameModule.h" />

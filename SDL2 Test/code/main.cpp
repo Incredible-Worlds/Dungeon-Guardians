@@ -8,13 +8,13 @@
 
 #include <SDL.h>
 #include <GameModule.h>
+#include <GameModule.cpp>
 #include <iostream>
+
 
 // include WorldInit
 // include Fight
 // include MainMenu
-
-using namespace std;
 
 
 const int WIDTH = 1920, HEIGHT = 1080;
@@ -35,7 +35,7 @@ int init()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
-        std::cout << "Could not init SDL: " << SDL_GetError() << endl;
+        std::cout << "Could not init SDL: " << SDL_GetError() << std :: endl;
         return 1;
     }
 
@@ -50,7 +50,7 @@ int init()
     // Check that the window was successfully created
     if (window == NULL)
     {
-        std::cout << "Could not create window: " << SDL_GetError() << endl;
+        std::cout << "Could not create window: " << SDL_GetError() << std :: endl;
         return 2;
     }
 
@@ -187,14 +187,14 @@ int SDL_main(int argc, char* argv[])
     int error_code;
     if ((error_code = init()) != 0)
     {
-        std::cout << "Could not init window: " << SDL_GetError() << endl;
+        std::cout << "Could not init window: " << SDL_GetError() << std :: endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
         return error_code;
     }
 
     if ((error_code = load()) != 0)
     {
-        std::cout << "Could not load files: " << SDL_GetError() << endl;
+        std::cout << "Could not load files: " << SDL_GetError() << std :: endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
         return error_code;
     }
@@ -262,7 +262,7 @@ int SDL_main(int argc, char* argv[])
             }
             if (windowEvent.type == SDL_KEYDOWN)
             {
-                cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
+                std :: cout << "Pressed key is: " << windowEvent.key.keysym.sym << std :: endl;
 
                 if (windowEvent.key.keysym.sym == 27)
                 {

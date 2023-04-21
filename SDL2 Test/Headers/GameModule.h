@@ -197,28 +197,4 @@ public:
     }
 };
 
-int AreaSize(int size) { return size; }
-
-// Check for type of Area Tile
-int DefineTileStatus(tileType type)
-{
-    switch (type)
-    {
-    case BOUND:
-        return 0;
-    case ENEMY:
-        return 2;
-    case EXIT:
-        return 3;
-    case CHEST:
-        return 4;
-    default:
-        return 1;
-    }
-}
-
-
-
-
-
 //Easy4ENCE
