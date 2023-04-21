@@ -7,14 +7,8 @@
 #define LOADERROR 3
 
 #include <SDL.h>
-#include <GameModule.h>
-#include <GameModule.cpp>
+#include "../Headers/GameModule.h"
 #include <iostream>
-
-
-// include WorldInit
-// include Fight
-// include MainMenu
 
 
 const int WIDTH = 1920, HEIGHT = 1080;

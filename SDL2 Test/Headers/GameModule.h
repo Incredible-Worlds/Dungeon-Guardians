@@ -5,10 +5,16 @@
 // Not open source version, only for course work
 
 #pragma once 
+
 #pragma warning(disable:4244)   // loss while time_t to int
 #include <iterator>
-#include <iostream>
+#include <ctime>
 #include <Windows.h>
+
+// include WorldInit
+// include Fight
+// include MainMenu
+// include Save
 
 // ENUM of objects
 enum characterType 
@@ -196,5 +202,11 @@ public:
         posy = pos_on_y;
     }
 };
+
+int DefineTileStatus(tileType type);
+
+void HideShowConsole(bool& ConsoleStatus);
+
+void FPSCounter(int& fps_count, int& fps_time);
 
 //Easy4ENCE
