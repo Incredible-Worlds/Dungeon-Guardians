@@ -60,3 +60,8 @@ void FPSCounter(int& fps_count, int& fps_time)
         fps_count = 0;
     }
 }
+
+int CollisionCheck()
+{
+    return 0;
+}
