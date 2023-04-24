@@ -24,6 +24,7 @@ SDL_Surface* orge = NULL;
 SDL_Surface* goblin = NULL;
 SDL_Surface* skeleton = NULL;
 SDL_Surface* slime = NULL;
+SDL_Surface* bound = NULL;
 
 int init()
 {
@@ -67,13 +68,13 @@ int load()
         return LOADERROR;
     }
 
-    chest = SDL_LoadBMP("./Materials/Texture/Goblin.bmp");
+    chest = SDL_LoadBMP("./Materials/Texture/emptytexture.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
     }
 
-    orge = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    orge = SDL_LoadBMP("./Materials/Texture/emptytexture.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -85,13 +86,19 @@ int load()
         return LOADERROR;
     }
 
-    skeleton = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    skeleton = SDL_LoadBMP("./Materials/Texture/emptytexture.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
     }
 
     slime = SDL_LoadBMP("./Materials/Texture/Slime.bmp");
+    if (chest == NULL)
+    {
+        return LOADERROR;
+    }
+
+    bound = SDL_LoadBMP("./Materials/Texture/123.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -135,7 +142,7 @@ int draw(PlayerData player, AreaData* world)
             // fix bound texture
             if (world[i].tileName == tileType::BOUND)
             {
-                SDL_BlitSurface(slime, NULL, surface, &coord);
+                SDL_BlitSurface(bound, NULL, surface, &coord);
             }
             if (world[i].enemyStatus ==true)
             {
@@ -213,7 +220,7 @@ int SDL_main(int argc, char* argv[])
         world[i].posx = world[i - 1].posx + 32;
         world[i].posy = world[i - 1].posy;
         world[i].tileName = tileType::EMPTY;
-        world[i].tileStatus = false;
+        world[i].tileStatus = true;
 
         if (i == count)
         {
@@ -223,8 +230,8 @@ int SDL_main(int argc, char* argv[])
         }
     }
 
-    world[rand() % 500].tileName = tileType::CHEST;
-    world[rand() % 620 - 120].tileName = tileType::CHEST;
+    /*world[rand() % 500].tileName = tileType::CHEST;
+    world[rand() % 620 - 120].tileName = tileType::CHEST;*/
 
     EnemyData enemy_rand_1;
     enemy_rand_1.generateNew();
@@ -306,10 +313,10 @@ int SDL_main(int argc, char* argv[])
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 15)
+            /*if (time(NULL) - world[i].tileStatusTimer > 15)
             {
                 world[i].tileStatus = false;
-            }
+            }*/
 
             if ((world[i].posy == player.posy)
                 && (world[i].posx == player.posx))
