@@ -98,7 +98,7 @@ int load()
         return LOADERROR;
     }
 
-    bound = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    bound = SDL_LoadBMP("./Materials/Texture/BORDER.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -205,6 +205,7 @@ int SDL_main(int argc, char* argv[])
         return error_code;
     }
 
+
     AreaData* world = new AreaData[worldsize];
     PlayerData player(1, 50, 0, 1, 1, 10, 10);
 
@@ -213,6 +214,8 @@ int SDL_main(int argc, char* argv[])
     SDL_Event windowEvent;
     bool CnStatus = false, FPSshowhide = false;
     int fps_count = 0, fps_time = time(NULL);
+    int tickgen = 0;
+
 
     // Two different versions of the fill world function
     for (int i = 1, count = 32; i < worldsize; i++)
@@ -236,9 +239,15 @@ int SDL_main(int argc, char* argv[])
     EnemyData enemy_rand_1;
     enemy_rand_1.generateNew();
 
-    world[rand() % 300 + 200].enemy_type = enemy_rand_1;
-    world[rand() % 300 + 200].enemyStatus = true;
+
+    tickgen = rand() % 300 + 200;
+
+    enemy_rand_1.posx = world[tickgen].posx;
+    enemy_rand_1.posy = world[tickgen].posy;
+    world[tickgen].enemy_type = enemy_rand_1;
+    world[tickgen].enemyStatus = true;
     
+
     world[56].tileName = tileType::BOUND;
 
     while (true)

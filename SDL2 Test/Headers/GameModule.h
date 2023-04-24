@@ -42,11 +42,17 @@ public:
     int type;
     int gold;
 
+    int posx;
+    int posy;
+
     EnemyData()
     {
         type = randomEnemyType();
         health = GatherHealth(type);
         gold = rand() % 20;
+
+        posx = 0;
+        posy = 0;
     }
 
     int GatherHealth(int type)
@@ -208,5 +214,7 @@ int DefineTileStatus(tileType type);
 void HideShowConsole(bool& ConsoleStatus);
 
 void FPSCounter(int& fps_count, int& fps_time);
+
+int CollisionCheck();
 
 //Easy4ENCE
