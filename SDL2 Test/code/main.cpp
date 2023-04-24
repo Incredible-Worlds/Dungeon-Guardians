@@ -61,13 +61,13 @@ int load()
         return LOADERROR;
     }
 
-    world_texture = SDL_LoadBMP("./Materials/Texture/worldmap.bmp");
+    world_texture = SDL_LoadBMP("./Materials/Texture/Stonefloor.bmp");
     if (world_texture == NULL)
     {
         return LOADERROR;
     }
 
-    chest = SDL_LoadBMP("./Materials/Texture/chest.bmp");
+    chest = SDL_LoadBMP("./Materials/Texture/Goblin.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -79,7 +79,7 @@ int load()
         return LOADERROR;
     }
 
-    goblin = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    goblin = SDL_LoadBMP("./Materials/Texture/Goblin.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
@@ -91,7 +91,7 @@ int load()
         return LOADERROR;
     }
 
-    slime = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    slime = SDL_LoadBMP("./Materials/Texture/Slime.bmp");
     if (chest == NULL)
     {
         return LOADERROR;
