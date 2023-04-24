@@ -233,8 +233,8 @@ int SDL_main(int argc, char* argv[])
         }
     }
 
-    /*world[rand() % 500].tileName = tileType::CHEST;
-    world[rand() % 620 - 120].tileName = tileType::CHEST;*/
+    world[rand() % 500].tileName = tileType::CHEST;
+    world[rand() % 620 - 120].tileName = tileType::CHEST;
 
     EnemyData enemy_rand_1;
     enemy_rand_1.generateNew();
