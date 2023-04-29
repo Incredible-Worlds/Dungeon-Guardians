@@ -15,7 +15,6 @@
 #include "../Headers/MainMenu.h"
 
 #define LOADERROR 3
-#define SUCSESS_EXIT 0
 
 // include WorldInit
 // include Fight

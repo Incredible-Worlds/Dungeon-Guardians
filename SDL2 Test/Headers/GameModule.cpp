@@ -65,5 +65,5 @@ int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height)
 {
     SDL_GetDesktopDisplayMode(0, &DispMode);
 
-    return SUCSESS_EXIT;
+    return EXIT_SUCCESS;
 }

@@ -33,7 +33,6 @@ PlayerData player(1, 50, 0, 1, 1, 10 + 32, 10 + 32);
 bool CnStatus = false;
 bool FPSshowhide = false;
 
-SDL_DisplayMode DM;
 int WIDTH = 1920;
 int HEIGHT = 1080;
 
@@ -70,6 +69,12 @@ int AllGameEvents()
                     }
                     break;
                 }
+
+                case SDLK_ESCAPE:                        // exit
+                {
+                    return -1;
+                }
+
                 case 100:                       // Movment
                 {
                     if (player.posx < worldsize - 84)
@@ -110,12 +115,11 @@ int AllGameEvents()
         }
     }
 
-    return SUCSESS_EXIT;
+    return EXIT_SUCCESS;
 }
 
 int init()
 {
-
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::cout << "Could not init SDL: " << SDL_GetError() << std::endl;
@@ -207,7 +211,7 @@ int draw(PlayerData player, AreaData* world)
     SDL_Rect rect1 = { 10, 10, 50, 50 };*/
 
     SDL_Rect coord{};
-    
+
     SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
 
 
@@ -299,6 +303,8 @@ int SDL_main(int argc, char** argv)
 
     int fps_count = 0, fps_time = time(NULL);
 
+    bool PlayGame = true;
+
     int count = 32;
 
     // Two different versions of the fill world function
@@ -359,9 +365,12 @@ int SDL_main(int argc, char** argv)
         }
     }
 
-    menu_main(window, surface);
+    if (menu_main(window, surface) != 0)
+    {
+        PlayGame = false;
+    }
 
-    while (true)
+    while (PlayGame)
     {
         if (AllGameEvents() != EXIT_SUCCESS)
         {
