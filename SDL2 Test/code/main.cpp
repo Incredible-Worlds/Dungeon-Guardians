@@ -7,7 +7,7 @@
 #define LOADERROR 3
 
 #include <SDL.h>
-#include <GameModule.h>
+#include "../Headers/GameModule.h"
 #include <iostream>
 
 // include WorldInit
@@ -135,9 +135,9 @@ int draw(PlayerData player, AreaData* world)
         coord.y = world[i].posy;
         if (world[i].tileStatus == true)
         {
-            if (world[i].tileName == tileType::EMPTY && (world[i].posy > 32 && world[i].posx < worldsize - 42) 
-                                                     && (world[i].posy > 32 && world[i].posx > 32) 
-                                                     && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
+            if (world[i].tileName == EMPTY && (world[i].posy > 32 && world[i].posx < worldsize - 42) 
+                                           && (world[i].posy > 32 && world[i].posx > 32) 
+                                           && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
             }
@@ -145,33 +145,33 @@ int draw(PlayerData player, AreaData* world)
             {
                 SDL_BlitSurface(border, NULL, surface, &coord);;
             }
-            if (world[i].tileName == tileType::CHEST && (world[i].posy > 32 && world[i].posx < worldsize - 42)
+            if (world[i].tileName == CHEST && (world[i].posy > 32 && world[i].posx < worldsize - 42)
                 && (world[i].posy > 32 && world[i].posx > 32)
                 && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
                 SDL_BlitSurface(chest, NULL, surface, &coord);
             }
-            if (world[i].tileName == tileType::ENEMY && (world[i].posy > 32 && world[i].posx < worldsize - 42)
+            if (world[i].tileName == ENEMY && (world[i].posy > 32 && world[i].posx < worldsize - 42)
                 && (world[i].posy > 32 && world[i].posx > 32)
                 && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
             {
-                if (world[i].tileName == characterType::OGRE)
+                if (world[i].tileName == OGRE)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(orge, NULL, surface, &coord);
                 }
-                if (world[i].tileName == characterType::GOBLIN)
+                if (world[i].tileName == GOBLIN)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(goblin, NULL, surface, &coord);
                 }
-                if (world[i].tileName == characterType::SKELETON)
+                if (world[i].tileName == SKELETON)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(skeleton, NULL, surface, &coord);
                 }
-                if (world[i].tileName == characterType::SLIME)
+                if (world[i].tileName == SLIME)
                 {
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(slime, NULL, surface, &coord);
@@ -229,7 +229,7 @@ int SDL_main(int argc, char* argv[])
     {
         world[i].posx = world[i - 1].posx + 32;
         world[i].posy = world[i - 1].posy;
-        world[i].tileName = tileType::EMPTY;
+        world[i].tileName = EMPTY;
         world[i].tileStatus = false;
 
         if (i == count)
@@ -256,27 +256,27 @@ int SDL_main(int argc, char* argv[])
                                 or countchest1 == 89
                                 or countchest1 == 99))
         {
-            world[i].tileName = tileType::CHEST;
+            world[i].tileName = CHEST;
         }
         if (countmob == 50)
         {
-            world[i].tileName = tileType::ENEMY;
+            world[i].tileName = ENEMY;
             int counttype = rand() % 4 + 1;
             if (counttype == 1)
             {
-                world[i].tileName = characterType::SLIME;
+                world[i].tileName = SLIME;
             }
             if (counttype == 2)
             {
-                world[i].tileName = characterType::SKELETON;
+                world[i].tileName = SKELETON;
             }
             if (counttype == 3)
             {
-                world[i].tileName = characterType::GOBLIN;
+                world[i].tileName = GOBLIN;
             }
             if (counttype == 4)
             {
-                world[i].tileName = characterType::OGRE;
+                world[i].tileName = OGRE;
             }
         }
     }
