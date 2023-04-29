@@ -4,7 +4,6 @@
 //
 // Not open source version, only for course work
 
-#include <SDL.h>
 #include "GameModule.h"
 #include <iostream>
 
@@ -59,4 +58,12 @@ void FPSCounter(int& fps_count, int& fps_time)
         fps_time = time(NULL);
         fps_count = 0;
     }
+}
+
+// VIP create func to init W and H of screen
+int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height)
+{
+    SDL_GetDesktopDisplayMode(0, &DispMode);
+
+    return SUCSESS_EXIT;
 }

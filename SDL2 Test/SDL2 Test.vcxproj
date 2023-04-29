@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="Headers\GameModule.cpp" />
+    <ClCompile Include="Headers\MainMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\GameModule.h" />
+    <ClInclude Include="Headers\MainMenu.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

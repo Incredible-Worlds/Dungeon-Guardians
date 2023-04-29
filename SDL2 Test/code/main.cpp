@@ -4,10 +4,9 @@
 //
 // Not open source version, only for course work
 
-#define LOADERROR 3
-
 #include <SDL.h>
 #include "../Headers/GameModule.h"
+
 #include <iostream>
 
 // include WorldInit
@@ -15,10 +14,6 @@
 // include MainMenu
 
 using namespace std;
-
-
-const int WIDTH = 1050, HEIGHT = 1050;
-const int worldsize = 1024;
 
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
@@ -32,11 +27,98 @@ SDL_Surface* goblin = NULL;
 SDL_Surface* skeleton = NULL;
 SDL_Surface* slime = NULL;
 
+AreaData* world = new AreaData[worldsize];
+PlayerData player(1, 50, 0, 1, 1, 10 + 32, 10 + 32);
+
+bool CnStatus = false;
+bool FPSshowhide = false;
+
+SDL_DisplayMode DM;
+int WIDTH = 1920;
+int HEIGHT = 1080;
+
+int AllGameEvents()
+{
+    SDL_Event windowEvent;
+
+    if (SDL_PollEvent(&windowEvent))
+    {
+        if (windowEvent.type == SDL_QUIT)
+        {
+            return -1;
+        }
+        if (windowEvent.type == SDL_KEYDOWN)
+        {
+            cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
+            switch (windowEvent.key.keysym.sym)
+            {
+                case 96:                        // Show or hide console
+                {
+                    HideShowConsole(CnStatus);
+                    break;
+                }
+                case 9:                         // Show or hide FPS
+                {
+                    if (!FPSshowhide)
+                    {
+                        FPSshowhide = true;
+                    }
+                    else
+                    {
+                        FPSshowhide = false;
+                        system("CLS");
+                    }
+                    break;
+                }
+                case 100:                       // Movment
+                {
+                    if (player.posx < worldsize - 84)
+                    {
+                        player.posx += 32;
+                    }
+                    break;
+                }
+                case 115:
+                {
+                    if (player.posy < worldsize - 84)
+                    {
+                        player.posy += 32;
+                    }
+                    break;
+                }
+                case 119:
+                {
+                    if (player.posy > 42)
+                    {
+                        player.posy -= 32;
+                    }
+                    break;
+                }
+                case 97:                        // Endof Movmet
+                {
+                    if (player.posx > 42)
+                    {
+                        player.posx -= 32;
+                    }
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    return SUCSESS_EXIT;
+}
+
 int init()
 {
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
-        std::cout << "Could not init SDL: " << SDL_GetError() << std :: endl;
+        std::cout << "Could not init SDL: " << SDL_GetError() << std::endl;
         return 1;
     }
 
@@ -124,7 +206,7 @@ int draw(PlayerData player, AreaData* world)
 
     SDL_Rect rect1 = { 10, 10, 50, 50 };*/
 
-    SDL_Rect coord;
+    SDL_Rect coord{};
     
     SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
 
@@ -196,7 +278,7 @@ int exit()
     return 0;
 }
 
-int SDL_main(int argc, char* argv[])
+int SDL_main(int argc, char** argv)
 {
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
@@ -215,11 +297,6 @@ int SDL_main(int argc, char* argv[])
         return error_code;
     }
 
-    AreaData* world = new AreaData[worldsize];
-    PlayerData player(1, 50, 0, 1, 1, 10+32, 10+32);
-
-    SDL_Event windowEvent;
-    bool CnStatus = false, FPSshowhide = false;
     int fps_count = 0, fps_time = time(NULL);
 
     int count = 32;
@@ -239,6 +316,7 @@ int SDL_main(int argc, char* argv[])
             count += 32;
         }
     }
+
     srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {
@@ -281,78 +359,14 @@ int SDL_main(int argc, char* argv[])
         }
     }
 
+    menu_main(window, surface);
 
     while (true)
     {
-        if (SDL_PollEvent(&windowEvent))
+        if (AllGameEvents() != EXIT_SUCCESS)
         {
-            if (windowEvent.type == SDL_QUIT)
-            {
-                break;
-            }
-            if (windowEvent.type == SDL_KEYDOWN)
-            {
-                cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
-                switch (windowEvent.key.keysym.sym)
-                {
-                case 96:                        // Show or hide console
-                {
-                    HideShowConsole(CnStatus);
-                    break;
-                }
-                case 9:                         // Show or hide FPS
-                {
-                    if (!FPSshowhide)
-                    {
-                        FPSshowhide = true;
-                    }
-                    else
-                    {
-                        FPSshowhide = false;
-                        system("CLS");
-                    }
-                    break;
-                }
-                case 100:                       // Movment
-                {
-                    if (player.posx < worldsize - 84)
-                    {
-                        player.posx += 32;
-                    }
-                    break;
-                }
-                case 115:
-                {
-                    if (player.posy < worldsize - 84)
-                    {
-                        player.posy += 32;
-                    }
-                    break;
-                }
-                case 119:
-                {
-                    if (player.posy > 42)
-                    {
-                        player.posy -= 32;
-                    }
-                    break;
-                }
-                case 97:                        // Endof Movmet
-                {
-                    if (player.posx > 42)
-                    {
-                        player.posx -= 32;
-                    }
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-                }
-            }
+            break;
         }
-
 
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
@@ -378,14 +392,12 @@ int SDL_main(int argc, char* argv[])
             }
         }
 
-
         if (FPSshowhide)
         {
             FPSCounter(fps_count, fps_time);
         }
 
         draw(player, world);
-
         SDL_UpdateWindowSurface(window);
     }
 

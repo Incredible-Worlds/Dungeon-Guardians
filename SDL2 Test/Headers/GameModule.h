@@ -7,14 +7,23 @@
 #pragma once 
 
 #pragma warning(disable:4244)   // loss while time_t to int
+#include <SDL.h>
 #include <iterator>
 #include <ctime>
 #include <Windows.h>
+
+#include "../Headers/MainMenu.h"
+
+#define LOADERROR 3
+#define SUCSESS_EXIT 0
 
 // include WorldInit
 // include Fight
 // include MainMenu
 // include Save
+
+// Consts
+const int worldsize = 1024;
 
 // ENUM of objects
 enum characterType 
@@ -138,6 +147,7 @@ public:
         posy = -1;
     }
 
+    // (Dead or alive, health points, gold, level, strength, pos on x and y)
     PlayerData(bool alive, 
                 int current_health, 
                 int current_gold, 
@@ -208,5 +218,9 @@ int DefineTileStatus(tileType type);
 void HideShowConsole(bool& ConsoleStatus);
 
 void FPSCounter(int& fps_count, int& fps_time);
+
+
+// VIP create func to init W and H of screen
+int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height);
 
 //Easy4ENCE
