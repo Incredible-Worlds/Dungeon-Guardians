@@ -42,6 +42,14 @@ enum tileType
     EXIT
 };
 
+enum directionType
+{
+    RIGHT,
+    LEFT,
+    UP,
+    DOWN
+};
+
 // Description of the Enemy class
 class EnemyData
 {
@@ -217,6 +225,8 @@ int DefineTileStatus(tileType type);
 void HideShowConsole(bool& ConsoleStatus);
 
 void FPSCounter(int& fps_count, int& fps_time);
+
+int CollisionCheck(AreaData* world, PlayerData player, directionType direction);
 
 
 // VIP create func to init W and H of screen

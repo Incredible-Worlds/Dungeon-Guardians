@@ -75,35 +75,35 @@ int AllGameEvents()
                     return -1;
                 }
 
-                case 100:                       // Movment
+                case SDLK_d:                               // Movment
                 {
                     if (player.posx < worldsize - 84)
                     {
-                        player.posx += 32;
+                        player.posx += CollisionCheck(world, player, RIGHT);
                     }
                     break;
                 }
-                case 115:
+                case SDLK_s:
                 {
                     if (player.posy < worldsize - 84)
                     {
-                        player.posy += 32;
+                        player.posy += CollisionCheck(world, player, DOWN);
                     }
                     break;
                 }
-                case 119:
+                case SDLK_w:
                 {
                     if (player.posy > 42)
                     {
-                        player.posy -= 32;
+                        player.posy -= CollisionCheck(world, player, UP);
                     }
                     break;
                 }
-                case 97:                        // Endof Movmet
+                case SDLK_a:                        
                 {
                     if (player.posx > 42)
                     {
-                        player.posx -= 32;
+                        player.posx -= CollisionCheck(world, player, LEFT);
                     }
                     break;
                 }

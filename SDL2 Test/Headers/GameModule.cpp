@@ -60,6 +60,77 @@ void FPSCounter(int& fps_count, int& fps_time)
     }
 }
 
+int CollisionCheck(AreaData* world, PlayerData player, directionType direction)
+{
+    switch (direction)
+    {
+        case RIGHT:
+        {
+            for (int i = 0; i < worldsize; i++)
+            {
+                if (world[i].posx == player.posx + 32
+                    && world[i].posy == player.posy
+                    && world[i].tileName != BOUND)
+                {
+                    return 32;
+                }
+            }
+            break;
+        }
+            
+        case LEFT:
+        {
+            for (int i = 0; i < worldsize; i++)
+            {
+                if (world[i].posx == player.posx - 32
+                    && world[i].posy == player.posy
+                    && world[i].tileName != BOUND)
+                {
+                    return 32;
+                }
+            }
+            break;
+        }
+            
+        case UP:
+        {
+            for (int i = 0; i < worldsize; i++)
+            {
+                if (world[i].posx == player.posx
+                    && world[i].posy == player.posy - 32
+                    && world[i].tileName != BOUND)
+                {
+                    return 32;
+                }
+            }
+            break;
+        }
+            
+        case DOWN:
+        {
+            for (int i = 0; i < worldsize; i++)
+            {
+                if (world[i].posx == player.posx
+                    && world[i].posy == player.posy + 32
+                    && world[i].tileName != BOUND)
+                {
+                    return 32;
+                }
+            }
+            break;
+        }
+            
+        default:
+        {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+
+
 // VIP create func to init W and H of screen
 int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height)
 {
