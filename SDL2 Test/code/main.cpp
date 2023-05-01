@@ -33,8 +33,6 @@ PlayerData player(1, 50, 0, 1, 1, 10 + 32, 10 + 32);
 bool CnStatus = false;
 bool FPSshowhide = false;
 
-int WIDTH = 1920;
-int HEIGHT = 1080;
 
 int AllGameEvents()
 {
@@ -118,7 +116,7 @@ int AllGameEvents()
     return EXIT_SUCCESS;
 }
 
-int init()
+int init(int* setings)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
@@ -129,8 +127,8 @@ int init()
     window = SDL_CreateWindow("Dungeon Guardian", 
                                 SDL_WINDOWPOS_UNDEFINED, 
                                 SDL_WINDOWPOS_UNDEFINED, 
-                                WIDTH, 
-                                HEIGHT, 
+                                setings[WIDTH],
+                                setings[HEIGHT],
                                 SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
@@ -286,8 +284,13 @@ int SDL_main(int argc, char** argv)
 {
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
+    int setings[5]{};
+    setings[WIDTH] = 1920;
+    setings[HEIGHT] = 1080;
+
     int error_code;
-    if ((error_code = init()) != 0)
+
+    if ((error_code = init(setings)) != 0)
     {
         std::cout << "Could not init window: " << SDL_GetError() << endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
@@ -304,7 +307,6 @@ int SDL_main(int argc, char** argv)
     int fps_count = 0, fps_time = time(NULL);
 
     bool PlayGame = true;
-
     int count = 32;
 
     // Two different versions of the fill world function

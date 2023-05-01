@@ -50,6 +50,15 @@ enum directionType
     DOWN
 };
 
+enum setingsTyte
+{
+    WINDOW_MODE,
+    WIDTH,
+    HEIGHT,
+    MUSIC_VOLUME,
+    GAME_VOLUME
+};
+
 // Description of the Enemy class
 class EnemyData
 {
