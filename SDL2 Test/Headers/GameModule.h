@@ -2,7 +2,7 @@
 //
 //          @ All rights reserved
 //
-// Not open source version, only for course work
+// Open source version, only for course work
 
 #pragma once 
 
@@ -231,5 +231,8 @@ int CollisionCheck(AreaData* world, PlayerData player, directionType direction);
 
 // VIP create func to init W and H of screen
 int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height);
+
+int EnemyMovement(AreaData* world, int current_pos);
+
 
 //Easy4ENCE

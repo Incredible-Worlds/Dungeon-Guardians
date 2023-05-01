@@ -138,3 +138,25 @@ int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height)
 
     return EXIT_SUCCESS;
 }
+
+int EnemyMovement(AreaData* world, int current_pos)
+{
+    srand(time(NULL));
+
+    if (rand() % 100 > 90)
+    {
+        world[current_pos + 1].enemyStatus = true;
+        world[current_pos + 1].enemy_type = world[current_pos].enemy_type;
+
+        world[current_pos].enemyStatus = false;
+    }
+    if (rand() % 100 < 10)
+    {
+        world[current_pos - 1].enemyStatus = true;
+        world[current_pos - 1].enemy_type = world[current_pos].enemy_type;
+
+        world[current_pos].enemyStatus = false;
+    }
+
+    return 0;
+}

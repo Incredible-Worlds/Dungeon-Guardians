@@ -2,7 +2,7 @@
 //
 //          @ All rights reserved
 //
-// Not open source version, only for course work
+// Open source version, only for course work
 
 #include <SDL.h>
 #include "../Headers/GameModule.h"
@@ -399,7 +399,14 @@ int SDL_main(int argc, char** argv)
                 world[i + (int)sqrt(worldsize)].tileStatus = true;
                 world[i + (int)sqrt(worldsize)].tileStatusTimer = time(NULL);
             }
+
+            if (world[i].enemyStatus == true)
+            {
+                EnemyMovement(world, i);
+            }
         }
+        
+        
 
         if (FPSshowhide)
         {
