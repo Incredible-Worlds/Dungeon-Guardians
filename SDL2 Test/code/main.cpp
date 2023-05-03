@@ -234,36 +234,31 @@ int draw(PlayerData player, AreaData* world)
     {
         if (enemys[i].health > 0)
         {
+            coord.x = enemys[i].position.posx;
+            coord.y = enemys[i].position.posy;
+
             switch (enemys[i].type)
             {
                 case SLIME:
                 {
-                    coord.x = enemys[i].position.posx;
-                    coord.y = enemys[i].position.posy;
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(slime, NULL, surface, &coord);
                     break;
                 }
                 case SKELETON:
                 {
-                    coord.x = enemys[i].position.posx;
-                    coord.y = enemys[i].position.posy;
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(skeleton, NULL, surface, &coord);
                     break;
                 }
                 case ORGE:
                 {
-                    coord.x = enemys[i].position.posx;
-                    coord.y = enemys[i].position.posy;
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(orge, NULL, surface, &coord);
                     break;
                 }
                 case GOBLIN:
                 {
-                    coord.x = enemys[i].position.posx;
-                    coord.y = enemys[i].position.posy;
                     SDL_BlitSurface(world_texture, NULL, surface, &coord);
                     SDL_BlitSurface(goblin, NULL, surface, &coord);
                     break;
