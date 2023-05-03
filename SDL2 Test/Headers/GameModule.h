@@ -80,6 +80,8 @@ public:
         type = 0;
         health = 0;
         gold = 0;
+        position.posx = 0;
+        position.posy = 0;
     }
 
     int GatherHealth(int type)
@@ -164,6 +166,9 @@ public:
         gold = 0;
         lv = 1;
         str = (int)(lv / 2 + 2);
+
+        position.posx = 0;
+        position.posy = 0;
     }
 
     // (Dead or alive, health points, gold, level, strength, pos on x and y)
@@ -200,6 +205,9 @@ public:
         tileName = tileType::EMPTY;
         tileStatus = false;
         tileStatusTimer = 0;
+
+        position.posx = 10;
+        position.posy = 10;
     }
 
     AreaData(int Name_of_Tile, 
