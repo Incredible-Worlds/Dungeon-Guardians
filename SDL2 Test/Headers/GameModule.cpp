@@ -46,19 +46,6 @@ void HideShowConsole(bool& ConsoleStatus)
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
 }
 
-// Show/Hide FPS
-void FPSCounter(int& fps_count, int& fps_time)
-{
-    fps_count++;
-
-    if ((time(NULL) - fps_time) != 0)
-    {
-        system("CLS");
-        std::cout << std::endl << "Fps is: " << fps_count << std::endl;
-        fps_time = time(NULL);
-        fps_count = 0;
-    }
-}
 
 int CollisionCheck(AreaData* world, PlayerData player, directionType direction)
 {
@@ -68,8 +55,8 @@ int CollisionCheck(AreaData* world, PlayerData player, directionType direction)
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].posx == player.posx + 32
-                    && world[i].posy == player.posy
+                if (world[i].position.posx == player.position.posx + 32
+                    && world[i].position.posy == player.position.posy
                     && world[i].tileName != BOUND)
                 {
                     return 32;
@@ -82,8 +69,8 @@ int CollisionCheck(AreaData* world, PlayerData player, directionType direction)
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].posx == player.posx - 32
-                    && world[i].posy == player.posy
+                if (world[i].position.posx == player.position.posx - 32
+                    && world[i].position.posy == player.position.posy
                     && world[i].tileName != BOUND)
                 {
                     return 32;
@@ -96,8 +83,8 @@ int CollisionCheck(AreaData* world, PlayerData player, directionType direction)
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].posx == player.posx
-                    && world[i].posy == player.posy - 32
+                if (world[i].position.posx == player.position.posx
+                    && world[i].position.posy == player.position.posy - 32
                     && world[i].tileName != BOUND)
                 {
                     return 32;
@@ -110,8 +97,8 @@ int CollisionCheck(AreaData* world, PlayerData player, directionType direction)
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].posx == player.posx
-                    && world[i].posy == player.posy + 32
+                if (world[i].position.posx == player.position.posx
+                    && world[i].position.posy == player.position.posy + 32
                     && world[i].tileName != BOUND)
                 {
                     return 32;
@@ -139,24 +126,11 @@ int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height)
     return EXIT_SUCCESS;
 }
 
-int EnemyMovement(AreaData* world, int current_pos)
+int EnemyMovement(int& posx, int& posy, AreaData* world)
 {
-    srand(time(NULL));
 
-    if (rand() % 100 > 90)
-    {
-        world[current_pos + 1].enemyStatus = true;
-        world[current_pos + 1].enemy_type = world[current_pos].enemy_type;
 
-        world[current_pos].enemyStatus = false;
-    }
-    if (rand() % 100 < 10)
-    {
-        world[current_pos - 1].enemyStatus = true;
-        world[current_pos - 1].enemy_type = world[current_pos].enemy_type;
-
-        world[current_pos].enemyStatus = false;
-    }
-
-    return 0;
+    return EXIT_SUCCESS;
 }
+
+

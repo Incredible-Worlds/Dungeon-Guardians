@@ -27,7 +27,7 @@ const int worldsize = 1024;
 // ENUM of objects
 enum characterType 
 { 
-    OGRE, 
+    ORGE, 
     GOBLIN, 
     SLIME, 
     SKELETON 
@@ -50,6 +50,19 @@ enum directionType
     DOWN
 };
 
+class PositionData
+{
+public:
+    int posx;
+    int posy;
+
+    PositionData()
+    {
+        posx = 10;
+        posy = 10;
+    }
+};
+
 // Description of the Enemy class
 class EnemyData
 {
@@ -58,18 +71,20 @@ public:
     int type;
     int gold;
 
+    PositionData position;
+
     EnemyData()
     {
-        type = randomEnemyType();
-        health = GatherHealth(type);
-        gold = rand() % 20;
+        type = 0;
+        health = 0;
+        gold = 0;
     }
 
     int GatherHealth(int type)
     {
         switch (type)
         {
-        case OGRE:
+        case ORGE:
             return 4;
         case GOBLIN:
             return 3;
@@ -120,9 +135,6 @@ public:
     }
 
 private:
-
-    int randomgen;
-
     int randomEnemyType()
     {
         srand(time(NULL));
@@ -140,8 +152,8 @@ public:
     int gold;
     int lv;
     int str;
-    int posx;
-    int posy;
+
+    PositionData position;
 
     PlayerData()
     {
@@ -150,8 +162,6 @@ public:
         gold = 0;
         lv = 1;
         str = (int)(lv / 2 + 2);
-        posx = -1;
-        posy = -1;
     }
 
     // (Dead or alive, health points, gold, level, strength, pos on x and y)
@@ -168,8 +178,8 @@ public:
         gold = current_gold;
         lv = current_lv;
         str = current_str;
-        posx = x;
-        posy = y;
+        position.posx = x;
+        position.posy = y;
     }
 };
 
@@ -181,30 +191,18 @@ public:
     bool tileStatus;
     int tileStatusTimer;
 
-    bool enemyStatus;
-    EnemyData enemy_type;
-
-    int posx;
-    int posy;
+    PositionData position;
 
     AreaData()
     {
         tileName = tileType::EMPTY;
         tileStatus = false;
         tileStatusTimer = 0;
-
-        enemyStatus = false;
-        enemy_type.generateNew();
-
-        posx = 10;
-        posy = 10;
     }
 
     AreaData(int Name_of_Tile, 
         bool Status_of_Tile,
         int Timer_of_Tile,
-        int name_of_entity,
-        bool is_enemy_there,
         int pos_on_x,
         int pos_on_y)
     {
@@ -212,11 +210,8 @@ public:
         tileStatus = Status_of_Tile;
         tileStatusTimer = Timer_of_Tile;
 
-        enemyStatus = is_enemy_there;
-        enemy_type.generateNew();
-
-        posx = pos_on_x;
-        posy = pos_on_y;
+        position.posx = pos_on_x;
+        position.posy = pos_on_y;
     }
 };
 
@@ -224,7 +219,6 @@ int DefineTileStatus(tileType type);
 
 void HideShowConsole(bool& ConsoleStatus);
 
-void FPSCounter(int& fps_count, int& fps_time);
 
 int CollisionCheck(AreaData* world, PlayerData player, directionType direction);
 
@@ -232,7 +226,6 @@ int CollisionCheck(AreaData* world, PlayerData player, directionType direction);
 // VIP create func to init W and H of screen
 int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height);
 
-int EnemyMovement(AreaData* world, int current_pos);
-
+int EnemyMovement(int& posx, int& posy, AreaData* world);
 
 //Easy4ENCE
