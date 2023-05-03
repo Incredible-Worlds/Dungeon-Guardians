@@ -72,7 +72,7 @@ public:
     int health;
     int type;
     int gold;
-
+    bool enemyStatus;
     PositionData position;
 
     EnemyData()
@@ -80,6 +80,7 @@ public:
         type = 0;
         health = 0;
         gold = 0;
+        enemyStatus = true;
         position.posx = 0;
         position.posy = 0;
     }
@@ -228,7 +229,6 @@ public:
 int DefineTileStatus(tileType type);
 
 void HideShowConsole(bool& ConsoleStatus);
-
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction);
 

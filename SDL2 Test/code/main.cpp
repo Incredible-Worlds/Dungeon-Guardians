@@ -19,7 +19,6 @@ using namespace std;
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
 
-
 SDL_Renderer* ren = NULL;
 SDL_Texture* knight = NULL;
 SDL_Texture* world_texture = NULL;
@@ -30,17 +29,16 @@ SDL_Texture* goblin = NULL;
 SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
+int WIDTH = GetSystemMetrics(SM_CXSCREEN);
+int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
 
 AreaData* world = new AreaData[worldsize];
-PlayerData player(1, 50, 0, 1, 1, 42, 42);
+PlayerData player(1, 50, 0, 1, 1, 10 + (WIDTH / 60), 10 + (WIDTH / 60));
 
 vector<EnemyData> enemys;
 
 bool CnStatus = false;
 bool FPSshowhide = false;
-
-int WIDTH = GetSystemMetrics(SM_CXSCREEN);
-int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
 
 
 int AllGameEvents()
@@ -232,7 +230,7 @@ int draw(PlayerData player, AreaData* world)
 
     for (unsigned int i = 0; i < enemys.size(); i++)
     {
-        if (enemys[i].health > 0)
+        if (enemys[i].health > 0 && enemys[i].enemyStatus == true)
         {
             coord.x = enemys[i].position.posx;
             coord.y = enemys[i].position.posy;
@@ -316,16 +314,16 @@ int SDL_main(int argc, char** argv)
     // Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
-        world[i].position.posx = world[i - 1].position.posx + 32;
+        world[i].position.posx = world[i - 1].position.posx + WIDTH / 60;
         world[i].position.posy = world[i - 1].position.posy;
 
 
-        world[i].tileStatus = true;
+        world[i].tileStatus = false;
 
         if (i == count)
         {
             world[i].position.posx = 10;
-            world[i].position.posy = world[i].position.posy + 32;
+            world[i].position.posy = world[i].position.posy + WIDTH / 60;
             count += 32;
         }
 
@@ -369,8 +367,8 @@ int SDL_main(int argc, char** argv)
     {
         EnemyData tempenemy;
         tempenemy.generateNew();
-        tempenemy.position.posx = 42;
-        tempenemy.position.posy = 42;
+        tempenemy.position.posx = 10 + WIDTH / 60;
+        tempenemy.position.posy = 10 + WIDTH / 60;
 
         enemys.push_back(tempenemy);
     }
@@ -394,9 +392,9 @@ int SDL_main(int argc, char** argv)
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 5)
+            if (time(NULL) - world[i].tileStatusTimer > 15)
             {
-                world[i].tileStatus = true;
+                world[i].tileStatus = false;
             }
 
             if ((world[i].position.posy == player.position.posy) 
@@ -414,6 +412,24 @@ int SDL_main(int argc, char** argv)
 
                 world[i + (int)sqrt(worldsize)].tileStatus = true;
                 world[i + (int)sqrt(worldsize)].tileStatusTimer = time(NULL);
+            }
+        }
+
+        for (unsigned int i = 0; i < enemys.size(); i++)
+        {
+            for (int j = 0; j < worldsize; j++)
+            {
+                if (world[j].tileStatus == true
+                    && world[j].position.posx == enemys[i].position.posx
+                    && world[j].position.posy == enemys[i].position.posy)
+                {
+                    enemys[i].enemyStatus = true;
+                    break;
+                }
+                else
+                {
+                    enemys[i].enemyStatus = false;
+                }
             }
         }
 

@@ -7,6 +7,9 @@
 #include "GameModule.h"
 #include <iostream>
 
+int WH = GetSystemMetrics(SM_CXSCREEN);
+int HT = GetSystemMetrics(SM_CYSCREEN);
+
 int AreaSize(int size) { return size; }
 
 // Check for type of Area Tile
@@ -55,11 +58,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx + 32
+                if (world[i].position.posx == position.posx + WH / 60
                     && world[i].position.posy == position.posy
                     && world[i].tileName != BOUND)
                 {
-                    return 32;
+                    return WH / 60;
                 }
             }
             break;
@@ -69,11 +72,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx - 32
+                if (world[i].position.posx == position.posx - WH / 60
                     && world[i].position.posy == position.posy
                     && world[i].tileName != BOUND)
                 {
-                    return 32;
+                    return WH / 60;
                 }
             }
             break;
@@ -84,10 +87,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
             for (int i = 0; i < worldsize; i++)
             {
                 if (world[i].position.posx == position.posx
-                    && world[i].position.posy == position.posy - 32
+                    && world[i].position.posy == position.posy - WH / 60
                     && world[i].tileName != BOUND)
                 {
-                    return 32;
+                    return WH / 60;
                 }
             }
             break;
@@ -98,10 +101,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
             for (int i = 0; i < worldsize; i++)
             {
                 if (world[i].position.posx == position.posx
-                    && world[i].position.posy == position.posy + 32
+                    && world[i].position.posy == position.posy + WH / 60
                     && world[i].tileName != BOUND)
                 {
-                    return 32;
+                    return WH / 60;
                 }
             }
             break;
