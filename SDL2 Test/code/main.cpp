@@ -2,11 +2,12 @@
 //
 //          @ All rights reserved
 //
-// Not open source version, only for course work
+// Open source version, only for course work
 
 #include <SDL.h>
 #include "../Headers/GameModule.h"
 
+#include <vector>
 #include <iostream>
 
 // include WorldInit
@@ -17,6 +18,8 @@ using namespace std;
 
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
+
+
 SDL_Renderer* ren = NULL;
 SDL_Texture* knight = NULL;
 SDL_Texture* world_texture = NULL;
@@ -27,8 +30,11 @@ SDL_Texture* goblin = NULL;
 SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
+
 AreaData* world = new AreaData[worldsize];
 PlayerData player(1, 50, 0, 1, 1, 42, 42);
+
+vector<EnemyData> enemys;
 
 bool CnStatus = false;
 bool FPSshowhide = false;
@@ -75,39 +81,38 @@ int AllGameEvents()
             {
                 return -1;
             }
-
-            case SDLK_d:                               // Movment
-            {
-                if (player.posx < worldsize - 84)
+                case SDLK_d:                               // Movment
                 {
-                    player.posx += CollisionCheck(world, player, RIGHT);
+                    if (player.position.posx < worldsize - 84)
+                    {
+                        player.position.posx += CollisionCheck(world, player.position, RIGHT);
+                    }
+                    break;
                 }
-                break;
-            }
-            case SDLK_s:
-            {
-                if (player.posy < worldsize - 84)
+                case SDLK_s:
                 {
-                    player.posy += CollisionCheck(world, player, DOWN);
+                    if (player.position.posy < worldsize - 84)
+                    {
+                        player.position.posy += CollisionCheck(world, player.position, DOWN);
+                    }
+                    break;
                 }
-                break;
-            }
-            case SDLK_w:
-            {
-                if (player.posy > 42)
+                case SDLK_w:
                 {
-                    player.posy -= CollisionCheck(world, player, UP);
+                if (player.position.posy > 42)
+                    {
+                        player.position.posy -= CollisionCheck(world, player.position, UP);
+                    }
+                    break;
                 }
-                break;
-            }
-            case SDLK_a:
-            {
-                if (player.posx > 42)
+                case SDLK_a:
                 {
-                    player.posx -= CollisionCheck(world, player, LEFT);
+                    if (player.position.posx > 42)
+                    {
+                        player.position.posx -= CollisionCheck(world, player.position, LEFT);
+                    }
+                    break;
                 }
-                break;
-            }
             default:
             {
                 break;
@@ -169,6 +174,7 @@ int load()
         return LOADERROR;
     }
 
+
     SDL_Surface* border_tempf = SDL_LoadBMP("./Materials/Texture/border.bmp");
     border = SDL_CreateTextureFromSurface(ren, border_tempf);
     if (border == NULL)
@@ -182,6 +188,7 @@ int load()
     {
         return LOADERROR;
     }
+
 
     SDL_Surface* orge_temp = SDL_LoadBMP("./Materials/Texture/123.bmp");
     orge = SDL_CreateTextureFromSurface(ren, orge_temp);
@@ -217,15 +224,6 @@ int load()
 
 int draw(PlayerData player, AreaData* world)
 {
-    //function for draw in SDL
-    /*if (SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF) == -1)
-    {
-        cout << "Could not create render: " << SDL_GetError() << endl;
-        return 4;
-    }
-
-    SDL_Rect rect1 = { 10, 10, 50, 50 };*/
-
     SDL_Rect coord{};
     coord.w = WIDTH / 60;
     coord.h = HEIGHT / 33.75;
@@ -316,28 +314,27 @@ int SDL_main(int argc, char** argv)
         return error_code;
     }
 
-    int fps_count = 0, fps_time = time(NULL);
-
+    int last_time = time(NULL);
     bool PlayGame = true;
-
     int count = 32;
 
-    // Two different versions of the fill world function
+    // Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
-        world[i].posx = world[i - 1].posx + 32;
-        world[i].posy = world[i - 1].posy;
+        world[i].position.posx = world[i - 1].position.posx + 32;
+        world[i].position.posy = world[i - 1].position.posy;
         world[i].tileName = EMPTY;
         world[i].tileStatus = true;
 
         if (i == count)
         {
-            world[i].posx = 10;
-            world[i].posy = world[i].posy + 32;
+            world[i].position.posx = 10;
+            world[i].position.posy = world[i].position.posy + 32;
             count += 32;
         }
     }
 
+    // Generate chestes
     srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {
@@ -357,28 +354,22 @@ int SDL_main(int argc, char** argv)
         {
             world[i].tileName = CHEST;
         }
-        if (countmob == 50)
-        {
-            world[i].tileName = ENEMY;
-            int counttype = rand() % 4 + 1;
-            if (counttype == 1)
-            {
-                world[i].tileName = SLIME;
-            }
-            if (counttype == 2)
-            {
-                world[i].tileName = SKELETON;
-            }
-            if (counttype == 3)
-            {
-                world[i].tileName = GOBLIN;
-            }
-            if (counttype == 4)
-            {
-                world[i].tileName = OGRE;
-            }
-        }
     }
+
+    // Adding enemys
+    for (int i = 0; i < 1; i++)
+    {
+        EnemyData tempenemy;
+        tempenemy.generateNew();
+        tempenemy.position.posx = 32 * 4 + 10;
+        tempenemy.position.posy = 32 * 6 + 10;
+
+        enemys.push_back(tempenemy);
+    }
+
+    world[163].tileName = BOUND;
+    world[196].tileName = BOUND;
+    world[194].tileName = BOUND;
 
     if (menu_main(window, surface) != 0)
     {
@@ -395,12 +386,13 @@ int SDL_main(int argc, char** argv)
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            /*if (time(NULL) - world[i].tileStatusTimer > 5)
+            if (time(NULL) - world[i].tileStatusTimer > 5)
             {
                 world[i].tileStatus = false;
-            }*/
+            }
 
-            if ((world[i].posy == player.posy) && (world[i].posx == player.posx))
+            if ((world[i].position.posy == player.position.posy) 
+                && (world[i].position.posx == player.position.posx))
             {
                 for (int j = i - 1; j < i + 2; j++)
                 {
@@ -408,6 +400,7 @@ int SDL_main(int argc, char** argv)
 
                     world[j].tileStatusTimer = time(NULL);
                 }
+
                 world[i - (int)sqrt(worldsize)].tileStatus = true;
                 world[i - (int)sqrt(worldsize)].tileStatusTimer = time(NULL);
 
@@ -416,9 +409,13 @@ int SDL_main(int argc, char** argv)
             }
         }
 
-        if (FPSshowhide)
+        if (last_time != time(NULL))
         {
-            FPSCounter(fps_count, fps_time);
+            for (unsigned int i = 0; i < enemys.size(); i++)
+            {
+                EnemyMovement(enemys[i].position, world);
+            }
+            last_time = time(NULL);
         }
 
         draw(player, world);
