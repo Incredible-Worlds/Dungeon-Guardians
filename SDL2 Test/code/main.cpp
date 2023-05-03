@@ -29,6 +29,8 @@ SDL_Texture* goblin = NULL;
 SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
+SDL_Texture* cat = NULL;
+
 int WIDTH = GetSystemMetrics(SM_CXSCREEN);
 int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
 
@@ -147,7 +149,6 @@ int load()
         return LOADERROR;
     }
 
-
     temp_surface = SDL_LoadBMP("./Materials/Texture/border.bmp");
     bound = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (bound == NULL)
@@ -161,7 +162,6 @@ int load()
     {
         return LOADERROR;
     }
-
 
     temp_surface = SDL_LoadBMP("./Materials/Enemy/Orge.bmp");
     orge = SDL_CreateTextureFromSurface(ren, temp_surface);
@@ -191,6 +191,13 @@ int load()
         return LOADERROR;
     }
 
+    temp_surface = SDL_LoadBMP("./Materials/Texture/cat.bmp");
+    cat = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (cat == NULL)
+    {
+        return LOADERROR;
+    }
+
     temp_surface = NULL;
 
     return 0;
@@ -200,6 +207,11 @@ int load()
 int draw(PlayerData player, AreaData* world)
 {
     SDL_Rect coord{};
+    coord.w = WIDTH;
+    coord.h = HEIGHT;
+    SDL_RenderCopy(ren, cat, NULL, &coord);
+
+
     coord.w = WIDTH / 60;
     coord.h = HEIGHT / 33.75;
 
@@ -316,8 +328,6 @@ int SDL_main(int argc, char** argv)
     {
         world[i].position.posx = world[i - 1].position.posx + WIDTH / 60;
         world[i].position.posy = world[i - 1].position.posy;
-
-
         world[i].tileStatus = false;
 
         if (i == count)
