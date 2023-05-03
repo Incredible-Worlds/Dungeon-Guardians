@@ -17,24 +17,25 @@ using namespace std;
 
 SDL_Window* window = NULL;
 SDL_Surface* surface = NULL;
-
-SDL_Surface* knight = NULL;
-SDL_Surface* world_texture = NULL;
-SDL_Surface* border = NULL;
-SDL_Surface* chest = NULL;
-SDL_Surface* orge = NULL;
-SDL_Surface* goblin = NULL;
-SDL_Surface* skeleton = NULL;
-SDL_Surface* slime = NULL;
+SDL_Renderer* ren = NULL;
+SDL_Texture* knight = NULL;
+SDL_Texture* world_texture = NULL;
+SDL_Texture* border = NULL;
+SDL_Texture* chest = NULL;
+SDL_Texture* orge = NULL;
+SDL_Texture* goblin = NULL;
+SDL_Texture* skeleton = NULL;
+SDL_Texture* slime = NULL;
 
 AreaData* world = new AreaData[worldsize];
-PlayerData player(1, 50, 0, 1, 1, 10 + 32, 10 + 32);
+PlayerData player(1, 50, 0, 1, 1, 42, 42);
 
 bool CnStatus = false;
 bool FPSshowhide = false;
 
-int WIDTH = 1920;
-int HEIGHT = 1080;
+int WIDTH = GetSystemMetrics(SM_CXSCREEN);
+int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
+
 
 int AllGameEvents()
 {
@@ -51,66 +52,66 @@ int AllGameEvents()
             cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
             switch (windowEvent.key.keysym.sym)
             {
-                case 96:                        // Show or hide console
+            case 96:                        // Show or hide console
+            {
+                HideShowConsole(CnStatus);
+                break;
+            }
+            case 9:                         // Show or hide FPS
+            {
+                if (!FPSshowhide)
                 {
-                    HideShowConsole(CnStatus);
-                    break;
+                    FPSshowhide = true;
                 }
-                case 9:                         // Show or hide FPS
+                else
                 {
-                    if (!FPSshowhide)
-                    {
-                        FPSshowhide = true;
-                    }
-                    else
-                    {
-                        FPSshowhide = false;
-                        system("CLS");
-                    }
-                    break;
+                    FPSshowhide = false;
+                    system("CLS");
                 }
+                break;
+            }
 
-                case SDLK_ESCAPE:                        // exit
-                {
-                    return -1;
-                }
+            case SDLK_ESCAPE:                        // exit
+            {
+                return -1;
+            }
 
-                case SDLK_d:                               // Movment
+            case SDLK_d:                               // Movment
+            {
+                if (player.posx < worldsize - 84)
                 {
-                    if (player.posx < worldsize - 84)
-                    {
-                        player.posx += CollisionCheck(world, player, RIGHT);
-                    }
-                    break;
+                    player.posx += CollisionCheck(world, player, RIGHT);
                 }
-                case SDLK_s:
+                break;
+            }
+            case SDLK_s:
+            {
+                if (player.posy < worldsize - 84)
                 {
-                    if (player.posy < worldsize - 84)
-                    {
-                        player.posy += CollisionCheck(world, player, DOWN);
-                    }
-                    break;
+                    player.posy += CollisionCheck(world, player, DOWN);
                 }
-                case SDLK_w:
+                break;
+            }
+            case SDLK_w:
+            {
+                if (player.posy > 42)
                 {
-                    if (player.posy > 42)
-                    {
-                        player.posy -= CollisionCheck(world, player, UP);
-                    }
-                    break;
+                    player.posy -= CollisionCheck(world, player, UP);
                 }
-                case SDLK_a:                        
+                break;
+            }
+            case SDLK_a:
+            {
+                if (player.posx > 42)
                 {
-                    if (player.posx > 42)
-                    {
-                        player.posx -= CollisionCheck(world, player, LEFT);
-                    }
-                    break;
+                    player.posx -= CollisionCheck(world, player, LEFT);
                 }
-                default:
-                {
-                    break;
-                }
+                break;
+            }
+            default:
+            {
+                break;
+            }
             }
         }
     }
@@ -126,19 +127,26 @@ int init()
         return 1;
     }
 
-    window = SDL_CreateWindow("Dungeon Guardian", 
-                                SDL_WINDOWPOS_UNDEFINED, 
-                                SDL_WINDOWPOS_UNDEFINED, 
-                                WIDTH, 
-                                HEIGHT, 
-                                SDL_WINDOW_ALLOW_HIGHDPI);
+    window = SDL_CreateWindow("Dungeon Guardian",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        WIDTH,
+        HEIGHT,
+        SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
     if (window == NULL)
     {
-        std::cout << "Could not create window: " << SDL_GetError() << std :: endl;
+        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
         return 2;
     }
+
+    ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (ren == NULL) {
+        cout << "Can't create renderer: " << SDL_GetError() << endl;
+        return 3;
+    }
+    SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
 
     surface = SDL_GetWindowSurface(window);
 
@@ -147,56 +155,64 @@ int init()
 
 int load()
 {
-    knight = SDL_LoadBMP("./Materials/Texture/knight.bmp");
+    SDL_Surface* knight_temp = SDL_LoadBMP("./Materials/Texture/knight.bmp");
+    knight = SDL_CreateTextureFromSurface(ren, knight_temp);
     if (knight == NULL)
     {
         return LOADERROR;
     }
 
-    world_texture = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    SDL_Surface* world_texture_temp = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    world_texture = SDL_CreateTextureFromSurface(ren, world_texture_temp);
     if (world_texture == NULL)
     {
         return LOADERROR;
     }
 
-    border = SDL_LoadBMP("./Materials/Texture/border.bmp");
+    SDL_Surface* border_tempf = SDL_LoadBMP("./Materials/Texture/border.bmp");
+    border = SDL_CreateTextureFromSurface(ren, border_tempf);
     if (border == NULL)
     {
         return LOADERROR;
     }
 
-    chest = SDL_LoadBMP("./Materials/Texture/chest.bmp");
+    SDL_Surface* chest_temp = SDL_LoadBMP("./Materials/Texture/chest.bmp");
+    chest = SDL_CreateTextureFromSurface(ren, chest_temp);
     if (chest == NULL)
     {
         return LOADERROR;
     }
 
-    orge = SDL_LoadBMP("./Materials/Texture/123.bmp");
-    if (chest == NULL)
+    SDL_Surface* orge_temp = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    orge = SDL_CreateTextureFromSurface(ren, orge_temp);
+    if (orge == NULL)
     {
         return LOADERROR;
     }
 
-    goblin = SDL_LoadBMP("./Materials/Texture/123.bmp");
-    if (chest == NULL)
+    SDL_Surface* goblin_temp = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    goblin = SDL_CreateTextureFromSurface(ren, goblin_temp);
+    if (goblin == NULL)
     {
         return LOADERROR;
     }
 
-    skeleton = SDL_LoadBMP("./Materials/Texture/123.bmp");
-    if (chest == NULL)
+    SDL_Surface* skeleton_temp = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    skeleton = SDL_CreateTextureFromSurface(ren, skeleton_temp);
+    if (skeleton == NULL)
     {
         return LOADERROR;
     }
 
-    slime = SDL_LoadBMP("./Materials/Texture/123.bmp");
-    if (chest == NULL)
+    SDL_Surface* slime_temp = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    slime = SDL_CreateTextureFromSurface(ren, slime_temp);
+    if (slime == NULL)
     {
         return LOADERROR;
     }
 
     return 0;
-    
+
 }
 
 int draw(PlayerData player, AreaData* world)
@@ -211,9 +227,8 @@ int draw(PlayerData player, AreaData* world)
     SDL_Rect rect1 = { 10, 10, 50, 50 };*/
 
     SDL_Rect coord{};
-
-    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
-
+    coord.w = WIDTH / 60;
+    coord.h = HEIGHT / 33.75;
 
     for (int i = 0; i < worldsize; i++)
     {
@@ -221,46 +236,40 @@ int draw(PlayerData player, AreaData* world)
         coord.y = world[i].posy;
         if (world[i].tileStatus == true)
         {
-            if (world[i].tileName == EMPTY && (world[i].posy > 32 && world[i].posx < worldsize - 42) 
-                                           && (world[i].posy > 32 && world[i].posx > 32) 
-                                           && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
+            if (world[i].tileName == EMPTY)
             {
-                SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                SDL_RenderCopy(ren, world_texture, NULL, &coord);
             }
-            else
+            if ((coord.x + 42 | coord.y + 42) > worldsize or (coord.x - 42 | coord.y - 42) < 0)
             {
-                SDL_BlitSurface(border, NULL, surface, &coord);;
+                SDL_RenderCopy(ren, border, NULL, &coord);
             }
-            if (world[i].tileName == CHEST && (world[i].posy > 32 && world[i].posx < worldsize - 42)
-                && (world[i].posy > 32 && world[i].posx > 32)
-                && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
+            if (world[i].tileName == CHEST && (coord.x + 42 | coord.y + 42) < worldsize and (coord.x - 42 | coord.y - 42) > 0)
             {
-                SDL_BlitSurface(world_texture, NULL, surface, &coord);
-                SDL_BlitSurface(chest, NULL, surface, &coord);
+                SDL_RenderCopy(ren, world_texture, NULL, &coord);
+                SDL_RenderCopy(ren, chest, NULL, &coord);
             }
-            if (world[i].tileName == ENEMY && (world[i].posy > 32 && world[i].posx < worldsize - 42)
-                && (world[i].posy > 32 && world[i].posx > 32)
-                && (world[i].posy < worldsize - 42 && world[i].posx < worldsize - 42))
+            if (world[i].tileName == ENEMY && (coord.x + 42 | coord.y + 42) < worldsize and (coord.x - 42 | coord.y - 42) > 0)
             {
                 if (world[i].tileName == OGRE)
                 {
-                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
-                    SDL_BlitSurface(orge, NULL, surface, &coord);
+                    SDL_RenderCopy(ren, world_texture, NULL, &coord);
+                    SDL_RenderCopy(ren, orge, NULL, &coord);
                 }
                 if (world[i].tileName == GOBLIN)
                 {
-                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
-                    SDL_BlitSurface(goblin, NULL, surface, &coord);
+                    SDL_RenderCopy(ren, world_texture, NULL, &coord);
+                    SDL_RenderCopy(ren, goblin, NULL, &coord);
                 }
                 if (world[i].tileName == SKELETON)
                 {
-                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
-                    SDL_BlitSurface(skeleton, NULL, surface, &coord);
+                    SDL_RenderCopy(ren, world_texture, NULL, &coord);
+                    SDL_RenderCopy(ren, skeleton, NULL, &coord);
                 }
                 if (world[i].tileName == SLIME)
                 {
-                    SDL_BlitSurface(world_texture, NULL, surface, &coord);
-                    SDL_BlitSurface(slime, NULL, surface, &coord);
+                    SDL_RenderCopy(ren, world_texture, NULL, &coord);
+                    SDL_RenderCopy(ren, slime, NULL, &coord);
                 }
             }
         }
@@ -268,8 +277,11 @@ int draw(PlayerData player, AreaData* world)
 
     coord.x = player.posx;
     coord.y = player.posy;
+    SDL_RenderCopy(ren, knight, NULL, &coord);
+    SDL_RenderPresent(ren);
+    SDL_RenderClear(ren);
 
-    SDL_BlitSurface(knight, NULL, surface, &coord);
+    //SDL_BlitScaled(knight, NULL, surface, &coord);
 
     return 0;
 }
@@ -278,6 +290,9 @@ int exit()
 {
     SDL_DestroyWindow(window);
     window = NULL;
+
+    SDL_DestroyRenderer(ren);
+    ren = NULL;
     SDL_Quit();
     return 0;
 }
@@ -313,7 +328,7 @@ int SDL_main(int argc, char** argv)
         world[i].posx = world[i - 1].posx + 32;
         world[i].posy = world[i - 1].posy;
         world[i].tileName = EMPTY;
-        world[i].tileStatus = false;
+        world[i].tileStatus = true;
 
         if (i == count)
         {
@@ -330,15 +345,15 @@ int SDL_main(int argc, char** argv)
         int countchest1 = rand() % 100;
         int countmob = rand() % 100;
         if (countchest == 33 and (countchest1 == 9
-                                or countchest1 == 19 
-                                or countchest1 == 29
-                                or countchest1 == 39
-                                or countchest1 == 49
-                                or countchest1 == 59
-                                or countchest1 == 69
-                                or countchest1 == 79
-                                or countchest1 == 89
-                                or countchest1 == 99))
+            or countchest1 == 19
+            or countchest1 == 29
+            or countchest1 == 39
+            or countchest1 == 49
+            or countchest1 == 59
+            or countchest1 == 69
+            or countchest1 == 79
+            or countchest1 == 89
+            or countchest1 == 99))
         {
             world[i].tileName = CHEST;
         }
@@ -380,10 +395,10 @@ int SDL_main(int argc, char** argv)
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 5)
+            /*if (time(NULL) - world[i].tileStatusTimer > 5)
             {
                 world[i].tileStatus = false;
-            }
+            }*/
 
             if ((world[i].posy == player.posy) && (world[i].posx == player.posx))
             {
@@ -407,7 +422,8 @@ int SDL_main(int argc, char** argv)
         }
 
         draw(player, world);
-        SDL_UpdateWindowSurface(window);
+
+        //SDL_UpdateWindowSurface(window);
     }
 
     exit();
