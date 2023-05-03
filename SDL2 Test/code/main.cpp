@@ -82,7 +82,7 @@ int AllGameEvents()
                 {
                     if (player.position.posx < worldsize - 84)
                     {
-                        player.position.posx += CollisionCheck(world, player, RIGHT);
+                        player.position.posx += CollisionCheck(world, player.position, RIGHT);
                     }
                     break;
                 }
@@ -90,7 +90,7 @@ int AllGameEvents()
                 {
                     if (player.position.posy < worldsize - 84)
                     {
-                        player.position.posy += CollisionCheck(world, player, DOWN);
+                        player.position.posy += CollisionCheck(world, player.position, DOWN);
                     }
                     break;
                 }
@@ -98,7 +98,7 @@ int AllGameEvents()
                 {
                     if (player.position.posy > 42)
                     {
-                        player.position.posy -= CollisionCheck(world, player, UP);
+                        player.position.posy -= CollisionCheck(world, player.position, UP);
                     }
                     break;
                 }
@@ -106,7 +106,7 @@ int AllGameEvents()
                 {
                     if (player.position.posx > 42)
                     {
-                        player.position.posx -= CollisionCheck(world, player, LEFT);
+                        player.position.posx -= CollisionCheck(world, player.position, LEFT);
                     }
                     break;
                 }
@@ -306,10 +306,11 @@ int SDL_main(int argc, char** argv)
         return error_code;
     }
 
-    int fps_time = time(NULL);
+    int last_time = time(NULL);
     bool PlayGame = true;
     int count = 32;
 
+    // Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
         world[i].position.posx = world[i - 1].position.posx + 32;
@@ -325,6 +326,7 @@ int SDL_main(int argc, char** argv)
         }
     }
 
+    // Generate chestes
     srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {
@@ -346,6 +348,7 @@ int SDL_main(int argc, char** argv)
         }
     }
 
+    // Adding enemys
     for (int i = 0; i < 1; i++)
     {
         EnemyData tempenemy;
@@ -394,9 +397,13 @@ int SDL_main(int argc, char** argv)
             }
         }
 
-        for (unsigned int i = 0; i < enemys.size(); i++)
+        if (last_time != time(NULL))
         {
-            EnemyMovement(enemys[i].position.posx, enemys[i].position.posy, world);
+            for (unsigned int i = 0; i < enemys.size(); i++)
+            {
+                EnemyMovement(enemys[i].position, world);
+            }
+            last_time = time(NULL);
         }
 
         draw(player, world);

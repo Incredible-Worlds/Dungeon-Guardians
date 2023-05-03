@@ -24,7 +24,7 @@
 // Consts
 const int worldsize = 1024;
 
-// ENUM of objects
+// ENUMs of objects
 enum characterType 
 { 
     ORGE, 
@@ -50,6 +50,8 @@ enum directionType
     DOWN
 };
 
+
+// Description of the position on x and y
 class PositionData
 {
 public:
@@ -220,12 +222,12 @@ int DefineTileStatus(tileType type);
 void HideShowConsole(bool& ConsoleStatus);
 
 
-int CollisionCheck(AreaData* world, PlayerData player, directionType direction);
+int CollisionCheck(AreaData* world, PositionData position, directionType direction);
 
 
 // VIP create func to init W and H of screen
 int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height);
 
-int EnemyMovement(int& posx, int& posy, AreaData* world);
+int EnemyMovement(PositionData& position, AreaData* world);
 
 //Easy4ENCE
