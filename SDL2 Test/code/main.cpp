@@ -21,7 +21,7 @@ SDL_Surface* surface = NULL;
 
 SDL_Surface* knight = NULL;
 SDL_Surface* world_texture = NULL;
-SDL_Surface* border = NULL;
+SDL_Surface* bound = NULL;
 SDL_Surface* chest = NULL;
 SDL_Surface* orge = NULL;
 SDL_Surface* goblin = NULL;
@@ -162,8 +162,8 @@ int load()
         return LOADERROR;
     }
 
-    border = SDL_LoadBMP("./Materials/Texture/border.bmp");
-    if (border == NULL)
+    bound = SDL_LoadBMP("./Materials/Texture/border.bmp");
+    if (bound == NULL)
     {
         return LOADERROR;
     }
@@ -226,6 +226,12 @@ int draw(PlayerData player, AreaData* world)
             {
                 SDL_BlitSurface(world_texture, NULL, surface, &coord);
                 SDL_BlitSurface(chest, NULL, surface, &coord);
+            }
+
+            if (world[i].tileName == BOUND)
+            {
+                SDL_BlitSurface(world_texture, NULL, surface, &coord);
+                SDL_BlitSurface(bound, NULL, surface, &coord);
             }
         }
     }
@@ -358,6 +364,10 @@ int SDL_main(int argc, char** argv)
 
         enemys.push_back(tempenemy);
     }
+
+    world[163].tileName = BOUND;
+    world[196].tileName = BOUND;
+    world[194].tileName = BOUND;
 
     if (menu_main(window, surface) != 0)
     {
