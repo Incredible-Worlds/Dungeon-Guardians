@@ -1,4 +1,6 @@
 #include "MainMenu.h"
+#include "Setings.h"
+
 #define ESCAPE_GAME 10
 
 enum LayerType
@@ -8,49 +10,72 @@ enum LayerType
 	SETINGS_MENU
 };
 
-SDL_Surface* PlayButton = NULL;
-SDL_Surface* SetingsButton = NULL;
+SDL_Texture* PlayButton = NULL;
+SDL_Texture* SetingsButton = NULL;
+SDL_Texture* LoadButton = NULL;
 
-int draw(SDL_Window* window, SDL_Surface* surface, LayerType layers)
+int draw(SDL_Window* window, SDL_Surface* surface,
+	LayerType layers, SetingsData setings, SDL_Renderer* ren)
 {
-	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255));
+	//SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255));
+
 	SDL_Rect coord{};
+	coord.w = setings.width / 7.5;
+	coord.h = setings.height / 8.43;
 
 	if (layers == MAIN_MENU)
 	{
-		coord.x = 1920 / 4 - 128;
-		coord.y = 1080 - 128 - 20;
-		SDL_BlitSurface(PlayButton, NULL, surface, &coord);
+		coord.x = setings.width / 6 - 128;
+		coord.y = setings.height - 128 - 20;
+		SDL_RenderCopy(ren, PlayButton, NULL, &coord);
 
-		coord.x = 1920 / 2 - 128;
-		coord.y = 1080 - 128 - 20;
-		SDL_BlitSurface(SetingsButton, NULL, surface, &coord);
+		coord.x = setings.width / 3 - 128;
+		coord.y = setings.height - 128 - 20;
+		SDL_RenderCopy(ren, LoadButton, NULL, &coord);
+
+		coord.x = setings.width / 2 - 128;
+		coord.y = setings.height - 128 - 20;
+		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
+
+		coord.x = setings.width / 1.5 - 128;
+		coord.y = setings.height - 128 - 20;
+		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
 	}
 	else if (layers == SETINGS_MENU)
 	{
 
 	}
 
-
-	SDL_UpdateWindowSurface(window);
+	SDL_RenderPresent(ren);
+	SDL_RenderClear(ren);
 
 	return EXIT_SUCCESS;
 }
 
-int menu_main(SDL_Window* window, SDL_Surface* surface)
+int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
 {
 	SDL_Event windowEvent;
 
 	LayerType status = MAIN_MENU;
+	SetingsData setings;
 
-	PlayButton = SDL_LoadBMP("./Materials/GUI/PlayButton.bmp");
+	SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/GUI/PlayButton.bmp");
+	PlayButton = SDL_CreateTextureFromSurface(ren, temp_surface);
 	if (PlayButton == NULL)
 	{
 		return LOADERROR;
 	}
 
-	SetingsButton = SDL_LoadBMP("./Materials/GUI/SetingsButton.bmp");
+	temp_surface = SDL_LoadBMP("./Materials/GUI/SetingsButton.bmp");
+	SetingsButton = SDL_CreateTextureFromSurface(ren, temp_surface);
 	if (SetingsButton == NULL)
+	{
+		return LOADERROR;
+	}
+
+	temp_surface = SDL_LoadBMP("./Materials/GUI/LoadButton.bmp");
+	LoadButton = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (LoadButton == NULL)
 	{
 		return LOADERROR;
 	}
@@ -66,10 +91,10 @@ int menu_main(SDL_Window* window, SDL_Surface* surface)
 			}
 			if (windowEvent.type == SDL_MOUSEBUTTONDOWN)
 			{
-				if (windowEvent.button.x > 1920 / 4 - 128
-					&& windowEvent.button.x < 1920 / 4 + 128
-					&& windowEvent.button.y > 1080 - 128 - 20
-					&& windowEvent.button.y < 1080 - 20)
+				if (windowEvent.button.x > setings.width / 6 - 128
+					&& windowEvent.button.x < setings.width / 6 + 128
+					&& windowEvent.button.y > setings.height - 128 - 20
+					&& windowEvent.button.y < setings.height - 20)
 				{
 					return EXIT_SUCCESS;
 				}
@@ -86,7 +111,7 @@ int menu_main(SDL_Window* window, SDL_Surface* surface)
 			}
 		}
 
-		draw(window, surface, status);
+		draw(window, surface, status, setings, ren);
 	}
 
 	return EXIT_SUCCESS;

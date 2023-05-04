@@ -382,7 +382,7 @@ int SDL_main(int argc, char** argv)
     world[196].tileName = BOUND;
     world[194].tileName = BOUND;
 
-    if (menu_main(window, surface) != 0)
+    if (menu_main(window, surface, ren) != 0)
     {
         PlayGame = false;
     }
