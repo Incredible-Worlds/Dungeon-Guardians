@@ -6,35 +6,57 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 
-int random_main()
+int random_presets_main()
 {
 	ifstream file;
 
+	int SizeOf = 32; //негра
+
+	vector <char> world(SizeOf);
+
 	//Value that will define preset
+	srand(time(NULL));
 	int preset = rand() % 5;
 
 
 	//Chosing world preset process
 	switch (preset)
 	{
-	case 1:
-		file.open("...\Presets\2.txt");
-	case 2:
-		file.open("...\Presets\3.txt");
-	case 3:
-		file.open("...\Presets\4.txt");
-	case 4:
-		file.open("...\Presets\5.txt");
-	default:
-		file.open("...\Presets\1.txt");
+		case 1:
+		{
+			file.open("2.txt");
+			file.read(world.data(), SizeOf);
+		}
+
+		case 2:
+		{
+			file.open("3.txt");
+			file.read(world.data(), SizeOf);
+		}
+
+		case 3:
+		{
+			file.open("4.txt");
+			file.read(world.data(), SizeOf);
+		}
+
+		case 4:
+		{
+			file.open("5.txt");
+			file.read(world.data(), SizeOf);
+		}
+
+		default:
+		{
+			file.open("1.txt");
+			file.read(world.data(), SizeOf);
+		}
 	}
 
-	//Loading current chosen preset into game world
-
-
-	
+	return 0;
 }
 
 //EASY4ENCE
