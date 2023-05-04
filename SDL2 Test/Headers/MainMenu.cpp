@@ -91,3 +91,4 @@ int menu_main(SDL_Window* window, SDL_Surface* surface)
 
 	return EXIT_SUCCESS;
 }
+//EASY4ENCE

@@ -22,6 +22,7 @@
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="Headers\GameModule.cpp" />
     <ClCompile Include="Headers\MainMenu.cpp" />
+    <ClCompile Include="RandomGen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\GameModule.h" />

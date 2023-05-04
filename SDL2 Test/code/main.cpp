@@ -354,7 +354,7 @@ int SDL_main(int argc, char** argv)
         }
     }
 
-    // Generate chestes
+    // Generate chests
     srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {
