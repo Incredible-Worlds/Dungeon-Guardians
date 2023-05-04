@@ -343,8 +343,8 @@ int SDL_main(int argc, char** argv)
 
         if (world[i].position.posx == 10
             || world[i].position.posy == 10
-            || world[i].position.posx == 992 + 10
-            || world[i].position.posy == 992 + 10)
+            || world[i].position.posx == WIDTH / 60 * 31 + 10
+            || world[i].position.posy == WIDTH / 60 * 31 + 10)
         {
             world[i].tileName = BOUND;
         }
@@ -408,7 +408,7 @@ int SDL_main(int argc, char** argv)
         {
             if (time(NULL) - world[i].tileStatusTimer > 15)
             {
-                world[i].tileStatus = false;
+                world[i].tileStatus = true;
             }
 
             if ((world[i].position.posy == player.position.posy) 
