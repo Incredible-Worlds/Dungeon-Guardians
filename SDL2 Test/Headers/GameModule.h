@@ -50,6 +50,14 @@ enum directionType
     DOWN
 };
 
+enum setingsTyte
+{
+    WINDOW_MODE,
+    WIDTH,
+    HEIGHT,
+    MUSIC_VOLUME,
+    GAME_VOLUME
+};
 
 // Description of the position on x and y
 class PositionData

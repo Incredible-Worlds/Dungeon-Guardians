@@ -99,7 +99,7 @@ int AllGameEvents()
     return EXIT_SUCCESS;
 }
 
-int init()
+int init(int* setings)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
@@ -302,6 +302,10 @@ int exit()
 int SDL_main(int argc, char** argv)
 {
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
+
+    int setings[5]{};
+    setings[WIDTH] = 1920;
+    setings[HEIGHT] = 1080;
 
     int error_code;
     int last_time = time(NULL);
