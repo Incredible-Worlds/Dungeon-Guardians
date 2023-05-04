@@ -24,12 +24,18 @@
     <ClCompile Include="Headers\GameModule.cpp">
       <Filter>Файлы заголовков</Filter>
     </ClCompile>
+    <ClCompile Include="Headers\Setings.cpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\GameModule.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Headers\MainMenu.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Setings.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

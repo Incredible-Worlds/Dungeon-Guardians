@@ -13,6 +13,7 @@
 #include <Windows.h>
 
 #include "../Headers/MainMenu.h"
+#include "../Headers/Setings.h"
 
 #define LOADERROR 3
 
@@ -48,15 +49,6 @@ enum directionType
     LEFT,
     UP,
     DOWN
-};
-
-enum setingsTyte
-{
-    WINDOW_MODE,
-    WIDTH,
-    HEIGHT,
-    MUSIC_VOLUME,
-    GAME_VOLUME
 };
 
 // Description of the position on x and y
