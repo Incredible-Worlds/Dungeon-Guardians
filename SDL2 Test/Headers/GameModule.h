@@ -12,8 +12,9 @@
 #include <ctime>
 #include <Windows.h>
 
-#include "../Headers/MainMenu.h"
-#include "../Headers/Setings.h"
+#include "Setings.h"
+#include "MainMenu.h"
+#include "AI.h"
 
 #define LOADERROR 3
 

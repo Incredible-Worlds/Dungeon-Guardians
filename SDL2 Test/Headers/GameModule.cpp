@@ -51,7 +51,6 @@ void HideShowConsole(bool& ConsoleStatus)
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
 {
     SetingsData setings;
-    int width = GetSystemMetrics(SM_CXSCREEN);
 
     switch (direction)
     {
@@ -154,5 +153,3 @@ int EnemyMovement(PositionData& position, AreaData* world)
 
     return EXIT_SUCCESS;
 }
-
-

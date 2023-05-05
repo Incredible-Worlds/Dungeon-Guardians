@@ -1,5 +1,5 @@
 #include "MainMenu.h"
-#include "Setings.h"
+
 
 #define ESCAPE_GAME 10
 
