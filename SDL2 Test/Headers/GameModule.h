@@ -232,10 +232,6 @@ void HideShowConsole(bool& ConsoleStatus);
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction);
 
-
-// VIP create func to init W and H of screen
-int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height);
-
 int EnemyMovement(PositionData& position, AreaData* world);
 
 //Easy4ENCE

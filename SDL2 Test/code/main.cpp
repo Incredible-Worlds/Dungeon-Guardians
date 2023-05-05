@@ -399,7 +399,7 @@ int SDL_main(int argc, char** argv)
         {
             if (time(NULL) - world[i].tileStatusTimer > 15)
             {
-                world[i].tileStatus = true;
+                world[i].tileStatus = false;
             }
 
             if ((world[i].position.posy == player.position.posy) 
