@@ -12,7 +12,8 @@
 #include <ctime>
 #include <Windows.h>
 
-#include "../Headers/MainMenu.h"
+#include "MainMenu.h"
+#include "RandomGen.h"
 
 #define LOADERROR 3
 
@@ -53,8 +54,8 @@ enum directionType
 enum setingsTyte
 {
     WINDOW_MODE,
-    WIDTH,
-    HEIGHT,
+    WIDTH_S,
+    HEIGHT_S,
     MUSIC_VOLUME,
     GAME_VOLUME
 };

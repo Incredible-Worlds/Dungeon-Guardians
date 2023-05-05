@@ -4,13 +4,13 @@
 //
 // Not open source version, only for course work
 
-#include "GameModule.h"
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 using namespace std;
 
-vector<AreaData> random_presets_main()
+int random_presets_main()
 {
 	ifstream file;
 
