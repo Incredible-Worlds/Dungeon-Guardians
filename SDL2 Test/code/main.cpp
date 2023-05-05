@@ -373,7 +373,7 @@ int SDL_main(int argc, char** argv)
         EnemyData tempenemy;
         tempenemy.generateNew();
         tempenemy.position.posx = 10 + setings.width / 60;
-        tempenemy.position.posy = 10 + setings.width / 60;
+        tempenemy.position.posy = 10 * (setings.width / 60) + 10;
 
         enemys.push_back(tempenemy);
     }
@@ -442,7 +442,7 @@ int SDL_main(int argc, char** argv)
         {
             for (unsigned int i = 0; i < enemys.size(); i++)
             {
-                EnemyMovement(enemys[i].position, world);
+                EnemyMovement_AI(world, enemys[i].position, player.position);
             }
             last_time = time(NULL);
         }

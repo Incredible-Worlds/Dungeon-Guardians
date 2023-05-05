@@ -14,7 +14,7 @@
 
 #include "Setings.h"
 #include "MainMenu.h"
-#include "AI.h"
+
 
 #define LOADERROR 3
 
@@ -226,6 +226,9 @@ public:
         position.posy = pos_on_y;
     }
 };
+
+// Class Dependent Libraries
+#include "AIver2.h"
 
 int DefineTileStatus(tileType type);
 
