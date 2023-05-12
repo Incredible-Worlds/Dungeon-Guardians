@@ -16,7 +16,6 @@ SDL_Texture* LoadButton = NULL;
 int draw(SDL_Window* window, SDL_Surface* surface,
 	LayerType layers, SetingsData setings, SDL_Renderer* ren)
 {
-	//SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255));
 
 	SDL_Rect coord{};
 	coord.w = setings.width / 7.5;
@@ -88,7 +87,7 @@ int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
 			{
 				return ESCAPE_GAME;
 			}
-			if (windowEvent.type == SDL_MOUSEBUTTONDOWN)
+			if (windowEvent.type == SDL_MOUSEBUTTONDOWN && status == MAIN_MENU)
 			{
 				if (windowEvent.button.x > setings.width / 6 - 128
 					&& windowEvent.button.x < setings.width / 6 + 128
@@ -98,9 +97,21 @@ int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
 					return EXIT_SUCCESS;
 				}
 
+				if (windowEvent.button.x > setings.width / 3 - 128
+					&& windowEvent.button.x < setings.width / 3 + 128
+					&& windowEvent.button.y > setings.height - 128 - 20
+					&& windowEvent.button.y < setings.height - 20)
+				{
+					status = MAIN_MENU;
+				}
 
-
-
+				if (windowEvent.button.x > setings.width / 2 - 128
+					&& windowEvent.button.x < setings.width / 2 + 128
+					&& windowEvent.button.y > setings.height - 128 - 20
+					&& windowEvent.button.y < setings.height - 20)
+				{
+					status = LOAD_MENU;
+				}
 			}
 
 
