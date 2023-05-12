@@ -1,6 +1,5 @@
 #include "MainMenu.h"
 
-
 #define ESCAPE_GAME 10
 
 enum LayerType

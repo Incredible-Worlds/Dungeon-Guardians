@@ -1,6 +1,5 @@
 #include "AIver2.h"
 
-
 int EnemyMovement_AI(AreaData* world, PositionData& mobPosition, PositionData playerPosition)
 {
 	if (mobPosition.posx == playerPosition.posx)
