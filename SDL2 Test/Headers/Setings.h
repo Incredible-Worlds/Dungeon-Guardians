@@ -15,4 +15,7 @@ public:
 		fullscreen = true;
 	}
 
+	int LoadFromFile(SetingsData& setings);
+
+	int WriteToFile(SetingsData& setings);
 };

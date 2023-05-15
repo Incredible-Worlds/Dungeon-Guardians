@@ -190,6 +190,8 @@ public:
         position.posx = x;
         position.posy = y;
     }
+
+    int setPos(int x, int y);
 };
 
 // Descriptiosn of Area class

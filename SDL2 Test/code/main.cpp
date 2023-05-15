@@ -32,7 +32,8 @@ SDL_Texture* cat = NULL;
 
 AreaData* world = new AreaData[worldsize];
 SetingsData setings;
-PlayerData player(1, 50, 0, 1, 1, 10 + (setings.width / 60), 10 + (setings.width / 60));
+
+PlayerData player;
 
 vector<EnemyData> enemys;
 
@@ -296,6 +297,13 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
+    setings.width = 1280;
+    setings.height = 720;
+    setings.WriteToFile(setings);               // Write to setings.data
+    setings.LoadFromFile(setings);              // Load from setings.data
+
+    player.setPos(10 + (setings.width / 60), 10 + (setings.width / 60));
+
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
     int error_code;

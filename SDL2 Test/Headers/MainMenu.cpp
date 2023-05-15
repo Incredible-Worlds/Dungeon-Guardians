@@ -56,6 +56,7 @@ int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
 
 	LayerType status = MAIN_MENU;
 	SetingsData setings;
+	setings.LoadFromFile(setings);
 
 	SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/GUI/PlayButton.bmp");
 	PlayButton = SDL_CreateTextureFromSurface(ren, temp_surface);

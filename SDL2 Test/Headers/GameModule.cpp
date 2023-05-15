@@ -47,10 +47,10 @@ void HideShowConsole(bool& ConsoleStatus)
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
 }
 
-
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
 {
     SetingsData setings;
+    setings.LoadFromFile(setings);
 
     switch (direction)
     {
@@ -150,6 +150,14 @@ int EnemyMovement(PositionData& position, AreaData* world)
             break;
         }
     }
+
+    return EXIT_SUCCESS;
+}
+
+int PlayerData::setPos(int x, int y)
+{
+    position.posx = x;
+    position.posy = y;
 
     return EXIT_SUCCESS;
 }
