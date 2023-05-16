@@ -13,6 +13,13 @@ SDL_Texture* PlayButton = NULL;
 SDL_Texture* SetingsButton = NULL;
 SDL_Texture* LoadButton = NULL;
 
+int MenuEvents(SDL_Event windowEvent, SetingsData &setings)
+{
+	
+
+	return EXIT_SUCCESS;
+}
+
 int draw(SDL_Window* window, SDL_Surface* surface,
 	LayerType layers, SetingsData setings, SDL_Renderer* ren)
 {
@@ -23,20 +30,20 @@ int draw(SDL_Window* window, SDL_Surface* surface,
 
 	if (layers == MAIN_MENU)
 	{
-		coord.x = setings.width / 6 - 128;
-		coord.y = setings.height - 128 - 20;
+		coord.x = (setings.width / 6) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, PlayButton, NULL, &coord);
 
-		coord.x = setings.width / 3 - 128;
-		coord.y = setings.height - 128 - 20;
+		coord.x = (setings.width / 3) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, LoadButton, NULL, &coord);
 
-		coord.x = setings.width / 2 - 128;
-		coord.y = setings.height - 128 - 20;
+		coord.x = (setings.width / 2) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
 
-		coord.x = setings.width / 1.5 - 128;
-		coord.y = setings.height - 128 - 20;
+		coord.x = (setings.width / 1.5) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
 	}
 	else if (layers == SETINGS_MENU)
@@ -90,31 +97,18 @@ int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
 			}
 			if (windowEvent.type == SDL_MOUSEBUTTONDOWN && status == MAIN_MENU)
 			{
-				if (windowEvent.button.x > setings.width / 6 - 128
-					&& windowEvent.button.x < setings.width / 6 + 128
-					&& windowEvent.button.y > setings.height - 128 - 20
-					&& windowEvent.button.y < setings.height - 20)
+				if (windowEvent.button.x > (setings.width) / 6 - (setings.width / 15)
+					&& windowEvent.button.x < (setings.width / 6) + (setings.width / 15)
+					&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
+					&& windowEvent.button.y < setings.height - (setings.width / 96))
 				{
 					return EXIT_SUCCESS;
 				}
 
-				if (windowEvent.button.x > setings.width / 3 - 128
-					&& windowEvent.button.x < setings.width / 3 + 128
-					&& windowEvent.button.y > setings.height - 128 - 20
-					&& windowEvent.button.y < setings.height - 20)
-				{
-					status = MAIN_MENU;
-				}
 
-				if (windowEvent.button.x > setings.width / 2 - 128
-					&& windowEvent.button.x < setings.width / 2 + 128
-					&& windowEvent.button.y > setings.height - 128 - 20
-					&& windowEvent.button.y < setings.height - 20)
-				{
-					status = LOAD_MENU;
-				}
+
+
 			}
-
 
 			if (windowEvent.key.keysym.sym == SDLK_ESCAPE)
 			{
