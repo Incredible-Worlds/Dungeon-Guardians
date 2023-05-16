@@ -8,12 +8,7 @@ public:
 	int height;
 	bool fullscreen;
 
-	SetingsData()
-	{
-		width = GetSystemMetrics(SM_CXSCREEN);
-		height = GetSystemMetrics(SM_CYSCREEN);
-		fullscreen = true;
-	}
+	SetingsData();
 
 	int LoadFromFile(SetingsData& setings);
 

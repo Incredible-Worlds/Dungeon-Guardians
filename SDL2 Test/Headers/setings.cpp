@@ -1,9 +1,16 @@
 #include "Setings.h"
 #include <fstream>
 
+SetingsData::SetingsData()
+{
+    width = GetSystemMetrics(SM_CXSCREEN);
+    height = GetSystemMetrics(SM_CYSCREEN);
+    fullscreen = true;
+}
+
 int SetingsData::LoadFromFile(SetingsData& setings)
 {
-    std::ifstream setingsLoad("setings.data");
+    std::ifstream setingsLoad("./save/setings.data");
 
     if (setingsLoad)
     {
@@ -21,7 +28,7 @@ int SetingsData::LoadFromFile(SetingsData& setings)
 
 int SetingsData::WriteToFile(SetingsData& setings)
 {
-    std::ofstream setingsWrite("setings.data");
+    std::ofstream setingsWrite("./save/setings.data");
 
     if (setingsWrite.is_open())
     {

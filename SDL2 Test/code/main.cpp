@@ -297,8 +297,8 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1280;
-    setings.height = 720;
+    setings.width = 1920;
+    setings.height = 1080;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 

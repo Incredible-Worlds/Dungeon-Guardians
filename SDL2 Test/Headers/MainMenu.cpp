@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 
 #define ESCAPE_GAME 10
+#define EVENT_SUCSESS 1
 
 enum LayerType
 {
@@ -20,10 +21,12 @@ int MenuEvents(SDL_Event windowEvent, SetingsData &setings)
 	return EXIT_SUCCESS;
 }
 
-int draw(SDL_Window* window, SDL_Surface* surface,
-	LayerType layers, SetingsData setings, SDL_Renderer* ren)
+int draw(SDL_Window* window, 
+		SDL_Surface* surface,
+		LayerType layers, 
+		SetingsData setings, 
+		SDL_Renderer* ren)
 {
-
 	SDL_Rect coord{};
 	coord.w = setings.width / 7.5;
 	coord.h = setings.height / 8.43;
@@ -57,7 +60,42 @@ int draw(SDL_Window* window, SDL_Surface* surface,
 	return EXIT_SUCCESS;
 }
 
-int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
+int EventIn_MainMenu(SDL_Event windowEvent, SetingsData setings, LayerType& status)
+{
+	if (windowEvent.button.x > (setings.width) / 6 - (setings.width / 15)
+		&& windowEvent.button.x < (setings.width / 6) + (setings.width / 15)
+		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
+		&& windowEvent.button.y < setings.height - (setings.width / 96))
+	{
+		return EVENT_SUCSESS;
+	}
+
+	if (windowEvent.button.x > (setings.width) / 3 - (setings.width / 15)
+		&& windowEvent.button.x < (setings.width / 3) + (setings.width / 15)
+		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
+		&& windowEvent.button.y < setings.height - (setings.width / 96))
+	{
+		status = LOAD_MENU;
+		return EXIT_SUCCESS;
+	}
+
+	return -1;
+}
+
+int EventIn_LoadMenu(SDL_Event windowEvent, SetingsData setings, LayerType& status)
+{
+	if (windowEvent.button.clicks == 2) 
+	{
+		status = MAIN_MENU;
+	}
+
+
+	return EXIT_SUCCESS;
+}
+
+int menu_main(SDL_Window* window, 
+			SDL_Surface* surface, 
+			SDL_Renderer* ren)
 {
 	SDL_Event windowEvent;
 
@@ -97,22 +135,20 @@ int menu_main(SDL_Window* window, SDL_Surface* surface, SDL_Renderer* ren)
 			}
 			if (windowEvent.type == SDL_MOUSEBUTTONDOWN && status == MAIN_MENU)
 			{
-				if (windowEvent.button.x > (setings.width) / 6 - (setings.width / 15)
-					&& windowEvent.button.x < (setings.width / 6) + (setings.width / 15)
-					&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
-					&& windowEvent.button.y < setings.height - (setings.width / 96))
+				if (EventIn_MainMenu(windowEvent, setings, status) == 1)
 				{
 					return EXIT_SUCCESS;
 				}
-
-
-
-
 			}
 
-			if (windowEvent.key.keysym.sym == SDLK_ESCAPE)
+			if (windowEvent.key.keysym.sym == SDLK_ESCAPE && status == MAIN_MENU)
 			{
 				return ESCAPE_GAME;
+			}
+
+			if (status == LOAD_MENU)
+			{
+				EventIn_LoadMenu(windowEvent, setings, status);
 			}
 		}
 
