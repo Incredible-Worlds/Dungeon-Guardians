@@ -14,6 +14,7 @@ SDL_Texture* PlayButton = NULL;
 SDL_Texture* SetingsButton = NULL;
 SDL_Texture* LoadButton = NULL;
 SDL_Texture* MenuText = NULL;
+SDL_Texture* Background = NULL;
 
 int MenuEvents(SDL_Event windowEvent, SetingsData &setings)
 {
@@ -28,6 +29,8 @@ int draw(SDL_Window* window,
 		SetingsData setings, 
 		SDL_Renderer* ren)
 {
+	SDL_RenderCopy(ren, Background, NULL, NULL);
+
 	SDL_Rect coord{};
 	coord.w = setings.width / 7.5;
 	coord.h = setings.height / 8.43;
@@ -53,9 +56,17 @@ int draw(SDL_Window* window,
 
 	if (layers == SETINGS_MENU)
 	{
-
+		coord.x = (setings.width / 2) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
+		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
 	}
 
+	if (layers == LOAD_MENU)
+	{
+		coord.x = (setings.width / 3) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
+		SDL_RenderCopy(ren, LoadButton, NULL, &coord);
+	}
 
 	SDL_RenderPresent(ren);
 	SDL_RenderClear(ren);
@@ -82,6 +93,15 @@ int EventIn_MainMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 		return EXIT_SUCCESS;
 	}
 
+	if (windowEvent.button.x > (setings.width) / 2 - (setings.width / 15)
+		&& windowEvent.button.x < (setings.width / 2) + (setings.width / 15)
+		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
+		&& windowEvent.button.y < setings.height - (setings.width / 96))
+	{
+		status = SETINGS_MENU;
+		return EXIT_SUCCESS;
+	}
+
 	return -1;
 }
 
@@ -98,6 +118,10 @@ int EventIn_LoadMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 
 int EventIn_SetingsMenu(SDL_Event windowEvent, SetingsData setings, LayerType& status)
 {
+	if (windowEvent.button.clicks == 2)
+	{
+		status = MAIN_MENU;
+	}
 
 	return EXIT_SUCCESS;
 }
@@ -132,6 +156,9 @@ int menu_main(SDL_Window* window,
 	{
 		return LOADERROR;
 	}
+
+	temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
+	Background = SDL_CreateTextureFromSurface(ren, temp_surface);
 
 	while (true)
 	{
