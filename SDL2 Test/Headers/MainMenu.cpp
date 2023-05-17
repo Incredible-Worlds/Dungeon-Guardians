@@ -13,6 +13,7 @@ enum LayerType
 SDL_Texture* PlayButton = NULL;
 SDL_Texture* SetingsButton = NULL;
 SDL_Texture* LoadButton = NULL;
+SDL_Texture* MenuText = NULL;
 
 int MenuEvents(SDL_Event windowEvent, SetingsData &setings)
 {
@@ -49,10 +50,12 @@ int draw(SDL_Window* window,
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
 	}
-	else if (layers == SETINGS_MENU)
+
+	if (layers == SETINGS_MENU)
 	{
 
 	}
+
 
 	SDL_RenderPresent(ren);
 	SDL_RenderClear(ren);
@@ -93,6 +96,12 @@ int EventIn_LoadMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 	return EXIT_SUCCESS;
 }
 
+int EventIn_SetingsMenu(SDL_Event windowEvent, SetingsData setings, LayerType& status)
+{
+
+	return EXIT_SUCCESS;
+}
+
 int menu_main(SDL_Window* window, 
 			SDL_Surface* surface, 
 			SDL_Renderer* ren)
@@ -124,7 +133,6 @@ int menu_main(SDL_Window* window,
 		return LOADERROR;
 	}
 
-
 	while (true)
 	{
 		if (SDL_PollEvent(&windowEvent))
@@ -133,7 +141,8 @@ int menu_main(SDL_Window* window,
 			{
 				return ESCAPE_GAME;
 			}
-			if (windowEvent.type == SDL_MOUSEBUTTONDOWN && status == MAIN_MENU)
+			if (windowEvent.type == SDL_MOUSEBUTTONDOWN 
+				&& status == MAIN_MENU)
 			{
 				if (EventIn_MainMenu(windowEvent, setings, status) == 1)
 				{
@@ -141,7 +150,8 @@ int menu_main(SDL_Window* window,
 				}
 			}
 
-			if (windowEvent.key.keysym.sym == SDLK_ESCAPE && status == MAIN_MENU)
+			if (windowEvent.key.keysym.sym == SDLK_ESCAPE 
+				&& status == MAIN_MENU)
 			{
 				return ESCAPE_GAME;
 			}
@@ -149,6 +159,11 @@ int menu_main(SDL_Window* window,
 			if (status == LOAD_MENU)
 			{
 				EventIn_LoadMenu(windowEvent, setings, status);
+			}
+
+			if (status == SETINGS_MENU)
+			{
+				EventIn_SetingsMenu(windowEvent, setings, status);
 			}
 		}
 

@@ -289,6 +289,16 @@ int exit()
     SDL_DestroyWindow(window);
     window = NULL;
 
+    knight = NULL;
+    world_texture = NULL;
+    bound = NULL;
+    chest = NULL;
+    orge = NULL;
+    goblin = NULL;
+    skeleton = NULL;
+    slime = NULL;
+    cat = NULL;
+
     SDL_DestroyRenderer(ren);
     ren = NULL;
     SDL_Quit();
