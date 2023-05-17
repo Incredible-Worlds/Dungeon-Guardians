@@ -13,7 +13,8 @@ enum LayerType
 SDL_Texture* PlayButton = NULL;
 SDL_Texture* SetingsButton = NULL;
 SDL_Texture* LoadButton = NULL;
-SDL_Texture* MenuText = NULL;
+SDL_Texture* ExitButton = NULL;
+
 SDL_Texture* Background = NULL;
 
 int MenuEvents(SDL_Event windowEvent, SetingsData &setings)
@@ -49,9 +50,13 @@ int draw(SDL_Window* window,
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
 
-		coord.x = (setings.width / 1.5) - (setings.width / 15);
+		coord.x = (int)(setings.width / 1.5) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
 		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
+
+		coord.x = (int)(setings.width / 1.2) - (setings.width / 15);
+		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
+		SDL_RenderCopy(ren, ExitButton, NULL, &coord);
 	}
 
 	if (layers == SETINGS_MENU)
@@ -81,7 +86,7 @@ int EventIn_MainMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
 		&& windowEvent.button.y < setings.height - (setings.width / 96))
 	{
-		return EVENT_SUCSESS;
+		return EXIT_SUCCESS;
 	}
 
 	if (windowEvent.button.x > (setings.width) / 3 - (setings.width / 15)
@@ -90,7 +95,7 @@ int EventIn_MainMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 		&& windowEvent.button.y < setings.height - (setings.width / 96))
 	{
 		status = LOAD_MENU;
-		return EXIT_SUCCESS;
+		return EVENT_SUCSESS;
 	}
 
 	if (windowEvent.button.x > (setings.width) / 2 - (setings.width / 15)
@@ -99,7 +104,15 @@ int EventIn_MainMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 		&& windowEvent.button.y < setings.height - (setings.width / 96))
 	{
 		status = SETINGS_MENU;
-		return EXIT_SUCCESS;
+		return EVENT_SUCSESS;
+	}
+
+	if (windowEvent.button.x > (int)(setings.width / 1.2) - (setings.width / 15)
+		&& windowEvent.button.x < (int)(setings.width / 1.2) + (setings.width / 15)
+		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
+		&& windowEvent.button.y < setings.height - (setings.width / 96))
+	{
+		return ESCAPE_GAME;
 	}
 
 	return -1;
@@ -136,6 +149,8 @@ int menu_main(SDL_Window* window,
 	SetingsData setings;
 	setings.LoadFromFile(setings);
 
+
+
 	SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/GUI/PlayButton.bmp");
 	PlayButton = SDL_CreateTextureFromSurface(ren, temp_surface);
 	if (PlayButton == NULL)
@@ -157,8 +172,21 @@ int menu_main(SDL_Window* window,
 		return LOADERROR;
 	}
 
+	temp_surface = SDL_LoadBMP("./Materials/GUI/ExitButton.bmp");
+	ExitButton = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (ExitButton == NULL)
+	{
+		return LOADERROR;
+	}
+
 	temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
 	Background = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (Background == NULL)
+	{
+		return LOADERROR;
+	}
+
+
 
 	while (true)
 	{
@@ -171,9 +199,10 @@ int menu_main(SDL_Window* window,
 			if (windowEvent.type == SDL_MOUSEBUTTONDOWN 
 				&& status == MAIN_MENU)
 			{
-				if (EventIn_MainMenu(windowEvent, setings, status) == 1)
+				int tempmenureturn = EventIn_MainMenu(windowEvent, setings, status);
+				if (tempmenureturn == EXIT_SUCCESS || tempmenureturn ==  ESCAPE_GAME)
 				{
-					return EXIT_SUCCESS;
+					return tempmenureturn;
 				}
 			}
 
