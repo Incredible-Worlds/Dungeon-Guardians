@@ -6,6 +6,7 @@ SetingsData::SetingsData()
     width = GetSystemMetrics(SM_CXSCREEN);
     height = GetSystemMetrics(SM_CYSCREEN);
     fullscreen = true;
+    music = true;
 }
 
 int SetingsData::LoadFromFile(SetingsData& setings)
@@ -37,4 +38,18 @@ int SetingsData::WriteToFile(SetingsData& setings)
 
     setingsWrite.close();
     return EXIT_SUCCESS;
+}
+
+int SetingsData::ChangeMusicStatus(SetingsData& setings)
+{
+    if (setings.music == true)
+    {
+        setings.music = false;
+    }
+    else
+    {
+        setings.music = true;
+    }
+
+    return 0;
 }

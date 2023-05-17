@@ -129,7 +129,7 @@ int init()
     return 0;
 }
 
-int load()
+int load()  
 {
     SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/Texture/knight.bmp");
     knight = SDL_CreateTextureFromSurface(ren, temp_surface);
@@ -187,7 +187,7 @@ int load()
         return LOADERROR;
     }
 
-    temp_surface = SDL_LoadBMP("./Materials/Texture/cat.bmp");
+    temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
     cat = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (cat == NULL)
     {
@@ -309,10 +309,12 @@ int SDL_main(int argc, char** argv)
 {
     setings.width = 1920;
     setings.height = 1080;
+    setings.music = true;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-    player.setPos(10 + (setings.width / 60), 10 + (setings.width / 60));
+    player.setPos(10 + (setings.width / 60), 
+                  10 + (setings.width / 60));
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
