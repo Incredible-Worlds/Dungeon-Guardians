@@ -120,7 +120,7 @@ int EventIn_MainMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 
 int EventIn_LoadMenu(SDL_Event windowEvent, SetingsData setings, LayerType& status)
 {
-	if (windowEvent.button.clicks == 2) 
+	if (windowEvent.key.keysym.sym == SDLK_ESCAPE)
 	{
 		status = MAIN_MENU;
 	}
@@ -131,12 +131,23 @@ int EventIn_LoadMenu(SDL_Event windowEvent, SetingsData setings, LayerType& stat
 
 int EventIn_SetingsMenu(SDL_Event windowEvent, SetingsData setings, LayerType& status)
 {
-	if (windowEvent.button.clicks == 2)
+	if (windowEvent.key.keysym.sym == SDLK_ESCAPE)
 	{
 		status = MAIN_MENU;
 	}
 
 	return EXIT_SUCCESS;
+}
+
+int uninit()
+{
+	PlayButton = NULL;
+	SetingsButton = NULL;
+	LoadButton = NULL;
+	ExitButton = NULL;
+	Background = NULL;
+
+	return 0;
 }
 
 int menu_main(SDL_Window* window, 
@@ -202,14 +213,9 @@ int menu_main(SDL_Window* window,
 				int tempmenureturn = EventIn_MainMenu(windowEvent, setings, status);
 				if (tempmenureturn == EXIT_SUCCESS || tempmenureturn ==  ESCAPE_GAME)
 				{
+					uninit();
 					return tempmenureturn;
 				}
-			}
-
-			if (windowEvent.key.keysym.sym == SDLK_ESCAPE 
-				&& status == MAIN_MENU)
-			{
-				return ESCAPE_GAME;
 			}
 
 			if (status == LOAD_MENU)
