@@ -12,6 +12,7 @@
 #include <ctime>
 #include <Windows.h>
 
+
 #include "Setings.h"
 #include "MainMenu.h"
 
@@ -229,8 +230,9 @@ public:
     }
 };
 
-// Class Dependent Libraries
+#include "MapSaveLoad.h"
 #include "AIver2.h"
+
 
 int DefineTileStatus(tileType type);
 

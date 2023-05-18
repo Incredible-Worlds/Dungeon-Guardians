@@ -316,6 +316,7 @@ int SDL_main(int argc, char** argv)
     player.setPos(10 + (setings.width / 60), 
                   10 + (setings.width / 60));
 
+
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
     int error_code;
@@ -365,7 +366,7 @@ int SDL_main(int argc, char** argv)
         }
     }
 
-    // Generate chestes
+    // Generate chests
     srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {

@@ -30,12 +30,18 @@
     <ClCompile Include="Headers\AIver2.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
+    <ClCompile Include="Headers\RandomGen.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\GameModule.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Headers\MainMenu.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\RandomGen.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Headers\Setings.h">

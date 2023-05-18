@@ -23,12 +23,14 @@
     <ClCompile Include="Headers\AIver2.cpp" />
     <ClCompile Include="Headers\GameModule.cpp" />
     <ClCompile Include="Headers\MainMenu.cpp" />
+    <ClCompile Include="Headers\MapSaveLoad.cpp" />
     <ClCompile Include="Headers\Setings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\AIver2.h" />
     <ClInclude Include="Headers\GameModule.h" />
     <ClInclude Include="Headers\MainMenu.h" />
+    <ClInclude Include="Headers\MapSaveLoad.h" />
     <ClInclude Include="Headers\Setings.h" />
   </ItemGroup>
   <ItemGroup>
