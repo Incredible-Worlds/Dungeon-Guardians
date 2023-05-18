@@ -11,9 +11,9 @@ public:
 
 	int LoadFromMapFile(AreaData* world);
 	
-	int WriteToCharacterFile();
+	int WriteToCharacterFile(PlayerData player);
 
-	int LoadFromCharacterFile();
+	int LoadFromCharacterFile(PlayerData player);
 
 };
 

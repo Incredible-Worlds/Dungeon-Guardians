@@ -313,8 +313,8 @@ int SDL_main(int argc, char** argv)
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-    player.setPos(10 + (setings.width / 60), 
-                  10 + (setings.width / 60));
+    /*player.setPos(10 + (setings.width / 60), 
+                  10 + (setings.width / 60));*/
 
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
@@ -405,6 +405,7 @@ int SDL_main(int argc, char** argv)
     world[194].tileName = BOUND;*/
 
    /*loadAll.WriteToMapFile(world);*/
+    /*loadAll.WriteToCharacterFile(player);*/
 
     if (menu_main(window, surface, ren) != 0)
     {
@@ -414,6 +415,7 @@ int SDL_main(int argc, char** argv)
     if (PlayGame)
     {
         loadAll.LoadFromMapFile(world);
+        loadAll.LoadFromCharacterFile(player);
     }
 
     while (PlayGame)
@@ -478,6 +480,9 @@ int SDL_main(int argc, char** argv)
 
         draw(player, world);
     }
+
+
+    loadAll.WriteToCharacterFile(player);
 
     exit();
 

@@ -37,20 +37,29 @@ int Saveload::LoadFromMapFile(AreaData* world)
 	return EXIT_SUCCESS;
 }
 
-int Saveload::WriteToCharacterFile()
+int Saveload::WriteToCharacterFile(PlayerData player)
 {
-	std::ofstream loaded_characterfile("./save/character.data");
+	std::ofstream writefile("./save/player.data");
 
-	
+	if(writefile.is_open())
+	{
+		writefile.write((char*)&player, sizeof(AreaData));
+	}
+
+	writefile.close();
 
 	return EXIT_SUCCESS;
 }
 
-int Saveload::LoadFromCharacterFile()
+int Saveload::LoadFromCharacterFile(PlayerData player)
 {
-	std::ifstream saved_characterfile("./save/character.data");
+	std::ifstream loadfile("./save/player.data");
 
-	return 0;
+	loadfile.read((char*)&player, sizeof(AreaData));
+
+	loadfile.close();
+
+	return EXIT_SUCCESS;
 }
 
  
