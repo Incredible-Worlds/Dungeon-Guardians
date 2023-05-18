@@ -28,6 +28,8 @@ SDL_Texture* goblin = NULL;
 SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
+SDL_Texture* inventoryBorder = NULL;
+
 SDL_Texture* cat = NULL;
 
 AreaData* world = new AreaData[worldsize];
