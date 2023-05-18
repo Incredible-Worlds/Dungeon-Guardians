@@ -9,34 +9,77 @@
 #include <fstream>
 #include <vector>
 
-int Saveload::WriteToMapFile()
+int Saveload::WriteToMapFile(AreaData* world)
 {
-	std::ofstream loadfile("./save/map.data");
+	std::ofstream writefile("./save/map.data");
+
+	for (int i = 0; i < worldsize; i++)
+	{
+		writefile.write((char*)&world[i], sizeof(AreaData));
+	}
+
+	writefile.close();
 
 	return EXIT_SUCCESS;
 }
 
-int Saveload::LoadFromMapFile()
+int Saveload::LoadFromMapFile(AreaData* world)
 {
-	std::ifstream savefile("./save/map.data");
+	std::ifstream loadfile("./save/map.data");
+
+	for (int i = 0; i < worldsize; i++)
+	{
+		loadfile.read((char*)&world[i], sizeof(AreaData));
+	}
+
+	loadfile.close();
 
 	return EXIT_SUCCESS;
 }
 
-int Saveload::WriteToCharacterFile()
+int Saveload::WriteToCharacterFile(PlayerData player)
 {
-	std::ofstream loaded_characterfile("./save/character.data");
+	std::ofstream writefile("./save/player.data");
+
+	if(writefile.is_open())
+	{
+		writefile.write((char*)&player, sizeof(PlayerData));
+	}
+
+	writefile.close();
 
 	return EXIT_SUCCESS;
 }
 
-int Saveload::LoadFromCharacterFile()
+int Saveload::LoadFromCharacterFile(PlayerData& player)
 {
-	std::ifstream saved_characterfile("./save/character.data");
+	std::ifstream loadfile("./save/player.data");
 
-	return 0;
+	if (loadfile.is_open())
+	{
+		while (loadfile.read((char*)&player, sizeof(PlayerData)))
+		{ }
+	}
+
+	loadfile.close();
+
+	return EXIT_SUCCESS;
 }
 
- 
+int Saveload::WriteAll(AreaData* world, PlayerData player)
+{
+	WriteToMapFile(world);
+	WriteToCharacterFile(player);
+
+	return EXIT_SUCCESS;
+}
+
+int Saveload::LoadAll(AreaData* world, PlayerData& player)
+{
+	LoadFromMapFile(world);
+	LoadFromCharacterFile(player);
+
+	return EXIT_SUCCESS;
+}
 
 //EASY4ENCE

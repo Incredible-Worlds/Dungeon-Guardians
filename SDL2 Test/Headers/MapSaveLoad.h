@@ -7,13 +7,17 @@ class Saveload
 {
 public:
 
-	int WriteToMapFile();
+	int WriteAll(AreaData* world, PlayerData player);
 
-	int LoadFromMapFile();
-	
-	int WriteToCharacterFile();
+	int LoadAll(AreaData* world, PlayerData& player);
 
-	int LoadFromCharacterFile();
+private:
+	int WriteToMapFile(AreaData* world);
 
+	int LoadFromMapFile(AreaData* world);
+
+	int WriteToCharacterFile(PlayerData player);
+
+	int LoadFromCharacterFile(PlayerData& player);
 };
 
