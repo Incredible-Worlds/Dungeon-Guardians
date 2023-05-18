@@ -140,7 +140,7 @@ int load()
         return LOADERROR;
     }
 
-    temp_surface = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    temp_surface = SDL_LoadBMP("./Materials/Texture/stonefloor.bmp");
     world_texture = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (world_texture == NULL)
     {
