@@ -12,23 +12,23 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest
 {
-	TEST_CLASS(UnitTest)
+	TEST_CLASS(UnitTest_GameModule)
 	{
 	public:
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(PlayerPos)
 		{
 			PositionData p;
 			Assert::IsTrue(p.posx == 10);
 			Assert::IsTrue(p.posy == 10);
 		}
-		TEST_METHOD(TestMethod2)
+		TEST_METHOD(Player_health_and_coord)
 		{
 			PlayerData p;
 			Assert::IsTrue(p.health != 0);
 			Assert::IsTrue((p.position.posx >= 0) && (p.position.posx <= 1024));
 			Assert::IsTrue((p.position.posy >= 0) && (p.position.posy <= 1024));
 		}
-		TEST_METHOD(TestMethod3)
+		TEST_METHOD(World_collision)
 		{
 			SetingsData a;
 			PlayerData b;
@@ -62,11 +62,6 @@ namespace UnitTest
 			Assert::IsTrue(CollisionCheck(world, b.position, UP) == (int)(a.width / 60));
 			Assert::IsTrue(CollisionCheck(world, b.position, DOWN) == (int)(a.width / 60));
 			Assert::IsTrue(EnemyMovement(c, world) == EXIT_SUCCESS);
-		}
-		TEST_METHOD(TestMethod3)
-		{
-			SetingsData z;
-			z.LoadFromFile(z);
 		}
 	};
 }
