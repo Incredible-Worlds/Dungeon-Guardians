@@ -33,7 +33,7 @@ int DefineTileStatus(tileType type)
 //
 
 // Show/Hide console window (~)
-void HideShowConsole(bool& ConsoleStatus)
+int HideShowConsole(bool& ConsoleStatus)
 {
     if (ConsoleStatus == false)
     {
@@ -45,6 +45,7 @@ void HideShowConsole(bool& ConsoleStatus)
     }
 
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
+    return 0;
 }
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
