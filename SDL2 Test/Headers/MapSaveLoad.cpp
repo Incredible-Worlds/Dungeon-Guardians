@@ -4,7 +4,7 @@
 //
 // Not open source version, only for course work
 
-#include "RandomGen.h"
+#include "MapSaveLoad.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
