@@ -9,16 +9,30 @@
 #include <fstream>
 #include <vector>
 
-int Saveload::WriteToMapFile()
+int Saveload::WriteToMapFile(AreaData* world)
 {
-	std::ofstream loadfile("./save/map.data");
+	std::ofstream writefile("./save/map.data");
+
+	for (int i = 0; i < worldsize; i++)
+	{
+		writefile.write((char*)&world[i], sizeof(AreaData));
+	}
+
+	writefile.close();
 
 	return EXIT_SUCCESS;
 }
 
-int Saveload::LoadFromMapFile(AreaData *world)
+int Saveload::LoadFromMapFile(AreaData* world)
 {
-	std::ifstream savefile("./save/map.data");
+	std::ifstream loadfile("./save/map.data");
+
+	for (int i = 0; i < worldsize; i++)
+	{
+		loadfile.read((char*)&world[i], sizeof(AreaData));
+	}
+
+	loadfile.close();
 
 	return EXIT_SUCCESS;
 }
@@ -26,6 +40,8 @@ int Saveload::LoadFromMapFile(AreaData *world)
 int Saveload::WriteToCharacterFile()
 {
 	std::ofstream loaded_characterfile("./save/character.data");
+
+	
 
 	return EXIT_SUCCESS;
 }

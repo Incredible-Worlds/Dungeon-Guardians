@@ -7,9 +7,9 @@ class Saveload
 {
 public:
 
-	int WriteToMapFile();
+	int WriteToMapFile(AreaData* world);
 
-	int LoadFromMapFile(AreaData *world);
+	int LoadFromMapFile(AreaData* world);
 	
 	int WriteToCharacterFile();
 
