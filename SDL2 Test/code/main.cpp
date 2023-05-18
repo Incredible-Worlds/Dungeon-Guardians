@@ -400,12 +400,12 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-   /* world[163].tileName = BOUND;
-    world[196].tileName = BOUND;
-    world[194].tileName = BOUND;*/
+    //world[163].tileName = BOUND;
+    //world[196].tileName = BOUND;
+    //world[194].tileName = BOUND;
 
-   /*loadAll.WriteToMapFile(world);*/
-    /*loadAll.WriteToCharacterFile(player);*/
+    //loadAll.WriteToMapFile(world);
+    //loadAll.WriteToCharacterFile(player);
 
     if (menu_main(window, surface, ren) != 0)
     {
@@ -481,9 +481,7 @@ int SDL_main(int argc, char** argv)
         draw(player, world);
     }
 
-
     loadAll.WriteToCharacterFile(player);
-
     exit();
 
     return EXIT_SUCCESS;

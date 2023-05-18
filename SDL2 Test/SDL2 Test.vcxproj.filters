@@ -30,7 +30,7 @@
     <ClCompile Include="Headers\AIver2.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\RandomGen.cpp">
+    <ClCompile Include="Headers\MapSaveLoad.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +41,13 @@
     <ClInclude Include="Headers\MainMenu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\RandomGen.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\Setings.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Headers\AIver2.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\MapSaveLoad.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

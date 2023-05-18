@@ -43,7 +43,7 @@ int Saveload::WriteToCharacterFile(PlayerData player)
 
 	if(writefile.is_open())
 	{
-		writefile.write((char*)&player, sizeof(AreaData));
+		writefile.write((char*)&player, sizeof(PlayerData));
 	}
 
 	writefile.close();
@@ -51,11 +51,15 @@ int Saveload::WriteToCharacterFile(PlayerData player)
 	return EXIT_SUCCESS;
 }
 
-int Saveload::LoadFromCharacterFile(PlayerData player)
+int Saveload::LoadFromCharacterFile(PlayerData& player)
 {
 	std::ifstream loadfile("./save/player.data");
 
-	loadfile.read((char*)&player, sizeof(AreaData));
+	if (loadfile.is_open())
+	{
+		while (loadfile.read((char*)&player, sizeof(PlayerData)))
+		{ }
+	}
 
 	loadfile.close();
 

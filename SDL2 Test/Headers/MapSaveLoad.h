@@ -13,7 +13,7 @@ public:
 	
 	int WriteToCharacterFile(PlayerData player);
 
-	int LoadFromCharacterFile(PlayerData player);
+	int LoadFromCharacterFile(PlayerData& player);
 
 };
 
