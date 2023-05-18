@@ -1,4 +1,4 @@
-// Kamys, Potrox and Bell404ll developers project
+    // Kamys, Potrox and Bell404ll developers project
 //
 //          @ All rights reserved
 //
@@ -12,7 +12,10 @@
 #include <ctime>
 #include <Windows.h>
 
+
+#include "Setings.h"
 #include "MainMenu.h"
+
 
 #define LOADERROR 3
 
@@ -48,15 +51,6 @@ enum directionType
     LEFT,
     UP,
     DOWN
-};
-
-enum setingsTyte
-{
-    WINDOW_MODE,
-    WIDTH_S,
-    HEIGHT_S,
-    MUSIC_VOLUME,
-    GAME_VOLUME
 };
 
 // Description of the position on x and y
@@ -197,6 +191,8 @@ public:
         position.posx = x;
         position.posy = y;
     }
+
+    int setPos(int x, int y);
 };
 
 // Descriptiosn of Area class
@@ -234,18 +230,15 @@ public:
     }
 };
 
-
 #include "MapSaveLoad.h"
+#include "AIver2.h"
+
 
 int DefineTileStatus(tileType type);
 
 void HideShowConsole(bool& ConsoleStatus);
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction);
-
-
-// VIP create func to init W and H of screen
-int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height);
 
 int EnemyMovement(PositionData& position, AreaData* world);
 

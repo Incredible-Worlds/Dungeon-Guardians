@@ -4,11 +4,9 @@
 //
 // Not open source version, only for course work
 
+#include "Setings.h"
 #include "GameModule.h"
 #include <iostream>
-
-int WH = GetSystemMetrics(SM_CXSCREEN);
-int HT = GetSystemMetrics(SM_CYSCREEN);
 
 int AreaSize(int size) { return size; }
 
@@ -49,20 +47,22 @@ void HideShowConsole(bool& ConsoleStatus)
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
 }
 
-
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
 {
+    SetingsData setings;
+    setings.LoadFromFile(setings);
+
     switch (direction)
     {
         case RIGHT:
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx + WH / 60
+                if (world[i].position.posx == position.posx + setings.width / 60
                     && world[i].position.posy == position.posy
                     && world[i].tileName != BOUND)
                 {
-                    return WH / 60;
+                    return (int)(setings.width / 60);
                 }
             }
             break;
@@ -72,11 +72,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx - WH / 60
+                if (world[i].position.posx == position.posx - setings.width / 60
                     && world[i].position.posy == position.posy
                     && world[i].tileName != BOUND)
                 {
-                    return WH / 60;
+                    return (int)(setings.width / 60);
                 }
             }
             break;
@@ -87,10 +87,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
             for (int i = 0; i < worldsize; i++)
             {
                 if (world[i].position.posx == position.posx
-                    && world[i].position.posy == position.posy - WH / 60
+                    && world[i].position.posy == position.posy - setings.width / 60
                     && world[i].tileName != BOUND)
                 {
-                    return WH / 60;
+                    return (int)(setings.width / 60);
                 }
             }
             break;
@@ -101,10 +101,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
             for (int i = 0; i < worldsize; i++)
             {
                 if (world[i].position.posx == position.posx
-                    && world[i].position.posy == position.posy + WH / 60
+                    && world[i].position.posy == position.posy + setings.width / 60
                     && world[i].tileName != BOUND)
                 {
-                    return WH / 60;
+                    return (int)(setings.width / 60);
                 }
             }
             break;
@@ -117,16 +117,6 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
     }
 
     return 0;
-}
-
-
-
-// VIP create func to init W and H of screen
-int CurrentWhandHs(SDL_DisplayMode& DispMode, int& Width, int& Height)
-{
-    SDL_GetDesktopDisplayMode(0, &DispMode);
-
-    return EXIT_SUCCESS;
 }
 
 int EnemyMovement(PositionData& position, AreaData* world)
@@ -164,4 +154,10 @@ int EnemyMovement(PositionData& position, AreaData* world)
     return EXIT_SUCCESS;
 }
 
+int PlayerData::setPos(int x, int y)
+{
+    position.posx = x;
+    position.posy = y;
 
+    return EXIT_SUCCESS;
+}

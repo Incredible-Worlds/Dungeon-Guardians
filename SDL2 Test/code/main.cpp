@@ -12,7 +12,6 @@
 
 // include WorldInit
 // include Fight
-// include MainMenu
 
 using namespace std;
 
@@ -31,17 +30,14 @@ SDL_Texture* slime = NULL;
 
 SDL_Texture* cat = NULL;
 
-int WIDTH = GetSystemMetrics(SM_CXSCREEN);
-int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
-
 AreaData* world = new AreaData[worldsize];
-PlayerData player(1, 50, 0, 1, 1, 10 + (WIDTH / 60), 10 + (WIDTH / 60));
+SetingsData setings;
+
+PlayerData player;
 
 vector<EnemyData> enemys;
 
 bool CnStatus = false;
-bool FPSshowhide = false;
-
 
 int AllGameEvents()
 {
@@ -110,8 +106,8 @@ int init()
     window = SDL_CreateWindow("Dungeon Guardian",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        WIDTH,
-        HEIGHT,
+        setings.width,
+        setings.height,
         SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
@@ -133,7 +129,7 @@ int init()
     return 0;
 }
 
-int load()
+int load()  
 {
     SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/Texture/knight.bmp");
     knight = SDL_CreateTextureFromSurface(ren, temp_surface);
@@ -191,7 +187,7 @@ int load()
         return LOADERROR;
     }
 
-    temp_surface = SDL_LoadBMP("./Materials/Texture/cat.bmp");
+    temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
     cat = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (cat == NULL)
     {
@@ -207,13 +203,13 @@ int load()
 int draw(PlayerData player, AreaData* world)
 {
     SDL_Rect coord{};
-    coord.w = WIDTH;
-    coord.h = HEIGHT;
+    coord.w = setings.width;
+    coord.h = setings.height;
     SDL_RenderCopy(ren, cat, NULL, &coord);
 
 
-    coord.w = WIDTH / 60;
-    coord.h = HEIGHT / 33.75;
+    coord.w = setings.width / 60;
+    coord.h = setings.width / 60;
 
     for (int i = 0; i < worldsize; i++)
     {
@@ -293,6 +289,16 @@ int exit()
     SDL_DestroyWindow(window);
     window = NULL;
 
+    knight = NULL;
+    world_texture = NULL;
+    bound = NULL;
+    chest = NULL;
+    orge = NULL;
+    goblin = NULL;
+    skeleton = NULL;
+    slime = NULL;
+    cat = NULL;
+
     SDL_DestroyRenderer(ren);
     ren = NULL;
     SDL_Quit();
@@ -301,11 +307,17 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
+    setings.width = 1920;
+    setings.height = 1080;
+    setings.music = false;
+    setings.WriteToFile(setings);               // Write to setings.data
+    setings.LoadFromFile(setings);              // Load from setings.data
 
-    int setings[5]{};
-    setings[WIDTH_S] = 1920;
-    setings[HEIGHT_S] = 1080;
+    player.setPos(10 + (setings.width / 60), 
+                  10 + (setings.width / 60));
+
+
+    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
 
     int error_code;
     int last_time = time(NULL);
@@ -330,21 +342,21 @@ int SDL_main(int argc, char** argv)
     // Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
-        world[i].position.posx = world[i - 1].position.posx + WIDTH / 60;
+        world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
         world[i].position.posy = world[i - 1].position.posy;
         world[i].tileStatus = false;
 
         if (i == count)
         {
             world[i].position.posx = 10;
-            world[i].position.posy = world[i].position.posy + WIDTH / 60;
+            world[i].position.posy = world[i].position.posy + (setings.width / 60);
             count += 32;
         }
 
         if (world[i].position.posx == 10
             || world[i].position.posy == 10
-            || world[i].position.posx == WIDTH / 60 * 31 + 10
-            || world[i].position.posy == WIDTH / 60 * 31 + 10)
+            || world[i].position.posx == (setings.width / 60) * 31 + 10
+            || world[i].position.posy == (setings.width / 60) * 31 + 10)
         {
             world[i].tileName = BOUND;
         }
@@ -381,8 +393,8 @@ int SDL_main(int argc, char** argv)
     {
         EnemyData tempenemy;
         tempenemy.generateNew();
-        tempenemy.position.posx = 10 + WIDTH / 60;
-        tempenemy.position.posy = 10 + WIDTH / 60;
+        tempenemy.position.posx = 10 + setings.width / 60;
+        tempenemy.position.posy = 10 * (setings.width / 60) + 10;
 
         enemys.push_back(tempenemy);
     }
@@ -391,7 +403,7 @@ int SDL_main(int argc, char** argv)
     world[196].tileName = BOUND;
     world[194].tileName = BOUND;
 
-    if (menu_main(window, surface) != 0)
+    if (menu_main(window, surface, ren) != 0)
     {
         PlayGame = false;
     }
@@ -406,9 +418,9 @@ int SDL_main(int argc, char** argv)
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 15)
+            if (time(NULL) - world[i].tileStatusTimer > 25)
             {
-                world[i].tileStatus = true;
+                world[i].tileStatus = false;
             }
 
             if ((world[i].position.posy == player.position.posy) 
@@ -451,14 +463,12 @@ int SDL_main(int argc, char** argv)
         {
             for (unsigned int i = 0; i < enemys.size(); i++)
             {
-                EnemyMovement(enemys[i].position, world);
+                EnemyMovement_AI(world, enemys[i].position, player.position);
             }
             last_time = time(NULL);
         }
 
         draw(player, world);
-
-        //SDL_UpdateWindowSurface(window);
     }
 
     exit();
