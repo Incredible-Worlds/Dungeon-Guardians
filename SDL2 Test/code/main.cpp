@@ -217,8 +217,7 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     SDL_RenderCopy(ren, cat, NULL, &coord);
 
 
-    coord.w = setings.width / 60;
-    coord.h = setings.width / 60;
+    coord.w = coord.h = setings.width / 60;
 
     // Rendering world
     for (int i = 0; i < worldsize; i++)
@@ -285,16 +284,24 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     }
 
 
+
+
+
     SDL_Rect SetPeace{};
     // Rendering GUI
     for (int i = 0; i < (int)inventory.size(); i++)
     {
         SetPeace.w = SetPeace.h = 64;
 
-        coord.x = 1700;
-        coord.y = 500;
+        coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20));
+        coord.y = setings.height - (int)setings.height / 8.4375;
+
+        coord.w = coord.h = (int)setings.width / 20;
+
         SDL_RenderCopy(ren, inventoryBorder, &SetPeace, &coord);
     }
+
+    coord.w = coord.h = setings.width / 60;
 
     coord.x = player.position.posx;
     coord.y = player.position.posy;
@@ -336,8 +343,8 @@ int SDL_main(int argc, char** argv)
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-    player.setPos(10 + (setings.width / 60), 
-                  10 + (setings.width / 60));
+    //player.setPos(10 + (setings.width / 60), 
+    //              10 + (setings.width / 60));
 
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
@@ -348,10 +355,13 @@ int SDL_main(int argc, char** argv)
     int count = 32;
     Saveload loadAll;
 
+
     vector<InventoryData> inventory;
     InventoryData temp;
-
+    temp.item_id = EmptySpace;
+    temp.setDurability();
     inventory.push_back(temp);
+
 
     // Error check
     if ((error_code = init()) != 0)
@@ -395,27 +405,27 @@ int SDL_main(int argc, char** argv)
     //    }
     //}
 
-    ////// Generate chests
-    //srand(time(NULL));
-    //for (int i = 1; i < worldsize; i++)
-    //{
-    //    int countchest = rand() % 100;
-    //    int countchest1 = rand() % 100;
-    //    int countmob = rand() % 100;
-    //    if (countchest == 33 and (countchest1 == 9
-    //        or countchest1 == 19
-    //        or countchest1 == 29
-    //        or countchest1 == 39
-    //        or countchest1 == 49
-    //        or countchest1 == 59
-    //        or countchest1 == 69
-    //        or countchest1 == 79
-    //        or countchest1 == 89
-    //        or countchest1 == 99))
-    //    {
-    //        world[i].tileName = CHEST;
-    //    }
-    //}
+    //// Generate chests
+    /*srand(time(NULL));
+    for (int i = 1; i < worldsize; i++)
+    {
+        int countchest = rand() % 100;
+        int countchest1 = rand() % 100;
+        int countmob = rand() % 100;
+        if (countchest == 33 and (countchest1 == 9
+            or countchest1 == 19
+            or countchest1 == 29
+            or countchest1 == 39
+            or countchest1 == 49
+            or countchest1 == 59
+            or countchest1 == 69
+            or countchest1 == 79
+            or countchest1 == 89
+            or countchest1 == 99))
+        {
+            world[i].tileName = CHEST;
+        }
+    }*/
 
     // Adding enemys
     for (int i = 0; i < 1; i++)

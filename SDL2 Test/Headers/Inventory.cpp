@@ -32,6 +32,7 @@ int InventoryData::setDurability()
 		}
 		default:
 		{
+			item_id = 0;
 			durability = 0;
 			return 51;
 		}
