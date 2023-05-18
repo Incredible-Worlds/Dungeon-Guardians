@@ -414,8 +414,7 @@ int SDL_main(int argc, char** argv)
        
     if (PlayGame)
     {
-        loadAll.LoadFromMapFile(world);
-        loadAll.LoadFromCharacterFile(player);
+        loadAll.LoadAll(world, player);
     }
 
     while (PlayGame)
@@ -481,7 +480,7 @@ int SDL_main(int argc, char** argv)
         draw(player, world);
     }
 
-    loadAll.WriteToCharacterFile(player);
+    loadAll.WriteAll(world, player);
     exit();
 
     return EXIT_SUCCESS;

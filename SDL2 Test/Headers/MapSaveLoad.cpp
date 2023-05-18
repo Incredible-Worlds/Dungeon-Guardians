@@ -66,6 +66,20 @@ int Saveload::LoadFromCharacterFile(PlayerData& player)
 	return EXIT_SUCCESS;
 }
 
- 
+int Saveload::WriteAll(AreaData* world, PlayerData player)
+{
+	WriteToMapFile(world);
+	WriteToCharacterFile(player);
+
+	return EXIT_SUCCESS;
+}
+
+int Saveload::LoadAll(AreaData* world, PlayerData& player)
+{
+	LoadFromMapFile(world);
+	LoadFromCharacterFile(player);
+
+	return EXIT_SUCCESS;
+}
 
 //EASY4ENCE
