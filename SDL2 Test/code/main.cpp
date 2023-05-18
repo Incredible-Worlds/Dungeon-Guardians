@@ -309,7 +309,7 @@ int SDL_main(int argc, char** argv)
 {
     setings.width = 1920;
     setings.height = 1080;
-    setings.music = true;
+    setings.music = false;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
@@ -417,7 +417,7 @@ int SDL_main(int argc, char** argv)
         // Check all status of world
         for (int i = 0; i < worldsize; i++)
         {
-            if (time(NULL) - world[i].tileStatusTimer > 15)
+            if (time(NULL) - world[i].tileStatusTimer > 25)
             {
                 world[i].tileStatus = false;
             }
