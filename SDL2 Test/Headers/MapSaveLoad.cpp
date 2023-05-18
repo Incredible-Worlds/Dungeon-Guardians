@@ -16,7 +16,7 @@ int Saveload::WriteToMapFile()
 	return EXIT_SUCCESS;
 }
 
-int Saveload::LoadFromMapFile()
+int Saveload::LoadFromMapFile(AreaData *world)
 {
 	std::ifstream savefile("./save/map.data");
 

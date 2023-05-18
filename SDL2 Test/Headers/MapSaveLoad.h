@@ -9,7 +9,7 @@ public:
 
 	int WriteToMapFile();
 
-	int LoadFromMapFile();
+	int LoadFromMapFile(AreaData *world);
 	
 	int WriteToCharacterFile();
 
