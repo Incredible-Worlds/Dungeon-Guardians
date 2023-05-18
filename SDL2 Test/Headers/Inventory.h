@@ -3,7 +3,7 @@
 
 enum ItemIdList
 {
-	Fists,
+	EmptySpace,
 	CommonSword1,
 	CommonSword2,
 	CommonSword3,
