@@ -29,6 +29,7 @@ SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
 SDL_Texture* inventoryBorder = NULL;
+SDL_Texture* commonSword1 = NULL;
 
 SDL_Texture* cat = NULL;
 
@@ -203,6 +204,13 @@ int load()
         return LOADERROR;
     }
 
+    temp_surface = SDL_LoadBMP("./Materials/GUI/CommonSword1.bmp");
+    commonSword1 = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (commonSword1 == NULL)
+    {
+        return LOADERROR;
+    }
+
     temp_surface = NULL;
 
     return 0;
@@ -286,13 +294,23 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     // Rendering GUI
     for (int i = 0; i < (int)inventory.size(); i++)
     {
+        SetPeace.w = SetPeace.h = 44;
+        switch (inventory[i].item_id)
+        {
+            case CommonSword1:
+            {
+                coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
+                coord.y = setings.height - (int)setings.height / 8.4375 + 15;
+                coord.w = coord.h = (int)setings.width / 29;
+                SDL_RenderCopy(ren, commonSword1, &SetPeace, &coord);
+            }
+        }
+
         SetPeace.w = SetPeace.h = 64;
 
         coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20));
         coord.y = setings.height - (int)setings.height / 8.4375;
-
         coord.w = coord.h = (int)setings.width / 20;
-
         SDL_RenderCopy(ren, inventoryBorder, &SetPeace, &coord);
     }
 
@@ -334,14 +352,14 @@ int SDL_main(int argc, char** argv)
     setings.width = 1920;
     setings.height = 1080;
     setings.music = false;
-    setings.WriteToFile(setings);               // Write to setings.data
-    setings.LoadFromFile(setings);              // Load from setings.data
+    setings.WriteToFile(setings);               /// Write to setings.data
+    setings.LoadFromFile(setings);              /// Load from setings.data
 
-    //player.setPos(10 + (setings.width / 60), 
-    //              10 + (setings.width / 60));
+    player.setPos(10 + (setings.width / 60), 
+                  10 + (setings.width / 60));
 
 
-    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
+    ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
 
     int error_code;
     int last_time = time(NULL);
@@ -352,12 +370,15 @@ int SDL_main(int argc, char** argv)
 
     vector<InventoryData> inventory;
     InventoryData temp;
+    temp.item_id = CommonSword1;
+    temp.setDurability();
+    inventory.push_back(temp);
     temp.item_id = EmptySpace;
     temp.setDurability();
     inventory.push_back(temp);
 
 
-    // Error check
+    /// Error check
     if ((error_code = init()) != 0)
     {
         std::cout << "Could not init window: " << SDL_GetError() << endl;
@@ -372,35 +393,35 @@ int SDL_main(int argc, char** argv)
         return error_code;
     }
 
-    // Creating worldmap
-    //for (int i = 1; i < worldsize; i++)
-    //{
-    //    world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
-    //    world[i].position.posy = world[i - 1].position.posy;
-    //    world[i].tileStatus = false;
-    //
-    //    if (i == count)
-    //    {
-    //        world[i].position.posx = 10;
-    //        world[i].position.posy = world[i].position.posy + (setings.width / 60);
-    //        count += 32;
-    //    }
-    //
-    //    if (world[i].position.posx == 10
-    //        || world[i].position.posy == 10
-    //        || world[i].position.posx == (setings.width / 60) * 31 + 10
-    //        || world[i].position.posy == (setings.width / 60) * 31 + 10)
-    //    {
-    //        world[i].tileName = BOUND;
-    //    }
-    //    else
-    //    {
-    //        world[i].tileName = EMPTY;
-    //    }
-    //}
+    /// Creating worldmap
+    for (int i = 1; i < worldsize; i++)
+    {
+        world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
+        world[i].position.posy = world[i - 1].position.posy;
+        world[i].tileStatus = false;
+    
+        if (i == count)
+        {
+            world[i].position.posx = 10;
+            world[i].position.posy = world[i].position.posy + (setings.width / 60);
+            count += 32;
+        }
+    
+        if (world[i].position.posx == 10
+            || world[i].position.posy == 10
+            || world[i].position.posx == (setings.width / 60) * 31 + 10
+            || world[i].position.posy == (setings.width / 60) * 31 + 10)
+        {
+            world[i].tileName = BOUND;
+        }
+        else
+        {
+            world[i].tileName = EMPTY;
+        }
+    }
 
-    //// Generate chests
-    /*srand(time(NULL));
+    /// Generate chests
+    srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {
         int countchest = rand() % 100;
@@ -419,9 +440,9 @@ int SDL_main(int argc, char** argv)
         {
             world[i].tileName = CHEST;
         }
-    }*/
+    }
 
-    // Adding enemys
+    /// Adding enemys
     for (int i = 0; i < 1; i++)
     {
         EnemyData tempenemy;
@@ -447,7 +468,7 @@ int SDL_main(int argc, char** argv)
         loadAll.LoadAll(world, player);
     }
 
-    // Please be patient I have atei... autism; I LOVE TRPO
+    /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
         if (AllGameEvents() != EXIT_SUCCESS)
