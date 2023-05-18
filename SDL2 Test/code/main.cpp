@@ -196,13 +196,20 @@ int load()
         return LOADERROR;
     }
 
+    temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder.bmp");
+    inventoryBorder = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (inventoryBorder == NULL)
+    {
+        return LOADERROR;
+    }
+
     temp_surface = NULL;
 
     return 0;
 
 }
 
-int draw(PlayerData player, AreaData* world)
+int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
 {
     SDL_Rect coord{};
     coord.w = setings.width;
@@ -213,6 +220,7 @@ int draw(PlayerData player, AreaData* world)
     coord.w = setings.width / 60;
     coord.h = setings.width / 60;
 
+    // Rendering world
     for (int i = 0; i < worldsize; i++)
     {
         coord.x = world[i].position.posx;
@@ -238,7 +246,8 @@ int draw(PlayerData player, AreaData* world)
         }
     }
 
-    for (unsigned int i = 0; i < enemys.size(); i++)
+    // Rendering Enemys
+    for (int i = 0; i < (int)enemys.size(); i++)
     {
         if (enemys[i].health > 0 && enemys[i].enemyStatus == true)
         {
@@ -273,6 +282,18 @@ int draw(PlayerData player, AreaData* world)
                 }
             }
         }
+    }
+
+
+    SDL_Rect SetPeace{};
+    // Rendering GUI
+    for (int i = 0; i < (int)inventory.size(); i++)
+    {
+        SetPeace.w = SetPeace.h = 64;
+
+        coord.x = 1700;
+        coord.y = 500;
+        SDL_RenderCopy(ren, inventoryBorder, &SetPeace, &coord);
     }
 
     coord.x = player.position.posx;
@@ -326,6 +347,11 @@ int SDL_main(int argc, char** argv)
     bool PlayGame = true;
     int count = 32;
     Saveload loadAll;
+
+    vector<InventoryData> inventory;
+    InventoryData temp;
+
+    inventory.push_back(temp);
 
     // Error check
     if ((error_code = init()) != 0)
@@ -391,15 +417,15 @@ int SDL_main(int argc, char** argv)
     //    }
     //}
 
-    //// Adding enemys
-    //for (int i = 0; i < 1; i++)
-    //{
-    //    EnemyData tempenemy;
-    //    tempenemy.generateNew();
-    //    tempenemy.position.posx = 10 + setings.width / 60;
-    //    tempenemy.position.posy = 10 * (setings.width / 60) + 10;
-    //    enemys.push_back(tempenemy);
-    //}
+    // Adding enemys
+    for (int i = 0; i < 1; i++)
+    {
+        EnemyData tempenemy;
+        tempenemy.generateNew();
+        tempenemy.position.posx = 10 + setings.width / 60;
+        tempenemy.position.posy = 10 * (setings.width / 60) + 10;
+        enemys.push_back(tempenemy);
+    }
 
     //world[163].tileName = BOUND;
     //world[196].tileName = BOUND;
@@ -478,7 +504,7 @@ int SDL_main(int argc, char** argv)
             last_time = time(NULL);
         }
 
-        draw(player, world);
+        draw(player, world, inventory);
     }
 
     loadAll.WriteAll(world, player);
