@@ -23,4 +23,20 @@ int Saveload::LoadFromMapFile()
 	return EXIT_SUCCESS;
 }
 
+int Saveload::WriteToCharacterFile()
+{
+	std::ofstream loaded_characterfile("./save/character.data");
+
+	return EXIT_SUCCESS;
+}
+
+int Saveload::LoadFromCharacterFile()
+{
+	std::ifstream saved_characterfile("./save/character.data");
+
+	return 0;
+}
+
+ 
+
 //EASY4ENCE

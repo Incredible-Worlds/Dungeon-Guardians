@@ -13,7 +13,6 @@
 #include <Windows.h>
 
 #include "MainMenu.h"
-#include "RandomGen.h"
 
 #define LOADERROR 3
 
@@ -234,6 +233,9 @@ public:
         position.posy = pos_on_y;
     }
 };
+
+
+#include "MapSaveLoad.h"
 
 int DefineTileStatus(tileType type);
 

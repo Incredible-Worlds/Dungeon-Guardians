@@ -11,6 +11,9 @@ public:
 
 	int LoadFromMapFile();
 	
-	Saveload();
+	int WriteToCharacterFile();
+
+	int LoadFromCharacterFile();
+
 };
 
