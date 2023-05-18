@@ -313,8 +313,8 @@ int SDL_main(int argc, char** argv)
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-    /*player.setPos(10 + (setings.width / 60), 
-                  10 + (setings.width / 60));*/
+    player.setPos(10 + (setings.width / 60), 
+                  10 + (setings.width / 60));
 
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
@@ -346,14 +346,14 @@ int SDL_main(int argc, char** argv)
     //    world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
     //    world[i].position.posy = world[i - 1].position.posy;
     //    world[i].tileStatus = false;
-
+    //
     //    if (i == count)
     //    {
     //        world[i].position.posx = 10;
     //        world[i].position.posy = world[i].position.posy + (setings.width / 60);
     //        count += 32;
     //    }
-
+    //
     //    if (world[i].position.posx == 10
     //        || world[i].position.posy == 10
     //        || world[i].position.posx == (setings.width / 60) * 31 + 10
@@ -368,26 +368,26 @@ int SDL_main(int argc, char** argv)
     //}
 
     //// Generate chests
-    //srand(time(NULL));
-    //for (int i = 1; i < worldsize; i++)
-    //{
-    //    int countchest = rand() % 100;
-    //    int countchest1 = rand() % 100;
-    //    int countmob = rand() % 100;
-    //    if (countchest == 33 and (countchest1 == 9
-    //        or countchest1 == 19
-    //        or countchest1 == 29
-    //        or countchest1 == 39
-    //        or countchest1 == 49
-    //        or countchest1 == 59
-    //        or countchest1 == 69
-    //        or countchest1 == 79
-    //        or countchest1 == 89
-    //        or countchest1 == 99))
-    //    {
-    //        world[i].tileName = CHEST;
-    //    }
-    //}
+    /*srand(time(NULL));
+    for (int i = 1; i < worldsize; i++)
+    {
+        int countchest = rand() % 100;
+        int countchest1 = rand() % 100;
+        int countmob = rand() % 100;
+        if (countchest == 33 and (countchest1 == 9
+            or countchest1 == 19
+            or countchest1 == 29
+            or countchest1 == 39
+            or countchest1 == 49
+            or countchest1 == 59
+            or countchest1 == 69
+            or countchest1 == 79
+            or countchest1 == 89
+            or countchest1 == 99))
+        {
+            world[i].tileName = CHEST;
+        }
+    }*/
 
     // Adding enemys
     for (int i = 0; i < 1; i++)
@@ -400,12 +400,11 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-    //world[163].tileName = BOUND;
-    //world[196].tileName = BOUND;
-    //world[194].tileName = BOUND;
+    /*world[163].tileName = BOUND;
+    world[196].tileName = BOUND;
+    world[194].tileName = BOUND;*/
 
-    //loadAll.WriteToMapFile(world);
-    //loadAll.WriteToCharacterFile(player);
+    //loadAll.WriteAll(world, player);
 
     if (menu_main(window, surface, ren) != 0)
     {
