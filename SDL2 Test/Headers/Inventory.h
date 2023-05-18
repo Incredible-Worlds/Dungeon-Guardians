@@ -3,9 +3,10 @@
 
 enum ItemIdList
 {
-	STOCK_SWORD,
-	MID_SWORD,
-	EPIC_SWORD
+	CommonSword1,
+	CommonSword2,
+	CommonSword3,
+	FinalSword,
 };
 
 class InventoryData
@@ -14,8 +15,10 @@ public:
 	int item_id;
 	int durability;
 
-
 	InventoryData();
+
+	int setDurability();
+
 private:
 
 };
