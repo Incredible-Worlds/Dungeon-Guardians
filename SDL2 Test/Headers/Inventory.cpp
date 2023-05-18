@@ -40,3 +40,5 @@ int InventoryData::setDurability()
 
 	return 0;
 }
+
+//EASY4ENCE
