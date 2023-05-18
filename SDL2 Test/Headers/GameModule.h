@@ -12,17 +12,12 @@
 #include <ctime>
 #include <Windows.h>
 
-
 #include "Setings.h"
 #include "MainMenu.h"
 
-
 #define LOADERROR 3
 
-// include WorldInit
 // include Fight
-// include MainMenu
-// include Save
 
 // Consts
 const int worldsize = 1024;
@@ -232,6 +227,7 @@ public:
 
 #include "MapSaveLoad.h"
 #include "AIver2.h"
+#include "Inventory.h"
 
 
 int DefineTileStatus(tileType type);

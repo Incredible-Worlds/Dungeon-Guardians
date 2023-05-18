@@ -367,42 +367,41 @@ int SDL_main(int argc, char** argv)
     //    }
     //}
 
-    //// Generate chests
-    /*srand(time(NULL));
-    for (int i = 1; i < worldsize; i++)
-    {
-        int countchest = rand() % 100;
-        int countchest1 = rand() % 100;
-        int countmob = rand() % 100;
-        if (countchest == 33 and (countchest1 == 9
-            or countchest1 == 19
-            or countchest1 == 29
-            or countchest1 == 39
-            or countchest1 == 49
-            or countchest1 == 59
-            or countchest1 == 69
-            or countchest1 == 79
-            or countchest1 == 89
-            or countchest1 == 99))
-        {
-            world[i].tileName = CHEST;
-        }
-    }*/
+    ////// Generate chests
+    //srand(time(NULL));
+    //for (int i = 1; i < worldsize; i++)
+    //{
+    //    int countchest = rand() % 100;
+    //    int countchest1 = rand() % 100;
+    //    int countmob = rand() % 100;
+    //    if (countchest == 33 and (countchest1 == 9
+    //        or countchest1 == 19
+    //        or countchest1 == 29
+    //        or countchest1 == 39
+    //        or countchest1 == 49
+    //        or countchest1 == 59
+    //        or countchest1 == 69
+    //        or countchest1 == 79
+    //        or countchest1 == 89
+    //        or countchest1 == 99))
+    //    {
+    //        world[i].tileName = CHEST;
+    //    }
+    //}
 
-    // Adding enemys
-    for (int i = 0; i < 1; i++)
-    {
-        EnemyData tempenemy;
-        tempenemy.generateNew();
-        tempenemy.position.posx = 10 + setings.width / 60;
-        tempenemy.position.posy = 10 * (setings.width / 60) + 10;
+    //// Adding enemys
+    //for (int i = 0; i < 1; i++)
+    //{
+    //    EnemyData tempenemy;
+    //    tempenemy.generateNew();
+    //    tempenemy.position.posx = 10 + setings.width / 60;
+    //    tempenemy.position.posy = 10 * (setings.width / 60) + 10;
+    //    enemys.push_back(tempenemy);
+    //}
 
-        enemys.push_back(tempenemy);
-    }
-
-    /*world[163].tileName = BOUND;
-    world[196].tileName = BOUND;
-    world[194].tileName = BOUND;*/
+    //world[163].tileName = BOUND;
+    //world[196].tileName = BOUND;
+    //world[194].tileName = BOUND;
 
     //loadAll.WriteAll(world, player);
 
@@ -416,7 +415,8 @@ int SDL_main(int argc, char** argv)
         loadAll.LoadAll(world, player);
     }
 
-    while (PlayGame)
+    // Please be patient I have atei... autism; I LOVE TRPO
+    for (;PlayGame;)
     {
         if (AllGameEvents() != EXIT_SUCCESS)
         {
