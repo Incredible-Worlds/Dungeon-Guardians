@@ -216,7 +216,6 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     coord.h = setings.height;
     SDL_RenderCopy(ren, cat, NULL, &coord);
 
-
     coord.w = coord.h = setings.width / 60;
 
     // Rendering world
@@ -283,10 +282,6 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
         }
     }
 
-
-
-
-
     SDL_Rect SetPeace{};
     // Rendering GUI
     for (int i = 0; i < (int)inventory.size(); i++)
@@ -309,7 +304,6 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     SDL_RenderPresent(ren);
     SDL_RenderClear(ren);
 
-    //SDL_BlitScaled(knight, NULL, surface, &coord);
 
     return 0;
 }
