@@ -31,30 +31,14 @@ namespace UnitTest
 		TEST_METHOD(World_collision)
 		{
 			SetingsData a;
+			a.LoadFromFile(a);
 			PlayerData b;
 			PositionData c;
 			AreaData* world = new AreaData[worldsize];
-			//--------------------------------------------------
-			std::ifstream loadfile("../SDL2 Test/save/player.data");
 
-			if (loadfile.is_open())
-			{
-				while (loadfile.read((char*)&b, sizeof(PlayerData)))
-				{
-				}
-			}
+			Saveload dataload;
+			dataload.LoadAll(world, b);
 
-			loadfile.close();
-			//--------------------------------------------------
-			std::ifstream loadfile1("../SDL2 Test/save/map.data");
-
-			for (int i = 0; i < worldsize; i++)
-			{
-				loadfile1.read((char*)&world[i], sizeof(AreaData));
-			}
-
-			loadfile1.close();
-			//--------------------------------------------------
 			bool ConsoleStatus = false;
 			Assert::IsTrue(HideShowConsole(ConsoleStatus) == 0);
 			Assert::IsTrue(CollisionCheck(world, b.position, RIGHT) == (int)(a.width / 60));

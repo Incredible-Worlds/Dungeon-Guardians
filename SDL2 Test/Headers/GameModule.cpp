@@ -59,7 +59,7 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx + setings.width / 60
+                if (world[i].position.posx == position.posx + (int)(setings.width / 60)
                     && world[i].position.posy == position.posy
                     && world[i].tileName != BOUND)
                 {

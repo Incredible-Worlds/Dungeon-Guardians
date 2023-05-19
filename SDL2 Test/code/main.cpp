@@ -307,13 +307,13 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1920;
-    setings.height = 1080;
+    setings.width = 1280;
+    setings.height = 720;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-    player.setPos(10 + (setings.width / 60), 
-                  10 + (setings.width / 60));
+    player.setPos(10 + (setings.width / 60) * 4, 
+                  10 + (setings.width / 60) * 4);
 
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
@@ -400,8 +400,8 @@ int SDL_main(int argc, char** argv)
     //world[163].tileName = BOUND;
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
-
-    //loadAll.WriteAll(world, player);
+    
+    loadAll.WriteAll(world, player);
 
 
     if (menu_main(window, surface, ren) != 0)
