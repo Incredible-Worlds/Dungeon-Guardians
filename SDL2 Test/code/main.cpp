@@ -349,8 +349,8 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1920;
-    setings.height = 1080;
+    setings.width = 1366;
+    setings.height = 768;
     setings.music = false;
     setings.WriteToFile(setings);               /// Write to setings.data
     setings.LoadFromFile(setings);              /// Load from setings.data
@@ -456,7 +456,7 @@ int SDL_main(int argc, char** argv)
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
 
-    //loadAll.WriteAll(world, player);
+    loadAll.WriteAll(world, player);
 
     if (menu_main(window, surface, ren) != 0)
     {
