@@ -7,6 +7,7 @@ enum ItemIdList
 	CommonSword1,
 	CommonSword2,
 	CommonSword3,
+	HealFlask,
 	FinalSword,
 };
 

@@ -11,6 +11,7 @@
 #include <iterator>
 #include <ctime>
 #include <Windows.h>
+#include <vector>
 
 #include "Setings.h"
 #include "MainMenu.h"
@@ -233,6 +234,8 @@ public:
 int DefineTileStatus(tileType type);
 
 int HideShowConsole(bool& ConsoleStatus);
+
+int ChestCheck(AreaData* world, PositionData position, directionType direction, vector<InventoryData> inventory);
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction);
 

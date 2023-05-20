@@ -30,6 +30,11 @@ int InventoryData::setDurability()
 			durability = 300;
 			break;
 		}
+		case HealFlask:
+		{
+			durability = rand() % 3;
+			break;
+		}
 		default:
 		{
 			item_id = 0;

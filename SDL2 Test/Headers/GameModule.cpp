@@ -48,6 +48,49 @@ int HideShowConsole(bool& ConsoleStatus)
     return 0;
 }
 
+int ChestCheck(AreaData* world, PositionData position, directionType direction, vector<InventoryData> inventory)
+{
+    SetingsData setings;
+    setings.LoadFromFile(setings);
+    bool ChestIsOpen = 1;
+
+    switch (direction)
+    {
+    case SDLK_SPACE:
+    {
+        for (int i = 0; i < worldsize; i++)
+        {
+            if ((world[i].position.posx == position.posx
+                && world[i].position.posy == position.posy)
+                && world[i].tileName == CHEST)
+            {
+                for (int i = 0; i < inventory.size(); i++)
+                {
+
+                }
+                ChestIsOpen = 0;
+            }
+        }
+        break;
+    }
+
+    default:
+    {
+        break;
+    }
+    }
+
+    if (ChestIsOpen = 0)
+    {
+        for (int i = 0; i < worldsize; i++)
+        {
+            world[i].tileName = EMPTY;
+        }
+    }
+
+    return 0;
+}
+
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
 {
     SetingsData setings;
