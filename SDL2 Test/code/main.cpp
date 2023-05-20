@@ -279,8 +279,6 @@ int draw(PlayerData player, AreaData* world)
     SDL_RenderPresent(ren);
     SDL_RenderClear(ren);
 
-    //SDL_BlitScaled(knight, NULL, surface, &coord);
-
     return 0;
 }
 
