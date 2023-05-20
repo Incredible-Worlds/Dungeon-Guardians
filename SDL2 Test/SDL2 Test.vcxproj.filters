@@ -36,9 +36,6 @@
     <ClCompile Include="Headers\Inventory.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\Interactions.cpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\GameModule.h">
@@ -57,9 +54,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Headers\Inventory.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Interactions.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
