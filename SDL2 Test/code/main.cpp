@@ -322,7 +322,6 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     SDL_RenderPresent(ren);
     SDL_RenderClear(ren);
 
-
     return 0;
 }
 
@@ -349,14 +348,15 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1366;
-    setings.height = 768;
-    setings.music = false;
-    setings.WriteToFile(setings);               /// Write to setings.data
-    setings.LoadFromFile(setings);              /// Load from setings.data
 
-    player.setPos(10 + (setings.width / 60), 
-                  10 + (setings.width / 60));
+    setings.width = 1280;
+    setings.height = 720;
+    setings.WriteToFile(setings);               // Write to setings.data
+    setings.LoadFromFile(setings);              // Load from setings.data
+
+
+    player.setPos(10 + (setings.width / 60) * 4, 
+                  10 + (setings.width / 60) * 4);
 
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
@@ -393,20 +393,21 @@ int SDL_main(int argc, char** argv)
         return error_code;
     }
 
+
     /// Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
         world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
         world[i].position.posy = world[i - 1].position.posy;
         world[i].tileStatus = false;
-    
+
         if (i == count)
         {
             world[i].position.posx = 10;
             world[i].position.posy = world[i].position.posy + (setings.width / 60);
             count += 32;
         }
-    
+
         if (world[i].position.posx == 10
             || world[i].position.posy == 10
             || world[i].position.posx == (setings.width / 60) * 31 + 10
@@ -419,6 +420,7 @@ int SDL_main(int argc, char** argv)
             world[i].tileName = EMPTY;
         }
     }
+
 
     /// Generate chests
     srand(time(NULL));

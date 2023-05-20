@@ -7,7 +7,7 @@
 #pragma once 
 
 #pragma warning(disable:4244)   // loss while time_t to int
-#include <SDL.h>
+#include "../../SDL2-2.0.9/include/SDL.h"
 #include <iterator>
 #include <ctime>
 #include <Windows.h>
@@ -232,7 +232,7 @@ public:
 
 int DefineTileStatus(tileType type);
 
-void HideShowConsole(bool& ConsoleStatus);
+int HideShowConsole(bool& ConsoleStatus);
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction);
 
