@@ -87,6 +87,11 @@ int AllGameEvents()
                     player.position.posx -= CollisionCheck(world, player.position, LEFT);
                     break;
                 }
+                case SDLK_SPACE:
+                {
+                    int ChestCheck(AreaData* world, PositionData position, directionType direction, std::vector<InventoryData> inventory);
+                    break;
+                }
                 default:
                 {
                     break;

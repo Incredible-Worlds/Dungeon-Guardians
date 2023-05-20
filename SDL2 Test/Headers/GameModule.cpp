@@ -8,6 +8,8 @@
 #include "GameModule.h"
 #include <iostream>
 
+
+
 int AreaSize(int size) { return size; }
 
 // Check for type of Area Tile
@@ -55,42 +57,21 @@ int ChestCheck(AreaData* world,
 {
     SetingsData setings;
     setings.LoadFromFile(setings);
-    bool ChestIsOpen = 1;
+    InventoryData temp;
 
-    switch (direction)
+    temp.item_id = HealFlask;
+
+    for (int i = 0; i < worldsize; i++)
     {
-    case SDLK_SPACE:
-    {
-        for (int i = 0; i < worldsize; i++)
+        if ((world[i].position.posx == position.posx
+            && world[i].position.posy == position.posy)
+            && world[i].tileName == CHEST)
         {
-            if ((world[i].position.posx == position.posx
-                && world[i].position.posy == position.posy)
-                && world[i].tileName == CHEST)
-            {
-                for (int i = 0; i < inventory.size(); i++)
-                {
-
-                }
-                ChestIsOpen = 0;
-            }
-        }
-        break;
-    }
-
-    default:
-    {
-        break;
-    }
-    }
-
-    if (ChestIsOpen = 0)
-    {
-        for (int i = 0; i < worldsize; i++)
-        {
+            inventory.push_back(temp);
             world[i].tileName = EMPTY;
         }
-    }
 
+    }
     return 0;
 }
 
