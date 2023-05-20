@@ -48,7 +48,10 @@ int HideShowConsole(bool& ConsoleStatus)
     return 0;
 }
 
-int ChestCheck(AreaData* world, PositionData position, directionType direction, vector<InventoryData> inventory)
+int ChestCheck(AreaData* world,
+                PositionData position,
+                directionType direction,
+                std::vector<InventoryData> inventory)
 {
     SetingsData setings;
     setings.LoadFromFile(setings);
