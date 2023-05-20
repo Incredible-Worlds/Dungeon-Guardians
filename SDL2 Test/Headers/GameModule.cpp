@@ -33,7 +33,7 @@ int DefineTileStatus(tileType type)
 //
 
 // Show/Hide console window (~)
-void HideShowConsole(bool& ConsoleStatus)
+int HideShowConsole(bool& ConsoleStatus)
 {
     if (ConsoleStatus == false)
     {
@@ -45,6 +45,7 @@ void HideShowConsole(bool& ConsoleStatus)
     }
 
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
+    return 0;
 }
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
@@ -58,7 +59,7 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx + setings.width / 60
+                if (world[i].position.posx == position.posx + (int)(setings.width / 60)
                     && world[i].position.posy == position.posy
                     && world[i].tileName != BOUND)
                 {
