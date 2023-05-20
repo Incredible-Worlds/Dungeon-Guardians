@@ -58,7 +58,6 @@ int ChestsCheck(AreaData* world,
             && world[i].tileName == CHEST)
         {
             inventory.push_back(temp);
-            inventory.push_back(temp);
             world[i].tileName = EMPTY;
             break;
         }
@@ -66,7 +65,7 @@ int ChestsCheck(AreaData* world,
     return 0;
 }
 
-int AllGameEvents(vector<InventoryData> inventory)
+int AllGameEvents(vector<InventoryData>& inventory)
 {
     SDL_Event windowEvent;
 
@@ -332,6 +331,15 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
                 coord.y = setings.height - (int)setings.height / 8.4375 + 15;
                 coord.w = coord.h = (int)setings.width / 29;
                 SDL_RenderCopy(ren, commonSword1, &SetPeace, &coord);
+                break;
+            }
+            case HealFlask:
+            {
+                coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
+                coord.y = setings.height - (int)setings.height / 8.4375 + 15;
+                coord.w = coord.h = (int)setings.width / 29;
+                SDL_RenderCopy(ren, slime, &SetPeace, &coord);
+                break;
             }
         }
 
@@ -378,8 +386,8 @@ int exit()
 int SDL_main(int argc, char** argv)
 {
 
-    setings.width = 1280;
-    setings.height = 720;
+    setings.width = 1920;
+    setings.height = 1080;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
@@ -400,9 +408,6 @@ int SDL_main(int argc, char** argv)
     vector<InventoryData> inventory;
     InventoryData temp;
     temp.item_id = CommonSword1;
-    temp.setDurability();
-    inventory.push_back(temp);
-    temp.item_id = EmptySpace;
     temp.setDurability();
     inventory.push_back(temp);
 
