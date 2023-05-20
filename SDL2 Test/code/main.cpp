@@ -28,6 +28,9 @@ SDL_Texture* goblin = NULL;
 SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
+SDL_Texture* inventoryBorder = NULL;
+SDL_Texture* commonSword1 = NULL;
+
 SDL_Texture* cat = NULL;
 
 AreaData* world = new AreaData[worldsize];
@@ -138,7 +141,7 @@ int load()
         return LOADERROR;
     }
 
-    temp_surface = SDL_LoadBMP("./Materials/Texture/123.bmp");
+    temp_surface = SDL_LoadBMP("./Materials/Texture/stonefloor.bmp");
     world_texture = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (world_texture == NULL)
     {
@@ -194,23 +197,36 @@ int load()
         return LOADERROR;
     }
 
+    temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder.bmp");
+    inventoryBorder = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (inventoryBorder == NULL)
+    {
+        return LOADERROR;
+    }
+
+    temp_surface = SDL_LoadBMP("./Materials/GUI/CommonSword1.bmp");
+    commonSword1 = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (commonSword1 == NULL)
+    {
+        return LOADERROR;
+    }
+
     temp_surface = NULL;
 
     return 0;
 
 }
 
-int draw(PlayerData player, AreaData* world)
+int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
 {
     SDL_Rect coord{};
     coord.w = setings.width;
     coord.h = setings.height;
     SDL_RenderCopy(ren, cat, NULL, &coord);
 
+    coord.w = coord.h = setings.width / 60;
 
-    coord.w = setings.width / 60;
-    coord.h = setings.width / 60;
-
+    // Rendering world
     for (int i = 0; i < worldsize; i++)
     {
         coord.x = world[i].position.posx;
@@ -236,7 +252,8 @@ int draw(PlayerData player, AreaData* world)
         }
     }
 
-    for (unsigned int i = 0; i < enemys.size(); i++)
+    // Rendering Enemys
+    for (int i = 0; i < (int)enemys.size(); i++)
     {
         if (enemys[i].health > 0 && enemys[i].enemyStatus == true)
         {
@@ -273,6 +290,32 @@ int draw(PlayerData player, AreaData* world)
         }
     }
 
+    SDL_Rect SetPeace{};
+    // Rendering GUI
+    for (int i = 0; i < (int)inventory.size(); i++)
+    {
+        SetPeace.w = SetPeace.h = 44;
+        switch (inventory[i].item_id)
+        {
+            case CommonSword1:
+            {
+                coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
+                coord.y = setings.height - (int)setings.height / 8.4375 + 15;
+                coord.w = coord.h = (int)setings.width / 29;
+                SDL_RenderCopy(ren, commonSword1, &SetPeace, &coord);
+            }
+        }
+
+        SetPeace.w = SetPeace.h = 64;
+
+        coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20));
+        coord.y = setings.height - (int)setings.height / 8.4375;
+        coord.w = coord.h = (int)setings.width / 20;
+        SDL_RenderCopy(ren, inventoryBorder, &SetPeace, &coord);
+    }
+
+    coord.w = coord.h = setings.width / 60;
+
     coord.x = player.position.posx;
     coord.y = player.position.posy;
     SDL_RenderCopy(ren, knight, NULL, &coord);
@@ -305,6 +348,7 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
+
     setings.width = 1280;
     setings.height = 720;
     setings.WriteToFile(setings);               // Write to setings.data
@@ -315,7 +359,7 @@ int SDL_main(int argc, char** argv)
                   10 + (setings.width / 60) * 4);
 
 
-    ShowWindow(GetConsoleWindow(), SW_HIDE);    // Hide console window (enable on ~)
+    ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
 
     int error_code;
     int last_time = time(NULL);
@@ -323,7 +367,18 @@ int SDL_main(int argc, char** argv)
     int count = 32;
     Saveload loadAll;
 
-    // Error check
+
+    vector<InventoryData> inventory;
+    InventoryData temp;
+    temp.item_id = CommonSword1;
+    temp.setDurability();
+    inventory.push_back(temp);
+    temp.item_id = EmptySpace;
+    temp.setDurability();
+    inventory.push_back(temp);
+
+
+    /// Error check
     if ((error_code = init()) != 0)
     {
         std::cout << "Could not init window: " << SDL_GetError() << endl;
@@ -338,18 +393,21 @@ int SDL_main(int argc, char** argv)
         return error_code;
     }
 
-    //Creating worldmap
+
+    /// Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
         world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
         world[i].position.posy = world[i - 1].position.posy;
         world[i].tileStatus = false;
+
         if (i == count)
         {
             world[i].position.posx = 10;
             world[i].position.posy = world[i].position.posy + (setings.width / 60);
             count += 32;
         }
+
         if (world[i].position.posx == 10
             || world[i].position.posy == 10
             || world[i].position.posx == (setings.width / 60) * 31 + 10
@@ -363,7 +421,8 @@ int SDL_main(int argc, char** argv)
         }
     }
 
-    // Generate chests
+
+    /// Generate chests
     srand(time(NULL));
     for (int i = 1; i < worldsize; i++)
     {
@@ -385,20 +444,20 @@ int SDL_main(int argc, char** argv)
         }
     }
 
-    //// Adding enemys
-    //for (int i = 0; i < 1; i++)
-    //{
-    //    EnemyData tempenemy;
-    //    tempenemy.generateNew();
-    //    tempenemy.position.posx = 10 + setings.width / 60;
-    //    tempenemy.position.posy = 10 * (setings.width / 60) + 10;
-    //    enemys.push_back(tempenemy);
-    //}
+    /// Adding enemys
+    for (int i = 0; i < 1; i++)
+    {
+        EnemyData tempenemy;
+        tempenemy.generateNew();
+        tempenemy.position.posx = 10 + setings.width / 60;
+        tempenemy.position.posy = 10 * (setings.width / 60) + 10;
+        enemys.push_back(tempenemy);
+    }
 
     //world[163].tileName = BOUND;
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
-    
+
     loadAll.WriteAll(world, player);
 
     if (menu_main(window, surface, ren) != 0)
@@ -411,7 +470,7 @@ int SDL_main(int argc, char** argv)
         loadAll.LoadAll(world, player);
     }
 
-    // Please be patient I have atei... autism; I LOVE TRPO
+    /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
         if (AllGameEvents() != EXIT_SUCCESS)
@@ -472,7 +531,7 @@ int SDL_main(int argc, char** argv)
             last_time = time(NULL);
         }
 
-        draw(player, world);
+        draw(player, world, inventory);
     }
 
     loadAll.WriteAll(world, player);
