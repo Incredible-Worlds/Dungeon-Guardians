@@ -42,7 +42,31 @@ vector<EnemyData> enemys;
 
 bool CnStatus = false;
 
-int AllGameEvents()
+int ChestsCheck(AreaData* world,
+    PositionData position,
+    vector<InventoryData>& inventory)
+{
+
+    InventoryData temp;
+    temp.item_id = HealFlask;
+    temp.setDurability();
+
+    for (int i = 0; i < worldsize; i++)
+    {
+        if ((world[i].position.posx == position.posx
+            && world[i].position.posy == position.posy)
+            && world[i].tileName == CHEST)
+        {
+            inventory.push_back(temp);
+            inventory.push_back(temp);
+            world[i].tileName = EMPTY;
+            break;
+        }
+    }
+    return 0;
+}
+
+int AllGameEvents(vector<InventoryData> inventory)
 {
     SDL_Event windowEvent;
 
@@ -87,9 +111,9 @@ int AllGameEvents()
                     player.position.posx -= CollisionCheck(world, player.position, LEFT);
                     break;
                 }
-                case SDLK_SPACE:
+                case 32:
                 {
-                    int ChestCheck(AreaData* world, PositionData position, directionType direction, std::vector<InventoryData> inventory);
+                    ChestsCheck(world, player.position, inventory);
                     break;
                 }
                 default:
@@ -459,7 +483,7 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-    //world[163].tileName = BOUND;
+    world[163].tileName = CHEST;
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
 
@@ -478,7 +502,7 @@ int SDL_main(int argc, char** argv)
     /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
-        if (AllGameEvents() != EXIT_SUCCESS)
+        if (AllGameEvents(inventory) != EXIT_SUCCESS)
         {
             break;
         }

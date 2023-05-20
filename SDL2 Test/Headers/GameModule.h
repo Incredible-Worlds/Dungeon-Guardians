@@ -235,11 +235,6 @@ int DefineTileStatus(tileType type);
 
 int HideShowConsole(bool& ConsoleStatus);
 
-int ChestCheck(AreaData* world,
-                PositionData position,
-                directionType direction,
-                std::vector<int> inventory);
-
 int CollisionCheck(AreaData* world, PositionData position, directionType direction);
 
 int EnemyMovement(PositionData& position, AreaData* world);

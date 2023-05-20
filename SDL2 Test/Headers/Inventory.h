@@ -1,5 +1,5 @@
 #pragma once
-#include "MainMenu.h"
+#include "GameModule.h"
 
 enum ItemIdList
 {
@@ -20,7 +20,4 @@ public:
 	InventoryData();
 
 	int setDurability();
-
-private:
-
 };
