@@ -279,8 +279,6 @@ int draw(PlayerData player, AreaData* world)
     SDL_RenderPresent(ren);
     SDL_RenderClear(ren);
 
-    //SDL_BlitScaled(knight, NULL, surface, &coord);
-
     return 0;
 }
 
@@ -311,6 +309,7 @@ int SDL_main(int argc, char** argv)
     setings.height = 720;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
+
 
     player.setPos(10 + (setings.width / 60) * 4, 
                   10 + (setings.width / 60) * 4);
@@ -386,23 +385,21 @@ int SDL_main(int argc, char** argv)
         }
     }
 
-    // Adding enemys
-    for (int i = 0; i < 1; i++)
-    {
-        EnemyData tempenemy;
-        tempenemy.generateNew();
-        tempenemy.position.posx = 10 + setings.width / 60;
-        tempenemy.position.posy = 10 * (setings.width / 60) + 10;
-
-        enemys.push_back(tempenemy);
-    }
+    //// Adding enemys
+    //for (int i = 0; i < 1; i++)
+    //{
+    //    EnemyData tempenemy;
+    //    tempenemy.generateNew();
+    //    tempenemy.position.posx = 10 + setings.width / 60;
+    //    tempenemy.position.posy = 10 * (setings.width / 60) + 10;
+    //    enemys.push_back(tempenemy);
+    //}
 
     //world[163].tileName = BOUND;
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
     
     loadAll.WriteAll(world, player);
-
 
     if (menu_main(window, surface, ren) != 0)
     {
@@ -414,7 +411,8 @@ int SDL_main(int argc, char** argv)
         loadAll.LoadAll(world, player);
     }
 
-    while (PlayGame)
+    // Please be patient I have atei... autism; I LOVE TRPO
+    for (;PlayGame;)
     {
         if (AllGameEvents() != EXIT_SUCCESS)
         {

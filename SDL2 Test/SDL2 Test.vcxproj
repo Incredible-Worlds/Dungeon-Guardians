@@ -22,6 +22,7 @@
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="Headers\AIver2.cpp" />
     <ClCompile Include="Headers\GameModule.cpp" />
+    <ClCompile Include="Headers\Inventory.cpp" />
     <ClCompile Include="Headers\MainMenu.cpp" />
     <ClCompile Include="Headers\MapSaveLoad.cpp" />
     <ClCompile Include="Headers\Setings.cpp" />
@@ -29,13 +30,10 @@
   <ItemGroup>
     <ClInclude Include="Headers\AIver2.h" />
     <ClInclude Include="Headers\GameModule.h" />
+    <ClInclude Include="Headers\Inventory.h" />
     <ClInclude Include="Headers\MainMenu.h" />
     <ClInclude Include="Headers\MapSaveLoad.h" />
     <ClInclude Include="Headers\Setings.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -131,12 +129,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SDL2-2.0.9\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL2-2.0.9\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)SDL2-2.0.9\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
