@@ -42,7 +42,7 @@ vector<EnemyData> enemys;
 
 bool CnStatus = false;
 
-int AllGameEvents()
+int AllGameEvents(vector<InventoryData>& inventory)
 {
     SDL_Event windowEvent;
 
@@ -85,6 +85,11 @@ int AllGameEvents()
                 case SDLK_a:
                 {
                     player.position.posx -= CollisionCheck(world, player.position, LEFT);
+                    break;
+                }
+                case 32:
+                {
+                    inventory[0].CheckChests(world, player.position, inventory);
                     break;
                 }
                 default:
@@ -303,6 +308,15 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
                 coord.y = setings.height - (int)setings.height / 8.4375 + 15;
                 coord.w = coord.h = (int)setings.width / 29;
                 SDL_RenderCopy(ren, commonSword1, &SetPeace, &coord);
+                break;
+            }
+            case HealFlask:
+            {
+                coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
+                coord.y = setings.height - (int)setings.height / 8.4375 + 15;
+                coord.w = coord.h = (int)setings.width / 29;
+                SDL_RenderCopy(ren, slime, &SetPeace, &coord);
+                break;
             }
         }
 
@@ -348,16 +362,13 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-
-    setings.width = 1280;
-    setings.height = 720;
+    setings.width = 1920;
+    setings.height = 1080;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-
     player.setPos(10 + (setings.width / 60) * 4, 
                   10 + (setings.width / 60) * 4);
-
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
 
@@ -367,16 +378,11 @@ int SDL_main(int argc, char** argv)
     int count = 32;
     Saveload loadAll;
 
-
     vector<InventoryData> inventory;
     InventoryData temp;
     temp.item_id = CommonSword1;
     temp.setDurability();
     inventory.push_back(temp);
-    temp.item_id = EmptySpace;
-    temp.setDurability();
-    inventory.push_back(temp);
-
 
     /// Error check
     if ((error_code = init()) != 0)
@@ -454,7 +460,7 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-    //world[163].tileName = BOUND;
+    world[163].tileName = CHEST;
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
 
@@ -473,7 +479,7 @@ int SDL_main(int argc, char** argv)
     /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
-        if (AllGameEvents() != EXIT_SUCCESS)
+        if (AllGameEvents(inventory) != EXIT_SUCCESS)
         {
             break;
         }

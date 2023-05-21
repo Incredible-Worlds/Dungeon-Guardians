@@ -11,6 +11,7 @@
 #include <iterator>
 #include <ctime>
 #include <Windows.h>
+#include <vector>
 
 #include "Setings.h"
 #include "MainMenu.h"

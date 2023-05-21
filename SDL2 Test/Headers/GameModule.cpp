@@ -8,6 +8,8 @@
 #include "GameModule.h"
 #include <iostream>
 
+
+
 int AreaSize(int size) { return size; }
 
 // Check for type of Area Tile
@@ -47,6 +49,7 @@ int HideShowConsole(bool& ConsoleStatus)
     ShowWindow(GetConsoleWindow(), ConsoleStatus);
     return 0;
 }
+
 
 int CollisionCheck(AreaData* world, PositionData position, directionType direction)
 {
@@ -191,6 +194,7 @@ int PlayerData::setPos(int x, int y)
 
     return EXIT_SUCCESS;
 }
+
 
 PositionData::PositionData()
 {

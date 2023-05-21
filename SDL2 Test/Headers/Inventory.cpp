@@ -3,7 +3,7 @@
 InventoryData::InventoryData()
 {
 	item_id = 0;
-	durability = 20;
+	durability = 0;
 }
 
 int InventoryData::setDurability()
@@ -30,6 +30,11 @@ int InventoryData::setDurability()
 			durability = 300;
 			break;
 		}
+		case HealFlask:
+		{
+			durability = rand() % 3;
+			break;
+		}
 		default:
 		{
 			item_id = 0;
@@ -40,6 +45,29 @@ int InventoryData::setDurability()
 	}
 
 	return 0;
+}
+
+int InventoryData::CheckChests(AreaData* world,
+	PositionData position,
+	std::vector<InventoryData>& inventory)
+{
+    InventoryData temp;
+    temp.item_id = HealFlask;
+    temp.setDurability();
+
+    for (int i = 0; i < worldsize; i++)
+    {
+        if ((world[i].position.posx == position.posx
+            && world[i].position.posy == position.posy)
+            && world[i].tileName == CHEST)
+        {
+            inventory.push_back(temp);
+            world[i].tileName = EMPTY;
+            break;
+        }
+    }
+
+    return 0;
 }
 
 //EASY4ENCE

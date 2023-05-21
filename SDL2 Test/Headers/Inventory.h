@@ -1,5 +1,6 @@
 #pragma once
-#include "MainMenu.h"
+#include "GameModule.h"
+#include <vector>
 
 enum ItemIdList
 {
@@ -7,6 +8,7 @@ enum ItemIdList
 	CommonSword1,
 	CommonSword2,
 	CommonSword3,
+	HealFlask,
 	FinalSword,
 };
 
@@ -20,6 +22,7 @@ public:
 
 	int setDurability();
 
-private:
-
+	int CheckChests(AreaData* world,
+		PositionData position,
+		std::vector<InventoryData>& inventory);
 };
