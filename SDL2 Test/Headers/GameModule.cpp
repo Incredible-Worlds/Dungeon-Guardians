@@ -165,3 +165,30 @@ int PlayerData::setPos(int x, int y)
 
     return EXIT_SUCCESS;
 }
+
+int EnemyData::GatherHealth(int type)
+{
+    switch (type)
+    {
+    case ORGE:
+        return 4;
+    case GOBLIN:
+        return 3;
+    case SKELETON:
+        return 2;
+    case SLIME:
+        return 1;
+    default:
+        return 0;
+    }
+}
+
+int EnemyData::takeDamage(int str)
+{
+    return health -= str;
+}
+
+int EnemyData::getStrength()
+{
+    return maxHealth() / 3;
+}

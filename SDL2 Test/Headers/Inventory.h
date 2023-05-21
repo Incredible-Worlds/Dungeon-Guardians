@@ -1,5 +1,6 @@
 #pragma once
 #include "GameModule.h"
+#include <vector>
 
 enum ItemIdList
 {
@@ -20,4 +21,8 @@ public:
 	InventoryData();
 
 	int setDurability();
+
+	int CheckChests(AreaData* world,
+		PositionData position,
+		std::vector<InventoryData>& inventory);
 };

@@ -42,29 +42,6 @@ vector<EnemyData> enemys;
 
 bool CnStatus = false;
 
-int ChestsCheck(AreaData* world,
-    PositionData position,
-    vector<InventoryData>& inventory)
-{
-
-    InventoryData temp;
-    temp.item_id = HealFlask;
-    temp.setDurability();
-
-    for (int i = 0; i < worldsize; i++)
-    {
-        if ((world[i].position.posx == position.posx
-            && world[i].position.posy == position.posy)
-            && world[i].tileName == CHEST)
-        {
-            inventory.push_back(temp);
-            world[i].tileName = EMPTY;
-            break;
-        }
-    }
-    return 0;
-}
-
 int AllGameEvents(vector<InventoryData>& inventory)
 {
     SDL_Event windowEvent;
@@ -112,7 +89,7 @@ int AllGameEvents(vector<InventoryData>& inventory)
                 }
                 case 32:
                 {
-                    ChestsCheck(world, player.position, inventory);
+                    inventory[0].CheckChests(world, player.position, inventory);
                     break;
                 }
                 default:

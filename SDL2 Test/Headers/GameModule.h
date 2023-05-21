@@ -83,32 +83,11 @@ public:
         position.posy = 0;
     }
 
-    int GatherHealth(int type)
-    {
-        switch (type)
-        {
-        case ORGE:
-            return 4;
-        case GOBLIN:
-            return 3;
-        case SKELETON:
-            return 2;
-        case SLIME:
-            return 1;
-        default:
-            return 0;
-        }
-    }
+    int GatherHealth(int type);
 
-    int takeDamage(int str)
-    {
-        return health -= str;
-    }
+    int takeDamage(int str);
 
-    int getStrength()
-    {
-        return maxHealth() / 3;
-    }
+    int getStrength();
 
     void generateNew()
     {
