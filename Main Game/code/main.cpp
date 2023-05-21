@@ -408,6 +408,12 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
+    EnemyData* enemys_arr = new EnemyData[enemys.size()];
+    for (int i = 0; i < (int)enemys.size(); i++)
+    {
+        enemys_arr[i] = enemys[i];
+    }
+
     world[163].tileName = CHEST;
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
@@ -421,7 +427,7 @@ int SDL_main(int argc, char** argv)
        
     if (PlayGame)
     {
-        //loadAll.LoadAll(world, player);
+        loadAll.LoadAll(world, player);
     }
 
     /// Please be patient I have atei... autism; I LOVE TRPO
@@ -454,7 +460,7 @@ int SDL_main(int argc, char** argv)
 
         if (last_time != time(NULL))
         {
-            for (unsigned int i = 0; i < enemys.size(); i++)
+            for (int i = 0; i < (int)enemys.size(); i++)
             {
                 EnemyMovement_AI(world, enemys[i].position, player.position);
             }
