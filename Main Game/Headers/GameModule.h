@@ -138,7 +138,7 @@ public:
 #include "MapSaveLoad.h"
 #include "AIver2.h"
 #include "Inventory.h"
-
+#include "MapInteract.h"
 
 int DefineTileStatus(tileType type);
 
