@@ -56,11 +56,7 @@ public:
     int posx;
     int posy;
 
-    PositionData()
-    {
-        posx = 10;
-        posy = 10;
-    }
+    PositionData();
 };
 
 // Description of the Enemy class
@@ -73,15 +69,7 @@ public:
     bool enemyStatus;
     PositionData position;
 
-    EnemyData()
-    {
-        type = 0;
-        health = 0;
-        gold = 0;
-        enemyStatus = true;
-        position.posx = 0;
-        position.posy = 0;
-    }
+    EnemyData();
 
     int GatherHealth(int type);
 
@@ -100,12 +88,7 @@ public:
     int gatherGold();
 
 private:
-    int randomEnemyType()
-    {
-        srand(time(NULL));
-
-        return rand() % 4;
-    }
+    int randomEnemyType();
 };
 
 // Description of the Player class

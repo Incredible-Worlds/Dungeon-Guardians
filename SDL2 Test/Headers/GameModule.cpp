@@ -195,6 +195,23 @@ int PlayerData::setPos(int x, int y)
     return EXIT_SUCCESS;
 }
 
+
+PositionData::PositionData()
+{
+    posx = 10;
+    posy = 10;
+}
+
+EnemyData::EnemyData()
+{
+    type = 0;
+    health = 0;
+    gold = 0;
+    enemyStatus = true;
+    position.posx = 0;
+    position.posy = 0;
+}
+
 int EnemyData::GatherHealth(int type)
 {
     switch (type)
@@ -247,6 +264,13 @@ int EnemyData::maxHealth()
 int EnemyData::gatherGold()
 {
     return gold;
+}
+
+int EnemyData::randomEnemyType()
+{
+    srand(time(NULL));
+
+    return rand() % 4;
 }
 
 AreaData::AreaData()
