@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <fstream>
-#include "../SDL2 Test/Headers/GameModule.h"
-#include "../SDL2 Test/Headers/GameModule.cpp"
-#include "../SDL2 Test/Headers/MapSaveLoad.h"
-#include "../SDL2 Test/Headers/MapSaveLoad.cpp"
-#include "../SDL2 Test/Headers/Setings.h"
-#include "../SDL2 Test/Headers/Setings.cpp"
+#include "../Main game/Headers/GameModule.h"
+#include "../Main game/Headers/GameModule.cpp"
+#include "../Main game/Headers/MapSaveLoad.h"
+#include "../Main game/Headers/MapSaveLoad.cpp"
+#include "../Main game/Headers/Setings.h"
+#include "../Main game/Headers/Setings.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

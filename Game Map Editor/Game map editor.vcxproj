@@ -127,9 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SDL2 Test\SDL2 Test.vcxproj">
-      <Project>{a7accd79-81bf-4705-b83d-48339dabdfa0}</Project>
-    </ProjectReference>
+    <ClCompile Include="src\editor main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,21 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\gamelib\AIver2.cpp" />
-    <ClCompile Include="src\gamelib\GameModule.cpp" />
-    <ClCompile Include="src\gamelib\Inventory.cpp" />
-    <ClCompile Include="src\gamelib\MainMenu.cpp" />
-    <ClCompile Include="src\gamelib\MapSaveLoad.cpp" />
-    <ClCompile Include="src\gamelib\setings.cpp" />
-    <ClCompile Include="src\game\main.cpp" />
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="Headers\AIver2.cpp" />
+    <ClCompile Include="Headers\GameModule.cpp" />
+    <ClCompile Include="Headers\Inventory.cpp" />
+    <ClCompile Include="Headers\MainMenu.cpp" />
+    <ClCompile Include="Headers\MapSaveLoad.cpp" />
+    <ClCompile Include="Headers\setings.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\gamelib\AIver2.h" />
-    <ClInclude Include="src\gamelib\GameModule.h" />
-    <ClInclude Include="src\gamelib\Inventory.h" />
-    <ClInclude Include="src\gamelib\MainMenu.h" />
-    <ClInclude Include="src\gamelib\MapSaveLoad.h" />
-    <ClInclude Include="src\gamelib\Setings.h" />
+    <ClInclude Include="Headers\AIver2.h" />
+    <ClInclude Include="Headers\GameModule.h" />
+    <ClInclude Include="Headers\Inventory.h" />
+    <ClInclude Include="Headers\MainMenu.h" />
+    <ClInclude Include="Headers\MapSaveLoad.h" />
+    <ClInclude Include="Headers\Setings.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

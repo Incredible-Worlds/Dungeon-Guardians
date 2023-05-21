@@ -25,7 +25,7 @@ int Saveload::WriteToMapFile(AreaData* world)
 
 int Saveload::LoadFromMapFile(AreaData* world)
 {
-	std::ifstream loadfile("../SDL2 Test/save/map.data");
+	std::ifstream loadfile("../Main game/save/map.data");
 
 	for (int i = 0; i < worldsize; i++)
 	{
@@ -53,7 +53,7 @@ int Saveload::WriteToCharacterFile(PlayerData player)
 
 int Saveload::LoadFromCharacterFile(PlayerData& player)
 {
-	std::ifstream loadfile("../SDL2 Test/save/player.data");
+	std::ifstream loadfile("../Main game/save/player.data");
 
 	if (loadfile.is_open())
 	{
