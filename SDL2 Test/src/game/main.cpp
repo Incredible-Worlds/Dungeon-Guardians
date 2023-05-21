@@ -5,7 +5,7 @@
 // Open source version, only for course work
 
 #include <SDL.h>
-#include "../Headers/GameModule.h"
+#include "../gamelib/GameModule.h"
 
 #include <vector>
 #include <iostream>

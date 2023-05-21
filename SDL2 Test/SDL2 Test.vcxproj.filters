@@ -15,45 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\main.cpp">
+    <ClCompile Include="src\game\main.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\MainMenu.cpp">
+    <ClCompile Include="src\gamelib\AIver2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\MapSaveLoad.cpp">
+    <ClCompile Include="src\gamelib\GameModule.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\Setings.cpp">
+    <ClCompile Include="src\gamelib\Inventory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\Inventory.cpp">
+    <ClCompile Include="src\gamelib\MainMenu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\GameModule.cpp">
+    <ClCompile Include="src\gamelib\MapSaveLoad.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\AIver2.cpp">
+    <ClCompile Include="src\gamelib\setings.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers\GameModule.h">
+    <ClInclude Include="src\gamelib\Inventory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\MainMenu.h">
+    <ClInclude Include="src\gamelib\MainMenu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Setings.h">
+    <ClInclude Include="src\gamelib\MapSaveLoad.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\AIver2.h">
+    <ClInclude Include="src\gamelib\Setings.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\MapSaveLoad.h">
+    <ClInclude Include="src\gamelib\AIver2.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Inventory.h">
+    <ClInclude Include="src\gamelib\GameModule.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
