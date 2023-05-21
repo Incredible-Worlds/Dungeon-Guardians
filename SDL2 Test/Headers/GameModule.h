@@ -89,32 +89,15 @@ public:
 
     int getStrength();
 
-    void generateNew()
-    {
-        type = randomEnemyType();
-        health = GatherHealth(type);
-        gold = rand() % 10;
-    }
+    void generateNew();
 
-    int getHealth()
-    {
-        return health;
-    }
+    int getHealth();
 
-    bool isDead()
-    {
-        return health <= 0;
-    }
+    bool isDead();
 
-    int maxHealth()
-    {
-        return GatherHealth(type);
-    }
+    int maxHealth();
 
-    int gatherGold()
-    {
-        return gold;
-    }
+    int gatherGold();
 
 private:
     int randomEnemyType()
@@ -137,35 +120,16 @@ public:
 
     PositionData position;
 
-    PlayerData()
-    {
-        status = true;
-        health = 50;
-        gold = 0;
-        lv = 1;
-        str = (int)(lv / 2 + 2);
-
-        position.posx = 0;
-        position.posy = 0;
-    }
+    PlayerData();
 
     // (Dead or alive, health points, gold, level, strength, pos on x and y)
-    PlayerData(bool alive, 
-                int current_health, 
-                int current_gold, 
-                int current_lv, 
-                int current_str, 
-                int x, 
-                int y)
-    {
-        status = alive;
-        health = current_health;
-        gold = current_gold;
-        lv = current_lv;
-        str = current_str;
-        position.posx = x;
-        position.posy = y;
-    }
+    PlayerData(bool alive,
+        int current_health,
+        int current_gold,
+        int current_lv,
+        int current_str,
+        int x,
+        int y);
 
     int setPos(int x, int y);
 };
@@ -180,29 +144,13 @@ public:
 
     PositionData position;
 
-    AreaData()
-    {
-        tileName = tileType::EMPTY;
-        tileStatus = false;
-        tileStatusTimer = 0;
+    AreaData();
 
-        position.posx = 10;
-        position.posy = 10;
-    }
-
-    AreaData(int Name_of_Tile, 
+    AreaData(int Name_of_Tile,
         bool Status_of_Tile,
         int Timer_of_Tile,
         int pos_on_x,
-        int pos_on_y)
-    {
-        tileName = Name_of_Tile;
-        tileStatus = Status_of_Tile;
-        tileStatusTimer = Timer_of_Tile;
-
-        position.posx = pos_on_x;
-        position.posy = pos_on_y;
-    }
+        int pos_on_y);
 };
 
 #include "MapSaveLoad.h"

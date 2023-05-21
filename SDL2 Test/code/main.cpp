@@ -362,16 +362,13 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-
     setings.width = 1920;
     setings.height = 1080;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
-
     player.setPos(10 + (setings.width / 60) * 4, 
                   10 + (setings.width / 60) * 4);
-
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
 
@@ -381,13 +378,11 @@ int SDL_main(int argc, char** argv)
     int count = 32;
     Saveload loadAll;
 
-
     vector<InventoryData> inventory;
     InventoryData temp;
     temp.item_id = CommonSword1;
     temp.setDurability();
     inventory.push_back(temp);
-
 
     /// Error check
     if ((error_code = init()) != 0)

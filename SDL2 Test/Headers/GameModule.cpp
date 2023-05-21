@@ -158,6 +158,35 @@ int EnemyMovement(PositionData& position, AreaData* world)
     return EXIT_SUCCESS;
 }
 
+PlayerData::PlayerData()
+{
+    status = true;
+    health = 50;
+    gold = 0;
+    lv = 1;
+    str = (int)(lv / 2 + 2);
+
+    position.posx = 0;
+    position.posy = 0;
+}
+
+PlayerData::PlayerData(bool alive,
+    int current_health,
+    int current_gold,
+    int current_lv,
+    int current_str,
+    int x,
+    int y)
+{
+    status = alive;
+    health = current_health;
+    gold = current_gold;
+    lv = current_lv;
+    str = current_str;
+    position.posx = x;
+    position.posy = y;
+}
+
 int PlayerData::setPos(int x, int y)
 {
     position.posx = x;
@@ -191,4 +220,55 @@ int EnemyData::takeDamage(int str)
 int EnemyData::getStrength()
 {
     return maxHealth() / 3;
+}
+
+void EnemyData::generateNew()
+{
+    type = randomEnemyType();
+    health = GatherHealth(type);
+    gold = rand() % 10;
+}
+
+int EnemyData::getHealth()
+{
+    return health;
+}
+
+bool EnemyData::isDead()
+{
+    return health <= 0;
+}
+
+int EnemyData::maxHealth()
+{
+    return GatherHealth(type);
+}
+
+int EnemyData::gatherGold()
+{
+    return gold;
+}
+
+AreaData::AreaData()
+{
+    tileName = tileType::EMPTY;
+    tileStatus = false;
+    tileStatusTimer = 0;
+
+    position.posx = 10;
+    position.posy = 10;
+}
+
+AreaData::AreaData(int Name_of_Tile,
+    bool Status_of_Tile,
+    int Timer_of_Tile,
+    int pos_on_x,
+    int pos_on_y)
+{
+    tileName = Name_of_Tile;
+    tileStatus = Status_of_Tile;
+    tileStatusTimer = Timer_of_Tile;
+
+    position.posx = pos_on_x;
+    position.posy = pos_on_y;
 }
