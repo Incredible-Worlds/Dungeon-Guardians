@@ -418,7 +418,7 @@ int SDL_main(int argc, char** argv)
     //world[196].tileName = BOUND;
     //world[194].tileName = BOUND;
 
-    loadAll.WriteAll(world, player);
+    //loadAll.WriteAll(world, player);
 
     if (menu_main(window, surface, ren) != 0)
     {
