@@ -27,6 +27,7 @@ SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
 SDL_Texture* inventoryBorder = NULL;
+SDL_Texture* inventoryBorder_active= NULL;
 SDL_Texture* commonSword1 = NULL;
 
 SDL_Texture* cat = NULL;
@@ -203,6 +204,13 @@ int load()
     temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder.bmp");
     inventoryBorder = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (inventoryBorder == NULL)
+    {
+        return LOADERROR;
+    }
+
+    temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder_active.bmp");
+    inventoryBorder_active = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (inventoryBorder_active == NULL)
     {
         return LOADERROR;
     }
