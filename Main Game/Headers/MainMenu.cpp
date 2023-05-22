@@ -126,6 +126,16 @@ int EventIn_MainMenu(SDL_Event windowEvent,
 		return EVENT_SUCSESS;
 	}
 
+	if (windowEvent.button.x > (int)(setings.width / 1.5) - (setings.width / 15)
+		&& windowEvent.button.x < (int)(setings.width / 1.5) + (setings.width / 15)
+		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
+		&& windowEvent.button.y < setings.height - (setings.width / 96))
+	{
+		status = MAIN_MENU;
+		return 56;
+	}
+	
+
 	if (windowEvent.button.x > (int)(setings.width / 1.2) - (setings.width / 15)
 		&& windowEvent.button.x < (int)(setings.width / 1.2) + (setings.width / 15)
 		&& windowEvent.button.y > setings.height - (setings.width / 15) - (setings.width / 96)
@@ -134,7 +144,7 @@ int EventIn_MainMenu(SDL_Event windowEvent,
 		return ESCAPE_GAME;
 	}
 
-	return -1;
+	return EVENT_SUCSESS;
 }
 
 int EventIn_LoadMenu(SDL_Event windowEvent,
@@ -280,8 +290,15 @@ int menu_main(SDL_Window* window,
 				int tempmenureturn;
 				if ((tempmenureturn = EventIn_MainMenu(windowEvent, setings, status)) != EVENT_SUCSESS)
 				{
-					unload_menu();
-					return tempmenureturn;
+					if (tempmenureturn == 56)
+					{
+						GameEditor(ren);
+					}
+					else
+					{
+						unload_menu();
+						return tempmenureturn;
+					}
 				}
 			}
 

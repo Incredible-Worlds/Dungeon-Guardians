@@ -375,8 +375,8 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    //setings.width = 1280;
-    //setings.height = 720;
+    //setings.width = 1920;
+    //setings.height = 1080;
     //setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
@@ -412,8 +412,6 @@ int SDL_main(int argc, char** argv)
         return error_code;
     }
 
-    GenerateNewMap(world);
-
     /// Adding enemys
     for (int i = 0; i < 1; i++)
     {
@@ -430,23 +428,12 @@ int SDL_main(int argc, char** argv)
     //    enemys_arr[i] = enemys[i];
     //}
 
-    world[163].tileName = CHEST;
-    //world[196].tileName = BOUND;
-    //world[194].tileName = BOUND;
-
-    //loadAll.WriteAll(world, player);
-
-    GameEditor(ren);
-
     if (menu_main(window, surface, ren, mainmusic) != 0)
     {
         PlayGame = false;
     }
        
-    if (PlayGame)
-    {
-        loadAll.LoadAll(world, player);
-    }
+    loadAll.LoadAll(world, player);
 
     /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
