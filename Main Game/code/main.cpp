@@ -5,6 +5,7 @@
 // Open source version, only for course work
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include "../Headers/GameModule.h"
 
 #include <vector>
@@ -368,6 +369,8 @@ int SDL_main(int argc, char** argv)
                   10 + (setings.width / 60) * 4);
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
+
+
 
     int error_code;
     int last_time = time(NULL);
