@@ -370,17 +370,15 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1280;
-    setings.height = 720;
-    setings.WriteToFile(setings);               // Write to setings.data
+    //setings.width = 1280;
+    //setings.height = 720;
+    //setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
     player.setPos(10 + (setings.width / 60) * 4, 
                   10 + (setings.width / 60) * 4);
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
-
-    SDL_Init(SDL_INIT_AUDIO);
 
     int error_code;
     int last_time = time(NULL);
@@ -397,7 +395,7 @@ int SDL_main(int argc, char** argv)
     /// Error check
     if ((error_code = init()) != 0)
     {
-        std::cout << "Could not init window: " << SDL_GetError() << endl;
+        std::cout << "Could not init: " << SDL_GetError() << endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
         return error_code;
     }
@@ -433,7 +431,7 @@ int SDL_main(int argc, char** argv)
 
     //loadAll.WriteAll(world, player);
 
-    if (menu_main(window, surface, ren) != 0)
+    if (menu_main(window, surface, ren, mainmusic) != 0)
     {
         PlayGame = false;
     }
