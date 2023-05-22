@@ -31,6 +31,8 @@ SDL_Texture* commonSword1 = NULL;
 
 SDL_Texture* cat = NULL;
 
+Mix_Music* mainmusic = NULL;
+
 AreaData* world = new AreaData[worldsize];
 SetingsData setings;
 
@@ -103,7 +105,7 @@ int AllGameEvents(vector<InventoryData>& inventory)
 
 int init()
 {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if (SDL_Init(SDL_INIT_EVERYTHING || SDL_INIT_AUDIO) != 0)
     {
         std::cout << "Could not init SDL: " << SDL_GetError() << std::endl;
         return 1;
@@ -131,6 +133,8 @@ int init()
     SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
 
     surface = SDL_GetWindowSurface(window);
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
     return 0;
 }
@@ -215,6 +219,12 @@ int load()
     }
 
     temp_surface = NULL;
+
+    mainmusic = Mix_LoadMUS("./Materials/OST/8 bit.wav");
+    if (mainmusic == NULL)
+    {
+        return LOADERROR;
+    }
 
     return 0;
 
