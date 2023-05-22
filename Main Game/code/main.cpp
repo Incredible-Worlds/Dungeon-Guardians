@@ -370,7 +370,7 @@ int SDL_main(int argc, char** argv)
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
 
-
+    SDL_Init(SDL_INIT_AUDIO);
 
     int error_code;
     int last_time = time(NULL);
