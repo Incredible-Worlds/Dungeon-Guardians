@@ -31,6 +31,8 @@ SDL_Texture* commonSword1 = NULL;
 
 SDL_Texture* cat = NULL;
 
+Mix_Music* mainmusic = NULL;
+
 AreaData* world = new AreaData[worldsize];
 SetingsData setings;
 
@@ -103,7 +105,7 @@ int AllGameEvents(vector<InventoryData>& inventory)
 
 int init()
 {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if (SDL_Init(SDL_INIT_EVERYTHING || SDL_INIT_AUDIO) != 0)
     {
         std::cout << "Could not init SDL: " << SDL_GetError() << std::endl;
         return 1;
@@ -131,6 +133,8 @@ int init()
     SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
 
     surface = SDL_GetWindowSurface(window);
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
     return 0;
 }
@@ -215,6 +219,12 @@ int load()
     }
 
     temp_surface = NULL;
+
+    mainmusic = Mix_LoadMUS("./Materials/OST/8 bit.wav");
+    if (mainmusic == NULL)
+    {
+        return LOADERROR;
+    }
 
     return 0;
 
@@ -360,17 +370,15 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1280;
-    setings.height = 720;
-    setings.WriteToFile(setings);               // Write to setings.data
+    //setings.width = 1280;
+    //setings.height = 720;
+    //setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
     player.setPos(10 + (setings.width / 60) * 4, 
                   10 + (setings.width / 60) * 4);
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
-
-
 
     int error_code;
     int last_time = time(NULL);
@@ -387,7 +395,7 @@ int SDL_main(int argc, char** argv)
     /// Error check
     if ((error_code = init()) != 0)
     {
-        std::cout << "Could not init window: " << SDL_GetError() << endl;
+        std::cout << "Could not init: " << SDL_GetError() << endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
         return error_code;
     }
@@ -423,7 +431,7 @@ int SDL_main(int argc, char** argv)
 
     //loadAll.WriteAll(world, player);
 
-    if (menu_main(window, surface, ren) != 0)
+    if (menu_main(window, surface, ren, mainmusic) != 0)
     {
         PlayGame = false;
     }

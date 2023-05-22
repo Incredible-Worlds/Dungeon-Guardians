@@ -244,13 +244,24 @@ int unload_menu()
 
 int menu_main(SDL_Window* window, 
 			  SDL_Surface* surface, 
-			  SDL_Renderer* ren)
+			  SDL_Renderer* ren,
+			  Mix_Music* mainmusic)
 {
 	SDL_Event windowEvent;
 
 	LayerType status = MAIN_MENU;
 	SetingsData setings;
 	setings.LoadFromFile(setings);
+
+	bool musicSetings = setings.music;
+	if (musicSetings == true)
+	{
+		musicSetings = false;
+	}
+	else
+	{
+		musicSetings = true;
+	}
 
 	load_menu(ren);
 
@@ -286,6 +297,17 @@ int menu_main(SDL_Window* window,
 		}
 
 		draw(window, surface, status, setings, ren);
+
+		if (setings.music == true && musicSetings == false)
+		{
+			Mix_PlayMusic(mainmusic, -1);
+			musicSetings = true;
+		}
+		if (setings.music == false && musicSetings == true)
+		{
+			Mix_HaltMusic();
+			musicSetings = false;
+		}
 	}
 
 	return EXIT_SUCCESS;
