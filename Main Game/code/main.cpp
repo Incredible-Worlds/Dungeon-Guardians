@@ -359,8 +359,8 @@ int exit()
 
 int SDL_main(int argc, char** argv)
 {
-    setings.width = 1920;
-    setings.height = 1080;
+    setings.width = 1280;
+    setings.height = 720;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
@@ -408,11 +408,11 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-    EnemyData* enemys_arr = new EnemyData[enemys.size()];
-    for (int i = 0; i < (int)enemys.size(); i++)
-    {
-        enemys_arr[i] = enemys[i];
-    }
+    //EnemyData* enemys_arr = new EnemyData[enemys.size()];
+    //for (int i = 0; i < (int)enemys.size(); i++)
+    //{
+    //    enemys_arr[i] = enemys[i];
+    //}
 
     world[163].tileName = CHEST;
     //world[196].tileName = BOUND;

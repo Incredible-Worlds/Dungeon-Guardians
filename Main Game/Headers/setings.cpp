@@ -11,7 +11,7 @@ SetingsData::SetingsData()
 
 int SetingsData::LoadFromFile(SetingsData& setings)
 {
-    std::ifstream setingsLoad("../SDL2 Test/save/setings.data");
+    std::ifstream setingsLoad("../Main Game/save/setings.data");
 
     if (setingsLoad)
     {
