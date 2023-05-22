@@ -277,8 +277,8 @@ int menu_main(SDL_Window* window,
 			if (windowEvent.type == SDL_MOUSEBUTTONDOWN 
 				&& status == MAIN_MENU)
 			{
-				int tempmenureturn = EventIn_MainMenu(windowEvent, setings, status);
-				if (tempmenureturn == EXIT_SUCCESS || tempmenureturn ==  ESCAPE_GAME)
+				int tempmenureturn;
+				if ((tempmenureturn = EventIn_MainMenu(windowEvent, setings, status)) != EVENT_SUCSESS)
 				{
 					unload_menu();
 					return tempmenureturn;
