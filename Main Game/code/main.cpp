@@ -373,6 +373,8 @@ int SDL_main(int argc, char** argv)
 
     ShowWindow(GetConsoleWindow(), SW_HIDE);    /// Hide console window (enable on ~)
 
+
+
     int error_code;
     int last_time = time(NULL);
     bool PlayGame = true;
