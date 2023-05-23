@@ -129,8 +129,8 @@ int GameEditor(SDL_Renderer* ren)
 
             if (windowEvent.type == SDL_MOUSEBUTTONDOWN)
             {
-                mousex = (int)((windowEvent.button.x - 10) / 32) * 32 + 10;
-                mousey = (int)((windowEvent.button.y - 10) / 32) * 32 + 10;
+                mousex = (int)((windowEvent.button.x - 10) / (editor_setings.width / 60)) * (editor_setings.width / 60) + 10;
+                mousey = (int)((windowEvent.button.y - 10) / (editor_setings.width / 60)) * (editor_setings.width / 60) + 10;
 
                 if (windowEvent.button.x > editor_setings.width - (int)(editor_setings.width / 4)
                     && windowEvent.button.x <= editor_setings.width - (int)(editor_setings.width / 4) + editor_setings.width / 30)
@@ -175,8 +175,8 @@ int GameEditor(SDL_Renderer* ren)
         }
     }
 
-    editor_player.position.posx = 10 + 32;
-    editor_player.position.posy = 10 + 32;
+    editor_player.position.posx = 10 + (editor_setings.width / 60);
+    editor_player.position.posy = 10 + (editor_setings.width / 60);
     saveloadall.WriteAll(editor_world, editor_player);
 
     return 0;
