@@ -332,6 +332,11 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
         coord.y = setings.height - (int)setings.height / 8.4375;
         coord.w = coord.h = (int)setings.width / 20;
         SDL_RenderCopy(ren, inventoryBorder, &SetPeace, &coord);
+
+        if (inventory[i].is_active == true)
+        {
+            SDL_RenderCopy(ren, inventoryBorder_active, &SetPeace, &coord);
+        }
     }
 
     coord.w = coord.h = setings.width / 60;
@@ -389,6 +394,7 @@ int SDL_main(int argc, char** argv)
     vector<InventoryData> inventory;
     InventoryData temp;
     temp.item_id = CommonSword1;
+    temp.is_active = true;
     temp.setDurability();
     inventory.push_back(temp);
 
