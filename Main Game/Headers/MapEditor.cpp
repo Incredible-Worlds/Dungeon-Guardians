@@ -107,7 +107,7 @@ int GameEditor(SDL_Renderer* ren)
     tileType basedItem = BOUND;
 
     saveloadall.LoadAll(editor_world, editor_player);
-
+    GenerateNewMap(editor_world);
 
     int mousex = 0, mousey = 0;
 
