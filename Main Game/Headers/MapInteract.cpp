@@ -31,6 +31,7 @@ int GenerateNewMap(AreaData* world)
         }
     }
 
+    world[0].tileName = BOUND;
 
     /// Generate chests
     srand(time(NULL));

@@ -24,6 +24,7 @@
     <ClCompile Include="Headers\GameModule.cpp" />
     <ClCompile Include="Headers\Inventory.cpp" />
     <ClCompile Include="Headers\MainMenu.cpp" />
+    <ClCompile Include="Headers\MapEditor.cpp" />
     <ClCompile Include="Headers\MapInteract.cpp" />
     <ClCompile Include="Headers\MapSaveLoad.cpp" />
     <ClCompile Include="Headers\setings.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Headers\GameModule.h" />
     <ClInclude Include="Headers\Inventory.h" />
     <ClInclude Include="Headers\MainMenu.h" />
+    <ClInclude Include="Headers\MapEditor.h" />
     <ClInclude Include="Headers\MapInteract.h" />
     <ClInclude Include="Headers\MapSaveLoad.h" />
     <ClInclude Include="Headers\Setings.h" />
