@@ -4,6 +4,7 @@ InventoryData::InventoryData()
 {
 	item_id = 0;
 	durability = 0;
+	is_active = false;
 }
 
 int InventoryData::setDurability()

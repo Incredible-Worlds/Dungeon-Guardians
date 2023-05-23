@@ -27,6 +27,7 @@ SDL_Texture* skeleton = NULL;
 SDL_Texture* slime = NULL;
 
 SDL_Texture* inventoryBorder = NULL;
+SDL_Texture* inventoryBorder_active= NULL;
 SDL_Texture* commonSword1 = NULL;
 
 SDL_Texture* cat = NULL;
@@ -211,6 +212,13 @@ int load()
         return LOADERROR;
     }
 
+    temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder_active.bmp");
+    inventoryBorder_active = SDL_CreateTextureFromSurface(ren, temp_surface);
+    if (inventoryBorder_active == NULL)
+    {
+        return LOADERROR;
+    }
+
     temp_surface = SDL_LoadBMP("./Materials/GUI/CommonSword1.bmp");
     commonSword1 = SDL_CreateTextureFromSurface(ren, temp_surface);
     if (commonSword1 == NULL)
@@ -334,6 +342,11 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
         coord.y = setings.height - (int)setings.height / 8.4375;
         coord.w = coord.h = (int)setings.width / 20;
         SDL_RenderCopy(ren, inventoryBorder, &SetPeace, &coord);
+
+        if (inventory[i].is_active == true)
+        {
+            SDL_RenderCopy(ren, inventoryBorder_active, &SetPeace, &coord);
+        }
     }
 
     coord.w = coord.h = setings.width / 60;
@@ -389,6 +402,7 @@ int SDL_main(int argc, char** argv)
     vector<InventoryData> inventory;
     InventoryData temp;
     temp.item_id = CommonSword1;
+    temp.is_active = true;
     temp.setDurability();
     inventory.push_back(temp);
 
