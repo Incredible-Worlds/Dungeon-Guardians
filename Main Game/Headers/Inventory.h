@@ -17,6 +17,7 @@ class InventoryData
 public:
 	int item_id;
 	int durability;
+	bool is_active;
 
 	InventoryData();
 
@@ -25,4 +26,5 @@ public:
 	int CheckChests(AreaData* world,
 		PositionData position,
 		std::vector<InventoryData>& inventory);
+
 };
