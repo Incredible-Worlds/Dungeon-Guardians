@@ -10,15 +10,19 @@ enum LayerType
 	SETINGS_MENU
 };
 
-SDL_Texture* PlayButton = NULL;
-SDL_Texture* SetingsButton = NULL;
-SDL_Texture* LoadButton = NULL;
-SDL_Texture* ExitButton = NULL;
+struct menutexture
+{
+	SDL_Texture* PlayButton = NULL;
+	SDL_Texture* SetingsButton = NULL;
+	SDL_Texture* LoadButton = NULL;
+	SDL_Texture* ExitButton = NULL;
 
-SDL_Texture* MusicButtonOn = NULL;
-SDL_Texture* MusicButtonOff = NULL;
+	SDL_Texture* MusicButtonOn = NULL;
+	SDL_Texture* MusicButtonOff = NULL;
 
-SDL_Texture* Background = NULL;
+	SDL_Texture* Background = NULL;
+}MainMenuTexture;
+
 
 int MenuEvents(SDL_Event windowEvent, SetingsData &setings)
 {
@@ -33,7 +37,7 @@ int draw(SDL_Window* window,
 		 SetingsData setings, 
 		 SDL_Renderer* ren)
 {
-	SDL_RenderCopy(ren, Background, NULL, NULL);
+	SDL_RenderCopy(ren, MainMenuTexture.Background, NULL, NULL);
 
 	SDL_Rect coord{};
 	coord.w = setings.width / 7.5;
@@ -43,30 +47,30 @@ int draw(SDL_Window* window,
 	{
 		coord.x = (setings.width / 6) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, PlayButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.PlayButton, NULL, &coord);
 
 		coord.x = (setings.width / 3) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, LoadButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.LoadButton, NULL, &coord);
 
 		coord.x = (setings.width / 2) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.SetingsButton, NULL, &coord);
 
 		coord.x = (int)(setings.width / 1.5) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.SetingsButton, NULL, &coord);
 
 		coord.x = (int)(setings.width / 1.2) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, ExitButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.ExitButton, NULL, &coord);
 	}
 
 	if (layers == SETINGS_MENU)
 	{
 		coord.x = (setings.width / 2) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, SetingsButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.SetingsButton, NULL, &coord);
 
 		coord.w = setings.width / 7.5;
 		coord.h = setings.height / 16.875;
@@ -74,11 +78,11 @@ int draw(SDL_Window* window,
 		coord.y = setings.height - (setings.height / 2);
 		if (setings.music == false)
 		{
-			SDL_RenderCopy(ren, MusicButtonOff, NULL, &coord);
+			SDL_RenderCopy(ren, MainMenuTexture.MusicButtonOff, NULL, &coord);
 		}
 		else
 		{
-			SDL_RenderCopy(ren, MusicButtonOn, NULL, &coord);
+			SDL_RenderCopy(ren, MainMenuTexture.MusicButtonOn, NULL, &coord);
 		}
 
 	}
@@ -87,7 +91,7 @@ int draw(SDL_Window* window,
 	{
 		coord.x = (setings.width / 3) - (setings.width / 15);
 		coord.y = setings.height - (setings.width / 15) - (setings.width / 96);
-		SDL_RenderCopy(ren, LoadButton, NULL, &coord);
+		SDL_RenderCopy(ren, MainMenuTexture.LoadButton, NULL, &coord);
 	}
 
 	SDL_RenderPresent(ren);
@@ -188,50 +192,50 @@ int EventIn_SetingsMenu(SDL_Event windowEvent,
 int load_menu(SDL_Renderer* ren)
 {
 	SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/GUI/PlayButton.bmp");
-	PlayButton = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (PlayButton == NULL)
+	MainMenuTexture.PlayButton = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.PlayButton == NULL)
 	{
 		return LOADERROR;
 	}
 
 	temp_surface = SDL_LoadBMP("./Materials/GUI/SetingsButton.bmp");
-	SetingsButton = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (SetingsButton == NULL)
+	MainMenuTexture.SetingsButton = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.SetingsButton == NULL)
 	{
 		return LOADERROR;
 	}
 
 	temp_surface = SDL_LoadBMP("./Materials/GUI/LoadButton.bmp");
-	LoadButton = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (LoadButton == NULL)
+	MainMenuTexture.LoadButton = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.LoadButton == NULL)
 	{
 		return LOADERROR;
 	}
 
 	temp_surface = SDL_LoadBMP("./Materials/GUI/ExitButton.bmp");
-	ExitButton = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (ExitButton == NULL)
+	MainMenuTexture.ExitButton = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.ExitButton == NULL)
 	{
 		return LOADERROR;
 	}
 
 	temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
-	Background = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (Background == NULL)
+	MainMenuTexture.Background = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.Background == NULL)
 	{
 		return LOADERROR;
 	}
 
 	temp_surface = SDL_LoadBMP("./Materials/GUI/MusicSetingsButtonOn.bmp");
-	MusicButtonOn = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (MusicButtonOn == NULL)
+	MainMenuTexture.MusicButtonOn = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.MusicButtonOn == NULL)
 	{
 		return LOADERROR;
 	}
 
 	temp_surface = SDL_LoadBMP("./Materials/GUI/MusicSetingsButtonOff.bmp");
-	MusicButtonOff = SDL_CreateTextureFromSurface(ren, temp_surface);
-	if (MusicButtonOff == NULL)
+	MainMenuTexture.MusicButtonOff = SDL_CreateTextureFromSurface(ren, temp_surface);
+	if (MainMenuTexture.MusicButtonOff == NULL)
 	{
 		return LOADERROR;
 	}
@@ -243,11 +247,11 @@ int load_menu(SDL_Renderer* ren)
 
 int unload_menu()
 {
-	PlayButton = NULL;
-	SetingsButton = NULL;
-	LoadButton = NULL;
-	ExitButton = NULL;
-	Background = NULL;
+	MainMenuTexture.PlayButton = NULL;
+	MainMenuTexture.SetingsButton = NULL;
+	MainMenuTexture.LoadButton = NULL;
+	MainMenuTexture.ExitButton = NULL;
+	MainMenuTexture.Background = NULL;
 
 	return 0;
 }
