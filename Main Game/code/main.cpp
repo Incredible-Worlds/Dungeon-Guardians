@@ -6,7 +6,8 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
-#include "../Headers/GameModule.h"
+
+#include <GameModule.h>
 
 #include <vector>
 #include <iostream>
