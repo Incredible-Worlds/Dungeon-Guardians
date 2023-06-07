@@ -22,6 +22,7 @@
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="Headers\AIver2.cpp" />
     <ClCompile Include="Headers\GameModule.cpp" />
+    <ClCompile Include="Headers\Graphics.cpp" />
     <ClCompile Include="Headers\Inventory.cpp" />
     <ClCompile Include="Headers\MainMenu.cpp" />
     <ClCompile Include="Headers\MapEditor.cpp" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClInclude Include="Headers\AIver2.h" />
     <ClInclude Include="Headers\GameModule.h" />
+    <ClInclude Include="Headers\Graphics.h" />
     <ClInclude Include="Headers\Inventory.h" />
     <ClInclude Include="Headers\MainMenu.h" />
     <ClInclude Include="Headers\MapEditor.h" />

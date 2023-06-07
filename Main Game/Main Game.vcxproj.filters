@@ -25,7 +25,12 @@
     <ClCompile Include="Headers\MapInteract.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Headers\MapEditor.cpp" />
+    <ClCompile Include="Headers\MapEditor.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Headers\Graphics.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Файлы ресурсов">
@@ -60,6 +65,11 @@
     <ClInclude Include="Headers\MapInteract.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\MapEditor.h" />
+    <ClInclude Include="Headers\Graphics.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\MapEditor.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

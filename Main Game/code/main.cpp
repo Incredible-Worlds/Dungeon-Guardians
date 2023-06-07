@@ -8,34 +8,15 @@
 #include <SDL_mixer.h>
 
 #include <GameModule.h>
+#include <Graphics.h>
 
 #include <vector>
 #include <iostream>
 
 using namespace std;
 
-SDL_Window* window = NULL;
-SDL_Surface* surface = NULL;
-SDL_Renderer* ren = NULL;
-
-struct maintextures
-{
-    SDL_Texture* knight = NULL;
-    SDL_Texture* world_texture = NULL;
-    SDL_Texture* bound = NULL;
-    SDL_Texture* chest = NULL;
-    SDL_Texture* orge = NULL;
-    SDL_Texture* goblin = NULL;
-    SDL_Texture* skeleton = NULL;
-    SDL_Texture* slime = NULL;
-
-    SDL_Texture* inventoryBorder = NULL;
-    SDL_Texture* inventoryBorder_active= NULL;
-    SDL_Texture* commonSword1 = NULL;
-
-    SDL_Texture* cat = NULL;
-} WorldTexture;
-
+basedwindow MainWindow;
+maintextures WorldTexture;
 
 
 Mix_Music* mainmusic = NULL;
@@ -119,7 +100,7 @@ int init()
         return 1;
     }
 
-    window = SDL_CreateWindow("Dungeon Guardian",
+    MainWindow.window = SDL_CreateWindow("Dungeon Guardian",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         setings.width,
@@ -127,20 +108,20 @@ int init()
         SDL_WINDOW_ALLOW_HIGHDPI);
 
     // Check that the window was successfully created
-    if (window == NULL)
+    if (MainWindow.window == NULL)
     {
         std::cout << "Could not create window: " << SDL_GetError() << std::endl;
         return 2;
     }
 
-    ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (ren == NULL) {
+    MainWindow.ren = SDL_CreateRenderer(MainWindow.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (MainWindow.ren == NULL) {
         cout << "Can't create renderer: " << SDL_GetError() << endl;
         return 3;
     }
-    SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_SetRenderDrawColor(MainWindow.ren, 0xFF, 0xFF, 0xFF, 0xFF);
 
-    surface = SDL_GetWindowSurface(window);
+    MainWindow.surface = SDL_GetWindowSurface(MainWindow.window);
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
@@ -150,84 +131,84 @@ int init()
 int load()  
 {
     SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/Texture/knight.bmp");
-    WorldTexture.knight = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.knight = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.knight == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Texture/stonefloor.bmp");
-    WorldTexture.world_texture = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.world_texture = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.world_texture == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Texture/border.bmp");
-    WorldTexture.bound = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.bound = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.bound == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Texture/chest.bmp");
-    WorldTexture.chest = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.chest = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.chest == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Enemy/Orge.bmp");
-    WorldTexture.orge = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.orge = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.orge == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Enemy/Goblin.bmp");
-    WorldTexture.goblin = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.goblin = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.goblin == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Enemy/Skeleton.bmp");
-    WorldTexture.skeleton = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.skeleton = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.skeleton == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/Enemy/Slime.bmp");
-    WorldTexture.slime = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.slime = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.slime == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
-    WorldTexture.cat = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.cat = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.cat == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder.bmp");
-    WorldTexture.inventoryBorder = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.inventoryBorder = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.inventoryBorder == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder_active.bmp");
-    WorldTexture.inventoryBorder_active = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.inventoryBorder_active = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.inventoryBorder_active == NULL)
     {
         return LOADERROR;
     }
 
     temp_surface = SDL_LoadBMP("./Materials/GUI/CommonSword1.bmp");
-    WorldTexture.commonSword1 = SDL_CreateTextureFromSurface(ren, temp_surface);
+    WorldTexture.commonSword1 = SDL_CreateTextureFromSurface(MainWindow.ren, temp_surface);
     if (WorldTexture.commonSword1 == NULL)
     {
         return LOADERROR;
@@ -250,7 +231,7 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
     SDL_Rect coord{};
     coord.w = setings.width;
     coord.h = setings.height;
-    SDL_RenderCopy(ren, WorldTexture.cat, NULL, &coord);
+    SDL_RenderCopy(MainWindow.ren, WorldTexture.cat, NULL, &coord);
 
     coord.w = coord.h = setings.width / 60;
 
@@ -263,19 +244,19 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
         {
             if (world[i].tileName == EMPTY)
             {
-                SDL_RenderCopy(ren, WorldTexture.world_texture, NULL, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.world_texture, NULL, &coord);
             }
            
             if (world[i].tileName == BOUND)
             {
-                SDL_RenderCopy(ren, WorldTexture.world_texture, NULL, &coord);
-                SDL_RenderCopy(ren, WorldTexture.bound, NULL, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.world_texture, NULL, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.bound, NULL, &coord);
             }
 
             if (world[i].tileName == CHEST)
             {
-                SDL_RenderCopy(ren, WorldTexture.world_texture, NULL, &coord);
-                SDL_RenderCopy(ren, WorldTexture.chest, NULL, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.world_texture, NULL, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.chest, NULL, &coord);
             }
         }
     }
@@ -292,22 +273,22 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
             {
                 case SLIME:
                 {
-                    SDL_RenderCopy(ren, WorldTexture.slime, NULL, &coord);
+                    SDL_RenderCopy(MainWindow.ren, WorldTexture.slime, NULL, &coord);
                     break;
                 }
                 case ORGE:
                 {
-                    SDL_RenderCopy(ren, WorldTexture.orge, NULL, &coord);
+                    SDL_RenderCopy(MainWindow.ren, WorldTexture.orge, NULL, &coord);
                     break;
                 }
                 case SKELETON:
                 {
-                    SDL_RenderCopy(ren, WorldTexture.skeleton, NULL, &coord);
+                    SDL_RenderCopy(MainWindow.ren, WorldTexture.skeleton, NULL, &coord);
                     break;
                 }
                 case GOBLIN:
                 {
-                    SDL_RenderCopy(ren, WorldTexture.goblin, NULL, &coord);
+                    SDL_RenderCopy(MainWindow.ren, WorldTexture.goblin, NULL, &coord);
                     break;
                 }
                 default:
@@ -330,7 +311,7 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
                 coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
                 coord.y = setings.height - (int)setings.height / 8.4375 + 15;
                 coord.w = coord.h = (int)setings.width / 29;
-                SDL_RenderCopy(ren, WorldTexture.commonSword1, &SetPeace, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.commonSword1, &SetPeace, &coord);
                 break;
             }
             case HealFlask:
@@ -338,7 +319,7 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
                 coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
                 coord.y = setings.height - (int)setings.height / 8.4375 + 15;
                 coord.w = coord.h = (int)setings.width / 29;
-                SDL_RenderCopy(ren, WorldTexture.slime, &SetPeace, &coord);
+                SDL_RenderCopy(MainWindow.ren, WorldTexture.slime, &SetPeace, &coord);
                 break;
             }
         }
@@ -349,11 +330,11 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
         coord.y = setings.height - (int)setings.height / 8.4375;
         coord.w = coord.h = (int)setings.width / 20;
 
-        SDL_RenderCopy(ren, WorldTexture.inventoryBorder, &SetPeace, &coord);
+        SDL_RenderCopy(MainWindow.ren, WorldTexture.inventoryBorder, &SetPeace, &coord);
 
         if (inventory[i].is_active == true)
         {
-            SDL_RenderCopy(ren, WorldTexture.inventoryBorder_active, &SetPeace, &coord);
+            SDL_RenderCopy(MainWindow.ren, WorldTexture.inventoryBorder_active, &SetPeace, &coord);
         }
     }
 
@@ -361,31 +342,10 @@ int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
 
     coord.x = player.position.posx;
     coord.y = player.position.posy;
-    SDL_RenderCopy(ren, WorldTexture.knight, NULL, &coord);
-    SDL_RenderPresent(ren);
-    SDL_RenderClear(ren);
+    SDL_RenderCopy(MainWindow.ren, WorldTexture.knight, NULL, &coord);
+    SDL_RenderPresent(MainWindow.ren);
+    SDL_RenderClear(MainWindow.ren);
 
-    return 0;
-}
-
-int exit()
-{
-    SDL_DestroyWindow(window);
-    window = NULL;
-
-    WorldTexture.knight = NULL;
-    WorldTexture.world_texture = NULL;
-    WorldTexture.bound = NULL;
-    WorldTexture.chest = NULL;
-    WorldTexture.orge = NULL;
-    WorldTexture.goblin = NULL;
-    WorldTexture.skeleton = NULL;
-    WorldTexture.slime = NULL;
-    WorldTexture.cat = NULL;
-
-    SDL_DestroyRenderer(ren);
-    ren = NULL;
-    SDL_Quit();
     return 0;
 }
 
@@ -445,7 +405,7 @@ int SDL_main(int argc, char** argv)
     //    enemys_arr[i] = enemys[i];
     //}
 
-    if (menu_main(window, surface, ren, mainmusic) != 0)
+    if (menu_main(MainWindow.window, MainWindow.surface, MainWindow.ren, mainmusic) != 0)
     {
         PlayGame = false;
     }
@@ -493,7 +453,7 @@ int SDL_main(int argc, char** argv)
     }
 
     loadAll.WriteAll(world, player);
-    exit();
+    exit(MainWindow, WorldTexture);
 
     return EXIT_SUCCESS;
 }
