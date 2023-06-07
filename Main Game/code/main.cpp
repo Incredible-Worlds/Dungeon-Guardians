@@ -15,8 +15,8 @@
 
 using namespace std;
 
-basedwindow MainWindow;
-maintextures WorldTexture;
+mainw::basedwindow MainWindow;
+maing::maintextures WorldTexture;
 
 
 Mix_Music* mainmusic = NULL;
@@ -90,42 +90,6 @@ int AllGameEvents(vector<InventoryData>& inventory)
     }
 
     return EXIT_SUCCESS;
-}
-
-int init()
-{
-    if (SDL_Init(SDL_INIT_EVERYTHING || SDL_INIT_AUDIO) != 0)
-    {
-        std::cout << "Could not init SDL: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-    MainWindow.window = SDL_CreateWindow("Dungeon Guardian",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        setings.width,
-        setings.height,
-        SDL_WINDOW_ALLOW_HIGHDPI);
-
-    // Check that the window was successfully created
-    if (MainWindow.window == NULL)
-    {
-        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
-        return 2;
-    }
-
-    MainWindow.ren = SDL_CreateRenderer(MainWindow.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (MainWindow.ren == NULL) {
-        cout << "Can't create renderer: " << SDL_GetError() << endl;
-        return 3;
-    }
-    SDL_SetRenderDrawColor(MainWindow.ren, 0xFF, 0xFF, 0xFF, 0xFF);
-
-    MainWindow.surface = SDL_GetWindowSurface(MainWindow.window);
-
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
-    return 0;
 }
 
 int load()  
@@ -375,7 +339,7 @@ int SDL_main(int argc, char** argv)
     inventory.push_back(temp);
 
     /// Error check
-    if ((error_code = init()) != 0)
+    if ((error_code = maing::init(MainWindow)) != 0)
     {
         std::cout << "Could not init: " << SDL_GetError() << endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
@@ -453,7 +417,7 @@ int SDL_main(int argc, char** argv)
     }
 
     loadAll.WriteAll(world, player);
-    exit(MainWindow, WorldTexture);
+    maing::exit(MainWindow, WorldTexture);
 
     return EXIT_SUCCESS;
 }
