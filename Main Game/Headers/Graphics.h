@@ -33,8 +33,17 @@ namespace main_graphics
         SDL_Texture* cat = NULL;
     };
 
-    int init(mainw::basedwindow &MainWindow);
+    int init(mainw::basedwindow& MainWindow);
 
-    int exit(mainw::basedwindow &MainWindow, maintextures &WorldTexture);
+    int load(mainw::basedwindow& MainWindow, maintextures& WorldTexture);
+
+    int draw(mainw::basedwindow& MainWindow,
+        maintextures& WorldTexture,
+        PlayerData player,
+        AreaData* world,
+        std::vector<InventoryData> inventory,
+        std::vector<EnemyData> enemys);
+
+    int exit(mainw::basedwindow& MainWindow, maintextures& WorldTexture);
 }
 namespace maing = main_graphics;
