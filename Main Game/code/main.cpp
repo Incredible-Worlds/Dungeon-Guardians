@@ -15,19 +15,9 @@
 
 using namespace std;
 
-mainw::basedwindow MainWindow;
-maing::maintextures WorldTexture;
-
-Mix_Music* mainmusic = NULL;
-AreaData* world = new AreaData[worldsize];
-SetingsData setings;
-
-PlayerData player;
-vector<EnemyData> enemys;
-
 bool CnStatus = false;
 
-int AllGameEvents(vector<InventoryData>& inventory)
+int AllGameEvents(PlayerData player, AreaData* world, vector<InventoryData>& inventory)
 {
     SDL_Event windowEvent;
 
@@ -90,6 +80,18 @@ int AllGameEvents(vector<InventoryData>& inventory)
 
 int SDL_main(int argc, char** argv)
 {
+    Saveload loadAll;
+
+    mainw::basedwindow MainWindow;
+    maing::maintextures WorldTexture;
+
+    Mix_Music* mainmusic = NULL;
+    AreaData* world = new AreaData[worldsize];
+    SetingsData setings;
+
+    PlayerData player;
+    vector<EnemyData> enemys;
+
     //setings.width = 1920;
     //setings.height = 1080;
     //setings.WriteToFile(setings);               // Write to setings.data
@@ -103,8 +105,6 @@ int SDL_main(int argc, char** argv)
     int error_code;
     int last_time = time(NULL);
     bool PlayGame = true;
-
-    Saveload loadAll;
 
     vector<InventoryData> inventory;
     InventoryData temp;
@@ -144,12 +144,6 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-    //EnemyData* enemys_arr = new EnemyData[enemys.size()];
-    //for (int i = 0; i < (int)enemys.size(); i++)
-    //{
-    //    enemys_arr[i] = enemys[i];
-    //}
-
     if (menu_main(MainWindow.window, MainWindow.surface, MainWindow.ren, mainmusic) != 0)
     {
         PlayGame = false;
@@ -160,7 +154,7 @@ int SDL_main(int argc, char** argv)
     /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
-        if (AllGameEvents(inventory) != EXIT_SUCCESS)
+        if (AllGameEvents(player, world, inventory) != EXIT_SUCCESS)
         {
             break;
         }
