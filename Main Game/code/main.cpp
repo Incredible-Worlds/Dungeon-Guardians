@@ -17,7 +17,7 @@ using namespace std;
 
 bool CnStatus = false;
 
-int AllGameEvents(PlayerData player, AreaData* world, vector<InventoryData>& inventory)
+int AllGameEvents(PlayerData& player, AreaData* world, vector<InventoryData>& inventory)
 {
     SDL_Event windowEvent;
 
