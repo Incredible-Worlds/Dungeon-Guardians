@@ -8,49 +8,16 @@
 #include <SDL_mixer.h>
 
 #include <GameModule.h>
+#include <Graphics.h>
 
 #include <vector>
 #include <iostream>
 
 using namespace std;
 
-SDL_Window* window = NULL;
-SDL_Surface* surface = NULL;
-SDL_Renderer* ren = NULL;
-
-struct maintextures
-{
-    SDL_Texture* knight = NULL;
-    SDL_Texture* world_texture = NULL;
-    SDL_Texture* bound = NULL;
-    SDL_Texture* chest = NULL;
-    SDL_Texture* orge = NULL;
-    SDL_Texture* goblin = NULL;
-    SDL_Texture* skeleton = NULL;
-    SDL_Texture* slime = NULL;
-
-    SDL_Texture* inventoryBorder = NULL;
-    SDL_Texture* inventoryBorder_active= NULL;
-    SDL_Texture* commonSword1 = NULL;
-
-    SDL_Texture* cat = NULL;
-} WorldTexture;
-
-
-
-Mix_Music* mainmusic = NULL;
-
-
-AreaData* world = new AreaData[worldsize];
-SetingsData setings;
-
-PlayerData player;
-
-vector<EnemyData> enemys;
-
 bool CnStatus = false;
 
-int AllGameEvents(vector<InventoryData>& inventory)
+int AllGameEvents(PlayerData& player, AreaData* world, vector<InventoryData>& inventory)
 {
     SDL_Event windowEvent;
 
@@ -111,286 +78,20 @@ int AllGameEvents(vector<InventoryData>& inventory)
     return EXIT_SUCCESS;
 }
 
-int init()
-{
-    if (SDL_Init(SDL_INIT_EVERYTHING || SDL_INIT_AUDIO) != 0)
-    {
-        std::cout << "Could not init SDL: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-    window = SDL_CreateWindow("Dungeon Guardian",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        setings.width,
-        setings.height,
-        SDL_WINDOW_ALLOW_HIGHDPI);
-
-    // Check that the window was successfully created
-    if (window == NULL)
-    {
-        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
-        return 2;
-    }
-
-    ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (ren == NULL) {
-        cout << "Can't create renderer: " << SDL_GetError() << endl;
-        return 3;
-    }
-    SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
-
-    surface = SDL_GetWindowSurface(window);
-
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
-    return 0;
-}
-
-int load()  
-{
-    SDL_Surface* temp_surface = SDL_LoadBMP("./Materials/Texture/knight.bmp");
-    WorldTexture.knight = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.knight == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Texture/stonefloor.bmp");
-    WorldTexture.world_texture = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.world_texture == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Texture/border.bmp");
-    WorldTexture.bound = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.bound == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Texture/chest.bmp");
-    WorldTexture.chest = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.chest == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Enemy/Orge.bmp");
-    WorldTexture.orge = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.orge == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Enemy/Goblin.bmp");
-    WorldTexture.goblin = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.goblin == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Enemy/Skeleton.bmp");
-    WorldTexture.skeleton = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.skeleton == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/Enemy/Slime.bmp");
-    WorldTexture.slime = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.slime == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/GUI/Background.bmp");
-    WorldTexture.cat = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.cat == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder.bmp");
-    WorldTexture.inventoryBorder = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.inventoryBorder == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/GUI/InventoryBorder_active.bmp");
-    WorldTexture.inventoryBorder_active = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.inventoryBorder_active == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = SDL_LoadBMP("./Materials/GUI/CommonSword1.bmp");
-    WorldTexture.commonSword1 = SDL_CreateTextureFromSurface(ren, temp_surface);
-    if (WorldTexture.commonSword1 == NULL)
-    {
-        return LOADERROR;
-    }
-
-    temp_surface = NULL;
-
-    mainmusic = Mix_LoadMUS("./Materials/OST/8 bit.wav");
-    if (mainmusic == NULL)
-    {
-        return LOADERROR;
-    }
-
-    return 0;
-
-}
-
-int draw(PlayerData player, AreaData* world, vector<InventoryData> inventory)
-{
-    SDL_Rect coord{};
-    coord.w = setings.width;
-    coord.h = setings.height;
-    SDL_RenderCopy(ren, WorldTexture.cat, NULL, &coord);
-
-    coord.w = coord.h = setings.width / 60;
-
-    // Rendering world
-    for (int i = 0; i < worldsize; i++)
-    {
-        coord.x = world[i].position.posx;
-        coord.y = world[i].position.posy;
-        if (world[i].tileStatus == true)
-        {
-            if (world[i].tileName == EMPTY)
-            {
-                SDL_RenderCopy(ren, WorldTexture.world_texture, NULL, &coord);
-            }
-           
-            if (world[i].tileName == BOUND)
-            {
-                SDL_RenderCopy(ren, WorldTexture.world_texture, NULL, &coord);
-                SDL_RenderCopy(ren, WorldTexture.bound, NULL, &coord);
-            }
-
-            if (world[i].tileName == CHEST)
-            {
-                SDL_RenderCopy(ren, WorldTexture.world_texture, NULL, &coord);
-                SDL_RenderCopy(ren, WorldTexture.chest, NULL, &coord);
-            }
-        }
-    }
-
-    // Rendering Enemys
-    for (int i = 0; i < (int)enemys.size(); i++)
-    {
-        if (enemys[i].health > 0 && enemys[i].enemyStatus == true)
-        {
-            coord.x = enemys[i].position.posx;
-            coord.y = enemys[i].position.posy;
-
-            switch (enemys[i].type)
-            {
-                case SLIME:
-                {
-                    SDL_RenderCopy(ren, WorldTexture.slime, NULL, &coord);
-                    break;
-                }
-                case ORGE:
-                {
-                    SDL_RenderCopy(ren, WorldTexture.orge, NULL, &coord);
-                    break;
-                }
-                case SKELETON:
-                {
-                    SDL_RenderCopy(ren, WorldTexture.skeleton, NULL, &coord);
-                    break;
-                }
-                case GOBLIN:
-                {
-                    SDL_RenderCopy(ren, WorldTexture.goblin, NULL, &coord);
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-            }
-        }
-    }
-
-    SDL_Rect SetPeace{};
-    // Rendering GUI
-    for (int i = 0; i < (int)inventory.size(); i++)
-    {
-        SetPeace.w = SetPeace.h = 44;
-        switch (inventory[i].item_id)
-        {
-            case CommonSword1:
-            {
-                coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
-                coord.y = setings.height - (int)setings.height / 8.4375 + 15;
-                coord.w = coord.h = (int)setings.width / 29;
-                SDL_RenderCopy(ren, WorldTexture.commonSword1, &SetPeace, &coord);
-                break;
-            }
-            case HealFlask:
-            {
-                coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20)) + 15;
-                coord.y = setings.height - (int)setings.height / 8.4375 + 15;
-                coord.w = coord.h = (int)setings.width / 29;
-                SDL_RenderCopy(ren, WorldTexture.slime, &SetPeace, &coord);
-                break;
-            }
-        }
-
-        SetPeace.w = SetPeace.h = 64;
-
-        coord.x = (int)(setings.width / 1.67) + (i * (int)(setings.width / 20));
-        coord.y = setings.height - (int)setings.height / 8.4375;
-        coord.w = coord.h = (int)setings.width / 20;
-
-        SDL_RenderCopy(ren, WorldTexture.inventoryBorder, &SetPeace, &coord);
-
-        if (inventory[i].is_active == true)
-        {
-            SDL_RenderCopy(ren, WorldTexture.inventoryBorder_active, &SetPeace, &coord);
-        }
-    }
-
-    coord.w = coord.h = setings.width / 60;
-
-    coord.x = player.position.posx;
-    coord.y = player.position.posy;
-    SDL_RenderCopy(ren, WorldTexture.knight, NULL, &coord);
-    SDL_RenderPresent(ren);
-    SDL_RenderClear(ren);
-
-    return 0;
-}
-
-int exit()
-{
-    SDL_DestroyWindow(window);
-    window = NULL;
-
-    WorldTexture.knight = NULL;
-    WorldTexture.world_texture = NULL;
-    WorldTexture.bound = NULL;
-    WorldTexture.chest = NULL;
-    WorldTexture.orge = NULL;
-    WorldTexture.goblin = NULL;
-    WorldTexture.skeleton = NULL;
-    WorldTexture.slime = NULL;
-    WorldTexture.cat = NULL;
-
-    SDL_DestroyRenderer(ren);
-    ren = NULL;
-    SDL_Quit();
-    return 0;
-}
-
 int SDL_main(int argc, char** argv)
 {
+    Saveload loadAll;
+
+    mainw::basedwindow MainWindow;
+    maing::maintextures WorldTexture;
+
+    Mix_Music* mainmusic = NULL;
+    AreaData* world = new AreaData[worldsize];
+    SetingsData setings;
+
+    PlayerData player;
+    vector<EnemyData> enemys;
+
     //setings.width = 1920;
     //setings.height = 1080;
     //setings.WriteToFile(setings);               // Write to setings.data
@@ -405,8 +106,6 @@ int SDL_main(int argc, char** argv)
     int last_time = time(NULL);
     bool PlayGame = true;
 
-    Saveload loadAll;
-
     vector<InventoryData> inventory;
     InventoryData temp;
     temp.item_id = CommonSword1;
@@ -415,18 +114,24 @@ int SDL_main(int argc, char** argv)
     inventory.push_back(temp);
 
     /// Error check
-    if ((error_code = init()) != 0)
+    if ((error_code = maing::init(MainWindow)) != 0)
     {
         std::cout << "Could not init: " << SDL_GetError() << endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
         return error_code;
     }
 
-    if ((error_code = load()) != 0)
+    if ((error_code = maing::load(MainWindow, WorldTexture)) != 0)
     {
         std::cout << "Could not load files: " << SDL_GetError() << endl;
         ShowWindow(GetConsoleWindow(), SW_SHOW);
         return error_code;
+    }
+
+    mainmusic = Mix_LoadMUS("./Materials/OST/8 bit.wav");
+    if (mainmusic == NULL)
+    {
+        return LOADERROR;
     }
 
     /// Adding enemys
@@ -439,13 +144,7 @@ int SDL_main(int argc, char** argv)
         enemys.push_back(tempenemy);
     }
 
-    //EnemyData* enemys_arr = new EnemyData[enemys.size()];
-    //for (int i = 0; i < (int)enemys.size(); i++)
-    //{
-    //    enemys_arr[i] = enemys[i];
-    //}
-
-    if (menu_main(window, surface, ren, mainmusic) != 0)
+    if (menu_main(MainWindow.window, MainWindow.surface, MainWindow.ren, mainmusic) != 0)
     {
         PlayGame = false;
     }
@@ -455,7 +154,7 @@ int SDL_main(int argc, char** argv)
     /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
-        if (AllGameEvents(inventory) != EXIT_SUCCESS)
+        if (AllGameEvents(player, world, inventory) != EXIT_SUCCESS)
         {
             break;
         }
@@ -489,11 +188,11 @@ int SDL_main(int argc, char** argv)
             last_time = time(NULL);
         }
 
-        draw(player, world, inventory);
+        maing::draw(MainWindow, WorldTexture, player, world, inventory, enemys);
     }
 
     loadAll.WriteAll(world, player);
-    exit();
+    maing::exit(MainWindow, WorldTexture);
 
     return EXIT_SUCCESS;
 }
