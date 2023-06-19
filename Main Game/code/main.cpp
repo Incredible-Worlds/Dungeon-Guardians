@@ -159,7 +159,7 @@ int SDL_main(int argc, char** argv)
             break;
         }
 
-        CheackWorld(world, player.position);
+        CheckWorld(world, player.position);
 
         for (int i = 0; i < (int)enemys.size(); i++)
         {

@@ -56,6 +56,14 @@ public:
     int posy;
 
     PositionData();
+
+    int SetTilePos();
+    int GetTilePosx();
+    int GetTilePosy();
+
+private:
+    int tileposx{};
+    int tileposy{};
 };
 
 // Description of the Enemy class

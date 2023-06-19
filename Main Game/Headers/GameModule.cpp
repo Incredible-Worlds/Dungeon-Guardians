@@ -55,6 +55,9 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
 {
     SetingsData setings;
     setings.LoadFromFile(setings);
+    int tempposx = (int)((position.posx - 10) / (setings.width / 60)) * (setings.width / 60) + 10;
+    int tempposy = (int)((position.posy - 10) / (setings.width / 60)) * (setings.width / 60) + 10;
+
 
     switch (direction)
     {
@@ -62,11 +65,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx + (int)(setings.width / 60)
-                    && world[i].position.posy == position.posy
+                if (world[i].position.posx == tempposx + (int)(setings.width / 60)
+                    && world[i].position.posy == tempposy
                     && world[i].tileName != BOUND)
                 {
-                    return (int)(setings.width / 60);
+                    return 4;
                 }
             }
             break;
@@ -76,11 +79,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx - setings.width / 60
-                    && world[i].position.posy == position.posy
+                if (world[i].position.posx == tempposx - setings.width / 60
+                    && world[i].position.posy == tempposy
                     && world[i].tileName != BOUND)
                 {
-                    return (int)(setings.width / 60);
+                    return 4;
                 }
             }
             break;
@@ -90,11 +93,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx
-                    && world[i].position.posy == position.posy - setings.width / 60
+                if (world[i].position.posx == tempposx
+                    && world[i].position.posy == tempposy - setings.width / 60
                     && world[i].tileName != BOUND)
                 {
-                    return (int)(setings.width / 60);
+                    return 4;
                 }
             }
             break;
@@ -104,11 +107,11 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == position.posx
-                    && world[i].position.posy == position.posy + setings.width / 60
+                if (world[i].position.posx == tempposx
+                    && world[i].position.posy == tempposy + setings.width / 60
                     && world[i].tileName != BOUND)
                 {
-                    return (int)(setings.width / 60);
+                    return 4;
                 }
             }
             break;
@@ -201,6 +204,28 @@ PositionData::PositionData()
     posx = 10;
     posy = 10;
 }
+
+int PositionData::SetTilePos()
+{
+    SetingsData posSettings;
+    posSettings.LoadFromFile(posSettings);
+
+    tileposx = (int)((posx - 10) / (posSettings.width / 60)) * (posSettings.width / 60) + 10;
+    tileposy = (int)((posy - 10) / (posSettings.width / 60)) * (posSettings.width / 60) + 10;
+
+    return 0;                   // Need to return pos numb of tile (mb)
+}
+
+int PositionData::GetTilePosx()
+{
+    return tileposx;
+}
+
+int PositionData::GetTilePosy()
+{
+    return tileposy;
+}
+
 
 EnemyData::EnemyData()
 {
