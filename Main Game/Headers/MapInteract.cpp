@@ -65,7 +65,7 @@ int CheckWorld(AreaData* world, PositionData position)
     {
         if (time(NULL) - world[i].tileStatusTimer > 25)
         {
-            world[i].tileStatus = false;
+            world[i].tileStatus = true;
         }
 
         if ((world[i].position.posy == position.GetTilePosy())
