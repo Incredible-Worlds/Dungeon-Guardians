@@ -58,17 +58,18 @@ int GenerateNewMap(AreaData* world)
     return EXIT_SUCCESS;
 }
 
-int CheackWorld(AreaData* world, PositionData position)
+int CheckWorld(AreaData* world, PositionData position)
 {
+    position.SetTilePos();
     for (int i = 0; i < worldsize; i++)
     {
         if (time(NULL) - world[i].tileStatusTimer > 25)
         {
-            world[i].tileStatus = false;
+            world[i].tileStatus = true;
         }
 
-        if ((world[i].position.posy == position.posy)
-            && (world[i].position.posx == position.posx))
+        if ((world[i].position.posy == position.GetTilePosy())
+            && (world[i].position.posx == position.GetTilePosx()))
         {
             for (int j = i - 1; j < i + 2; j++)
             {

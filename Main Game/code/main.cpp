@@ -159,34 +159,34 @@ int SDL_main(int argc, char** argv)
             break;
         }
 
-        CheackWorld(world, player.position);
+        CheckWorld(world, player.position);
 
-        for (int i = 0; i < (int)enemys.size(); i++)
-        {
-            for (int j = 0; j < worldsize; j++)
-            {
-                if (world[j].tileStatus == true
-                    && world[j].position.posx == enemys[i].position.posx
-                    && world[j].position.posy == enemys[i].position.posy)
-                {
-                    enemys[i].enemyStatus = true;
-                    break;
-                }
-                else
-                {
-                    enemys[i].enemyStatus = false;
-                }
-            }
-        }
+        //for (int i = 0; i < (int)enemys.size(); i++)
+        //{
+        //    for (int j = 0; j < worldsize; j++)
+        //    {
+        //        if (world[j].tileStatus == true
+        //            && world[j].position.posx == enemys[i].position.posx
+        //            && world[j].position.posy == enemys[i].position.posy)
+        //        {
+        //            enemys[i].enemyStatus = true;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            enemys[i].enemyStatus = false;
+        //        }
+        //    }
+        //}
 
-        if (last_time != time(NULL))
-        {
+        /*if (last_time != time(NULL))
+        {*/
             for (int i = 0; i < (int)enemys.size(); i++)
             {
                 EnemyMovement_AI(world, enemys[i].position, player.position);
             }
             last_time = time(NULL);
-        }
+        /*}*/
 
         maing::draw(MainWindow, WorldTexture, player, world, inventory, enemys);
     }

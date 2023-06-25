@@ -3,4 +3,4 @@
 
 int GenerateNewMap(AreaData* world);
 
-int CheackWorld(AreaData* world, PositionData position);
+int CheckWorld(AreaData* world, PositionData position);
