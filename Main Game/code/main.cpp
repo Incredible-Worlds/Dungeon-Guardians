@@ -92,8 +92,8 @@ int SDL_main(int argc, char** argv)
     PlayerData player;
     vector<EnemyData> enemys;
 
-    setings.width = 1280;
-    setings.height = 720;
+    setings.width = 1366;
+    setings.height = 768;
     setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
@@ -151,6 +151,11 @@ int SDL_main(int argc, char** argv)
        
     loadAll.LoadAll(world, player);
 
+    player.setPos(10 + (setings.width / 60) * 2,
+                  10 + (setings.width / 60) * 2);
+
+    GenerateNewMap(world);
+
     /// Please be patient I have atei... autism; I LOVE TRPO
     for (;PlayGame;)
     {
@@ -179,14 +184,14 @@ int SDL_main(int argc, char** argv)
         //    }
         //}
 
-        /*if (last_time != time(NULL))
-        {*/
-            for (int i = 0; i < (int)enemys.size(); i++)
-            {
-                EnemyMovement_AI(world, enemys[i].position, player.position);
-            }
-            last_time = time(NULL);
-        /*}*/
+        ///*if (last_time != time(NULL))
+        //{*/
+        //    for (int i = 0; i < (int)enemys.size(); i++)
+        //    {
+        //        EnemyMovement_AI(world, enemys[i].position, player.position);
+        //    }
+        //    last_time = time(NULL);
+        ///*}*/
 
         maing::draw(MainWindow, WorldTexture, player, world, inventory, enemys);
     }

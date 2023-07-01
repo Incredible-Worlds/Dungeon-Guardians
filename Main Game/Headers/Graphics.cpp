@@ -143,8 +143,8 @@ int main_graphics::draw(mainw::basedwindow& MainWindow, maintextures& WorldTextu
     // Rendering world
     for (int i = 0; i < worldsize; i++)
     {
-        coord.x = world[i].position.posx;
-        coord.y = world[i].position.posy;
+        coord.x = world[i].position.posx * (setings.width / 60) + 10;
+        coord.y = world[i].position.posy * (setings.width / 60) + 10;
         if (world[i].tileStatus == true)
         {
             if (world[i].tileName == EMPTY)

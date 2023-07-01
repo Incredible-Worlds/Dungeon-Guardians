@@ -17,8 +17,8 @@ int GameEditorDraw(SDL_Renderer* ren, SetingsData editor_setings, AreaData* edit
 
     for (int i = 0; i < worldsize; i++)
     {
-        coord.x = editor_world[i].position.posx;
-        coord.y = editor_world[i].position.posy;
+        coord.x = editor_world[i].position.posx * (editor_setings.width / 60);
+        coord.y = editor_world[i].position.posy * (editor_setings.width / 60);
 
         if (editor_world[i].tileName == EMPTY)
         {
@@ -129,8 +129,8 @@ int GameEditor(SDL_Renderer* ren)
 
             if (windowEvent.type == SDL_MOUSEBUTTONDOWN)
             {
-                mousex = (int)((windowEvent.button.x - 10) / (editor_setings.width / 60)) * (editor_setings.width / 60) + 10;
-                mousey = (int)((windowEvent.button.y - 10) / (editor_setings.width / 60)) * (editor_setings.width / 60) + 10;
+                mousex = (int)((windowEvent.button.x) / (editor_setings.width / 60)) * (editor_setings.width / 60) + 10;
+                mousey = (int)((windowEvent.button.y) / (editor_setings.width / 60)) * (editor_setings.width / 60) + 10;
 
                 if (windowEvent.button.x > editor_setings.width - (int)(editor_setings.width / 4)
                     && windowEvent.button.x <= editor_setings.width - (int)(editor_setings.width / 4) + editor_setings.width / 30)
@@ -154,8 +154,8 @@ int GameEditor(SDL_Renderer* ren)
 
                 for (int i = 0; i < worldsize; i++)
                 {
-                    if (editor_world[i].position.posx == mousex
-                        && editor_world[i].position.posy == mousey)
+                    if (editor_world[i].position.posx * (editor_setings.width / 60) + 10 == mousex
+                        && editor_world[i].position.posy * (editor_setings.width / 60) + 10 == mousey)
                     {
                         editor_world[i].tileName = basedItem;
                         break;

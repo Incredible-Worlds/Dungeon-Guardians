@@ -65,8 +65,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == tempposx + (int)(setings.width / 60)
-                    && world[i].position.posy == tempposy
+                if (world[i].position.posx * (int)(setings.width / 60) + 10
+                    == tempposx + (int)(setings.width / 60)
+                    && world[i].position.posy * (int)(setings.width / 60) + 10 
+                    == tempposy
                     && world[i].tileName != BOUND)
                 {
                     return 4;
@@ -74,13 +76,15 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
             }
             break;
         }
-            
+        
         case LEFT:
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == tempposx - setings.width / 60
-                    && world[i].position.posy == tempposy
+                if (world[i].position.posx * (int)(setings.width / 60) + 10 
+                    == tempposx - (int)(setings.width / 60)
+                    && world[i].position.posy * (int)(setings.width / 60) + 10 
+                    == tempposy
                     && world[i].tileName != BOUND)
                 {
                     return 4;
@@ -93,8 +97,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == tempposx
-                    && world[i].position.posy == tempposy - setings.width / 60
+                if (world[i].position.posx * (int)(setings.width / 60) + 10 
+                    == tempposx
+                    && world[i].position.posy * (int)(setings.width / 60) + 10 
+                    == tempposy - (int)(setings.width / 60)
                     && world[i].tileName != BOUND)
                 {
                     return 4;
@@ -107,8 +113,10 @@ int CollisionCheck(AreaData* world, PositionData position, directionType directi
         {
             for (int i = 0; i < worldsize; i++)
             {
-                if (world[i].position.posx == tempposx
-                    && world[i].position.posy == tempposy + setings.width / 60
+                if (world[i].position.posx * (int)(setings.width / 60) + 10 
+                    == tempposx
+                    && world[i].position.posy * (int)(setings.width / 60) + 10 
+                    == tempposy + (int)(setings.width / 60)
                     && world[i].tileName != BOUND)
                 {
                     return 4;

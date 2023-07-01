@@ -23,8 +23,8 @@ int GenerateNewMap(AreaData* world)
 
         if (world[i].position.posx == 1
             || world[i].position.posy == 1
-            || world[i].position.posx == 31
-            || world[i].position.posy == 31)
+            || world[i].position.posx == 32
+            || world[i].position.posy == 32)
         {
             world[i].tileName = BOUND;
         }
