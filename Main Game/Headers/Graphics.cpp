@@ -1,6 +1,8 @@
 #pragma once
 #include "Graphics.h"
 
+// // // In graphic we need to create some scroll func; by them w/ can
+// // // multiply size of all sprites!!!!
 
 int main_graphics::init(mainw::basedwindow &MainWindow)
 {

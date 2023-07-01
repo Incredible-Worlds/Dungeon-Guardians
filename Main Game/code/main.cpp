@@ -151,9 +151,6 @@ int SDL_main(int argc, char** argv)
        
     loadAll.LoadAll(world, player);
 
-    player.setPos(10 + (setings.width / 60) * 2,
-                  10 + (setings.width / 60) * 2);
-
     GenerateNewMap(world);
 
     /// Please be patient I have atei... autism; I LOVE TRPO
@@ -184,14 +181,14 @@ int SDL_main(int argc, char** argv)
         //    }
         //}
 
-        ///*if (last_time != time(NULL))
-        //{*/
-        //    for (int i = 0; i < (int)enemys.size(); i++)
-        //    {
-        //        EnemyMovement_AI(world, enemys[i].position, player.position);
-        //    }
-        //    last_time = time(NULL);
-        ///*}*/
+        /*if (last_time != time(NULL))
+        {*/
+            for (int i = 0; i < (int)enemys.size(); i++)
+            {
+                EnemyMovement_AI(world, enemys[i].position, player.position);
+            }
+            last_time = time(NULL);
+        /*}*/
 
         maing::draw(MainWindow, WorldTexture, player, world, inventory, enemys);
     }
