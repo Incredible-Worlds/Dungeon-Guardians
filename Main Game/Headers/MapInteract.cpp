@@ -5,23 +5,26 @@ int GenerateNewMap(AreaData* world)
     SetingsData setings;
     setings.LoadFromFile(setings);
 
+    world[0].position.posx = 1;
+    world[0].position.posy = 1;
+
     /// Creating worldmap
     for (int i = 1; i < worldsize; i++)
     {
-        world[i].position.posx = world[i - 1].position.posx + (setings.width / 60);
+        world[i].position.posx = world[i - 1].position.posx + 1;
         world[i].position.posy = world[i - 1].position.posy;
-        world[i].tileStatus = false;
+        world[i].tileStatus = true;
 
         if (i % 32 == 0)
         {
-            world[i].position.posx = 10;
-            world[i].position.posy = world[i].position.posy + (setings.width / 60);
+            world[i].position.posx = 1;
+            world[i].position.posy = world[i].position.posy + 1;
         }
 
-        if (world[i].position.posx == 10
-            || world[i].position.posy == 10
-            || world[i].position.posx == (setings.width / 60) * 31 + 10
-            || world[i].position.posy == (setings.width / 60) * 31 + 10)
+        if (world[i].position.posx == 1
+            || world[i].position.posy == 1
+            || world[i].position.posx == 31
+            || world[i].position.posy == 31)
         {
             world[i].tileName = BOUND;
         }

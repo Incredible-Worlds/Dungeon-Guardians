@@ -92,9 +92,9 @@ int SDL_main(int argc, char** argv)
     PlayerData player;
     vector<EnemyData> enemys;
 
-    //setings.width = 1920;
-    //setings.height = 1080;
-    //setings.WriteToFile(setings);               // Write to setings.data
+    setings.width = 1280;
+    setings.height = 720;
+    setings.WriteToFile(setings);               // Write to setings.data
     setings.LoadFromFile(setings);              // Load from setings.data
 
     player.setPos(10 + (setings.width / 60) * 4, 
@@ -159,7 +159,7 @@ int SDL_main(int argc, char** argv)
             break;
         }
 
-        CheckWorld(world, player.position);
+        /// CheckWorld(world, player.position); /// Need to test
 
         //for (int i = 0; i < (int)enemys.size(); i++)
         //{
