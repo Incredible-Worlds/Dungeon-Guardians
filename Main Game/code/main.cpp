@@ -27,50 +27,47 @@ int AllGameEvents(PlayerData& player, AreaData* world, vector<InventoryData>& in
         {
             return -1;
         }
-        if (windowEvent.type == SDL_KEYDOWN)
-        {
-            cout << "Pressed key is: " << windowEvent.key.keysym.sym << endl;
-            switch (windowEvent.key.keysym.sym)
-            {
-                case 96:                        // Show or hide console
-                {
-                    HideShowConsole(CnStatus);
-                    break;
-                }
 
-                case SDLK_ESCAPE:                        // exit
-                {
-                    return -1;
-                }
-                case SDLK_d:                               // Movment
-                {
-                    player.position.posx += CollisionCheck(world, player.position, RIGHT);
-                    break;
-                }
-                case SDLK_s:
-                {
-                    player.position.posy += CollisionCheck(world, player.position, DOWN);
-                    break;
-                }
-                case SDLK_w:
-                {
-                    player.position.posy -= CollisionCheck(world, player.position, UP);
-                    break;
-                }
-                case SDLK_a:
-                {
-                    player.position.posx -= CollisionCheck(world, player.position, LEFT);
-                    break;
-                }
-                case 32:
-                {
-                    inventory[0].CheckChests(world, player.position, inventory);
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
+        // key switcher
+        switch (windowEvent.key.keysym.sym)
+        {
+            case 96: // Show or hide console
+            {
+                HideShowConsole(CnStatus);
+                break;
+            }
+            case SDLK_ESCAPE: // exit
+            {
+                return -1;
+            }
+            case SDLK_d: // Movment
+            {
+                player.position.posx += CollisionCheck(world, player.position, RIGHT);
+                break;
+            }
+            case SDLK_s:
+            {
+                player.position.posy += CollisionCheck(world, player.position, DOWN);
+                break;
+            }
+            case SDLK_w:
+            {
+                player.position.posy -= CollisionCheck(world, player.position, UP);
+                break;
+            }
+            case SDLK_a:
+            {
+                player.position.posx -= CollisionCheck(world, player.position, LEFT);
+                break;
+            }
+            case 32:
+            {
+                inventory[0].CheckChests(world, player.position, inventory);
+                break;
+            }
+            default:
+            {
+                break;
             }
         }
     }
